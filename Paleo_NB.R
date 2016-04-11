@@ -1507,7 +1507,7 @@ summary(landt$PeriodShiwes)
 dim(landt)
 #  29 x 21
 #Gloucester subset----------------------------
-++++++++++By Shiwes done 2016-03-31+++++++++++++++++++++++
+# ++++++++++By Shiwes done 2016-03-31+++++++++++++++++++++++
 
 Gloucester=subset(landt,Territorial_delim=="Gloucester",select=c(Year, Period, PeriodShiwes, Territorial_delim,Foin_hay_pct, Ble_weat_pct,Orge_barley_pct, Avoine_oats_pct,Hay_weat_barley_oats_pct))
 Gloucester[,1:4]
@@ -1532,7 +1532,7 @@ Pok
 PokPeriodMeanShiwes=aggregate(Pok, by=list(Pok$PeriodShiwes), mean, na.rm=T)
 PokPeriodMeanShiwes
 
-++++++++ Merge Agr and peat data+++++++++++++++++++++++++
+# ++++++++ Merge Agr and peat data+++++++++++++++++++++++++
 
 landtShiwes=merge(GPeriodMeanShiwes, PokPeriodMeanShiwes, by="Group.1", all=TRUE)
 summary(landtShiwes)
@@ -1586,7 +1586,7 @@ Pok
 PokPeriodMeanShieas=aggregate(Pok, by=list(Pok$PeriodShieas), mean, na.rm=T)
 PokPeriodMeanShieas
 
-++++++++ Merge Agr and peat data+++++++++++++++++++++++++
+# ++++++++ Merge Agr and peat data+++++++++++++++++++++++++
 
 landtShieas=merge(GPeriodMeanShieas, PokPeriodMeanShieas, by="Group.1", all=TRUE)
 summary(landtShieas)
