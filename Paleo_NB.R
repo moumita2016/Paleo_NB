@@ -1422,6 +1422,21 @@ points(landtWau$Year.x~landtWau$Cumul_Peat_extract_Pok_pct, type="b",pch="p", co
 
 #######Based on Petite Tracadie Amont defined period=============
 
+#MK April 11th 2016------------------------------
+pathland = file.path("C:/Users/Moumita")
+pathland
+pathland = file.path("/Post Doc at Shipgaan/151210_env_scripts_from_Alain_to_Moumita/land_data")
+getwd()
+landt=read.delim("Land_use_data4_MK.txt", header=TRUE)
+ls()
+landt
+subset(landt,select=c(Year, Territorial_delim,Cumul_Peat_extract_Pok_ha))
+names(landt)
+summary(landt$Year)
+edit(landt)
+
+Cumul_Peat_extract_Pok_pct=tapply(landt$Territorial_delim=="Petite_Tracadie",Cumul_Peat_extract_Pok_ha,na.rm=T)/tapply(landt$Territorial_delim=="Petite_Tracadie",Surface_census_km2,na.rm=T)
+
 landt$PeriodPtAm[landt$Year>=1817 & landt$Year<=1866]=("P1")
 landt$PeriodPtAm[landt$Year>=1867 & landt$Year<=1901]=("P2")
 landt$PeriodPtAm[landt$Year>=1902 & landt$Year<=1930]=("P3")
@@ -1436,9 +1451,9 @@ landt$PeriodPtAm[landt$Year>=2005 & landt$Year<=2010]=("P11")
 landt$PeriodPtAm=as.factor(landt$PeriodPtAm)
 summary(landt$PeriodPtAm)
 dim(landt)
-# 29 X 21
+# 45 X 21
 
-++++++++++By Petite Tracadie done 2016-04-01+++++++++++++++++++++++
+++++++++++By Petite Tracadie done 2016-04-11+++++++++++++++++++++++
 
 Gloucester=subset(landt,Territorial_delim=="Gloucester",select=c(Year, Period, PeriodPtAm, Territorial_delim,Foin_hay_pct, Ble_weat_pct,Orge_barley_pct, Avoine_oats_pct,Hay_weat_barley_oats_pct))
 Gloucester[,1:4]
@@ -1449,15 +1464,28 @@ sapply(Gloucester, function(x)(sum(complete.cases(x))))
 # Get number of Foin cases by Period
 PeriodCases=tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodPtAm,sum,na.rm=T)/tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodPtAm,mean,na.rm=T)
 PeriodCases
-sum(PeriodCases)
+ P1 P10 P11  P2  P3  P4  P5  P6  P7  P8  P9 
+NaN   1   1   4   2   4   2   2   1   1   1 
+sum(PeriodCases,na.rm=T)
+x 19
 
-# MK: 01/04/2016, Need to check with Alain-------------------------
 GPeriodMeanPtAm=aggregate(Gloucester, by=list(Gloucester$PeriodPtAm), FUN="mean", na.rm=TRUE)
 GPeriodMeanPtAm
-landtPtAm=merge(GPeriodMeanPtAm,all=TRUE)
+
+#MK:Done on 2016-04-11--------------------------
+
+Pet=subset(landt, Territorial_delim=="Petite_Tracadie",select=c(Year,PeriodPtAm,Territorial_delim,Cumul_Peat_extract_Pok_pct))
+Pet
+PetPeriodMeanPtAm=aggregate(Pet, by=list(Pet$PeriodPtAm), mean, na.rm=T)
+PetPeriodMeanPtAm
+
+++++++++ Merge Agr and peat data+++++++++++++++++++++++++
+
+landtPtAm=merge(GPeriodMeanPtAm, PetPeriodMeanPtAm, by="Group.1", all=TRUE)
 summary(landtPtAm)
 
-#MK:March 31st 2016, we need peat extraction data for Petite Tracadie==================
+save(landtPtAm,file="landtPtAm.RData")
+write.csv(landtPtAm,"landtPtAm.csv")
 
 # For plotting----------------------------------
 plot(landtPtAm$Year.x~landtPtAm$Hay_weat_barley_oats_pct, type="b", xlim=c(0,0.06))
@@ -1465,7 +1493,7 @@ points(landtPtAm$Year.x~landtPtAm$Foin_hay_pct, type="b", col="blue", pch="h")
 points(landtPtAm$Year.x~landtPtAm$Ble_weat_pct, type="b", col="green", pch="w")
 points(landtPtAm$Year.x~landtPtAm$Orge_barley_pct, type="b", col="red", pch="b")
 points(landtPtAm$Year.x~landtPtAm$Avoine_oats_pct, type="b", col="purple", pch="o")
-points(landtPtAm$Year.x~landtPtAm$Cumul_Peat_extract_Pok_pct, type="b",pch="p", col="black")
+points(landtPtAm$Year.x~landtPtAm$Cumul_Peat_extract_Pok_ha, type="b",pch="p", col="black")
 
 
 #########Based on Shippagan west defined period====================
