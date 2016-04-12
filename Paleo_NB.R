@@ -1602,5 +1602,33 @@ points(landtShieas$Year.x~landtShieas$Orge_barley_pct, type="b", col="red", pch=
 points(landtShieas$Year.x~landtShieas$Avoine_oats_pct, type="b", col="purple", pch="o")
 points(landtShieas$Year.x~landtShieas$Cumul_Peat_extract_Pok_pct, type="b",pch="p", col="black")
 
+# Working on Lake Inkerman pigment concentration, MK: 2016-04-12===================== 
 
-# Work on Petite tracadie landuse data-----------------
+epath = file.path("C:/Users/Moumita")
+epath
+allpigs=read.delim("C:/Users/Moumita/Post Doc at Shippagan/All pigments/Pigments_analyses_to_Moumita.txt",header=T)
+summary(allpigs)
+dim(allpigs)
+# 212 rows x 27 columns
+names(allpigs)
+
+# Get the levels of factor "Station"----------------------
+levels(allpigs$Station)
+
+#Create a subset for Pokemouche_aval_Lac_Inkerman
+	
+PokAvLacInk=subset(allpigs,Station=="Pokemouche_aval_Lac_Inkerman")
+dim(PokAvLacInk) 
+#--------------------------------------------------------------------
+allpigs$chla_Pheo=allpigs$Chla2/allpigs$Pheo2
+write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv")
+summary(allpigs$chla_Pheo)
+allpigs$Chla2
+allpigs$Pheo2
+edit(allpigs$chla_Pheo)
+# Creating subset for Chla_Pheo--------------------
+LakeInkAvChla_Pheo=subset(allpigs, Station=="Pokemouche_aval_Lac_Inkerman", select=c(Station,chla_Pheo))
+write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv")
+write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
+
+
