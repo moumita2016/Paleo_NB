@@ -761,14 +761,6 @@ meteoMonctonMalt=c(ty4PMaltbis,ty5PMaltbis,ty6PMaltbis,ty7PMaltbis,ty8PMaltbis)
 save("meteoMonctonMalt",file="meteoMonctonMalt.RData")
 write.csv(meteoMonctonMalt,"meteoMonctonMalt.csv")
 
-################# TODO delete because redundant with above vvvvvvvvvvvvvvvvvvvv
-#Jan 8th 2016-01-08 ==============================================
-meteoMonctonMalt=c(ty4PMaltbis,ty5PMaltbis,ty6PMaltbis,ty7PMaltbis,ty8PMaltbis)
-save("meteoMonctonMalt",file="meteoMonctonMalt.RData")
-write.csv(meteoMonctonMalt,"meteoMonctonMalt.csv")
-################### TODO delete ^^^^^^^^^^^^^^^^^^^^^^
-
-
 # ================ Periods for Waugh =================
 # ========== corrected by AP 2016-01-05 =============
 
@@ -1290,6 +1282,175 @@ meteoMonctonShieas=c(ty4PShieasbis,ty5PShieasbis,ty6PShieasbis,ty7PShieasbis,ty8
 save("meteoMonctonShieas",file="meteoMonctonShieas.RData")
 write.csv(meteoMonctonShieas,"meteoMonctonShieas.csv")
 
+
+# Periods for Caraquet========================================
+# MK done on 2014-04-14------------------------
+#-----------Caraquet April-----------------
+ty4$PeriodCar[ty4$year_all>=1719 & ty4$year_all<=1832]=("P1")
+ty4$PeriodCar[ty4$year_all>=1833 & ty4$year_all<=1900]=("P2")
+ty4$PeriodCar[ty4$year_all>=1901 & ty4$year_all<=1921]=("P3")
+ty4$PeriodCar[ty4$year_all>=1922 & ty4$year_all<=1937]=("P4")
+ty4$PeriodCar[ty4$year_all>=1938 & ty4$year_all<=1951]=("P5")
+ty4$PeriodCar[ty4$year_all>=1952 & ty4$year_all<=1961]=("P6")
+ty4$PeriodCar[ty4$year_all>=1962 & ty4$year_all<=1970]=("P7")
+ty4$PeriodCar[ty4$year_all>=1971 & ty4$year_all<=1978]=("P8")
+ty4$PeriodCar[ty4$year_all>=1979 & ty4$year_all<=1985]=("P9")
+ty4$PeriodCar[ty4$year_all>=1986 & ty4$year_all<=1990]=("P10")
+ty4$PeriodCar[ty4$year_all>=1991 & ty4$year_all<=1995]=("P11")
+ty4$PeriodCar[ty4$year_all>=1996 & ty4$year_all<=2000]=("P12")
+ty4$PeriodCar[ty4$year_all>=2001 & ty4$year_all<=2003]=("P13")
+ty4$PeriodCar[ty4$year_all>=2004 & ty4$year_all<=2006]=("P14")
+ty4$PeriodCar[ty4$year_all>=2007 & ty4$year_all<=2012]=("P15")
+ty4$PeriodCar=as.factor(ty4$PeriodCar)
+summary(ty4$PeriodCar)
+dim(ty4)
+# 137 X 121
+
+# --- Caraquet May ------------------
+ty5$PeriodCar[ty5$year_all>=1719 & ty5$year_all<=1832]=("P1")
+ty5$PeriodCar[ty5$year_all>=1833 & ty5$year_all<=1900]=("P2")
+ty5$PeriodCar[ty5$year_all>=1901 & ty5$year_all<=1921]=("P3")
+ty5$PeriodCar[ty5$year_all>=1922 & ty5$year_all<=1937]=("P4")
+ty5$PeriodCar[ty5$year_all>=1938 & ty5$year_all<=1951]=("P5")
+ty5$PeriodCar[ty5$year_all>=1952 & ty5$year_all<=1961]=("P6")
+ty5$PeriodCar[ty5$year_all>=1962 & ty5$year_all<=1970]=("P7")
+ty5$PeriodCar[ty5$year_all>=1971 & ty5$year_all<=1978]=("P8")
+ty5$PeriodCar[ty5$year_all>=1979 & ty5$year_all<=1985]=("P9")
+ty5$PeriodCar[ty5$year_all>=1986 & ty5$year_all<=1990]=("P10")
+ty5$PeriodCar[ty5$year_all>=1991 & ty5$year_all<=1995]=("P11")
+ty5$PeriodCar[ty5$year_all>=1996 & ty5$year_all<=2000]=("P12")
+ty5$PeriodCar[ty5$year_all>=2001 & ty5$year_all<=2003]=("P13")
+ty5$PeriodCar[ty5$year_all>=2004 & ty5$year_all<=2006]=("P14")
+ty5$PeriodCar[ty5$year_all>=2007 & ty5$year_all<=2012]=("P15")
+ty5$PeriodCar=as.factor(ty5$PeriodCar)
+summary(ty5$PeriodCar)
+dim(ty5)
+#[1] 137 121
+
+# --- Caraquet June -----------------
+ty6$PeriodCar[ty6$year_all>=1719 & ty6$year_all<=1832]=("P1")
+ty6$PeriodCar[ty6$year_all>=1833 & ty6$year_all<=1900]=("P2")
+ty6$PeriodCar[ty6$year_all>=1901 & ty6$year_all<=1921]=("P3")
+ty6$PeriodCar[ty6$year_all>=1922 & ty6$year_all<=1937]=("P4")
+ty6$PeriodCar[ty6$year_all>=1938 & ty6$year_all<=1951]=("P5")
+ty6$PeriodCar[ty6$year_all>=1952 & ty6$year_all<=1961]=("P6")
+ty6$PeriodCar[ty6$year_all>=1962 & ty6$year_all<=1970]=("P7")
+ty6$PeriodCar[ty6$year_all>=1971 & ty6$year_all<=1978]=("P8")
+ty6$PeriodCar[ty6$year_all>=1979 & ty6$year_all<=1985]=("P9")
+ty6$PeriodCar[ty6$year_all>=1986 & ty6$year_all<=1990]=("P10")
+ty6$PeriodCar[ty6$year_all>=1991 & ty6$year_all<=1995]=("P11")
+ty6$PeriodCar[ty6$year_all>=1996 & ty6$year_all<=2000]=("P12")
+ty6$PeriodCar[ty6$year_all>=2001 & ty6$year_all<=2003]=("P13")
+ty6$PeriodCar[ty6$year_all>=2004 & ty6$year_all<=2006]=("P14")
+ty6$PeriodCar[ty6$year_all>=2007 & ty6$year_all<=2012]=("P15")
+ty6$PeriodCar=as.factor(ty6$PeriodCar)
+summary(ty6$PeriodCar)
+dim(ty6)
+#[1] 137 121
+
+# --- Caraquet July ------------------------
+ty7$PeriodCar[ty7$year_all>=1719 & ty7$year_all<=1832]=("P1")
+ty7$PeriodCar[ty7$year_all>=1833 & ty7$year_all<=1900]=("P2")
+ty7$PeriodCar[ty7$year_all>=1901 & ty7$year_all<=1921]=("P3")
+ty7$PeriodCar[ty7$year_all>=1922 & ty7$year_all<=1937]=("P4")
+ty7$PeriodCar[ty7$year_all>=1938 & ty7$year_all<=1951]=("P5")
+ty7$PeriodCar[ty7$year_all>=1952 & ty7$year_all<=1961]=("P6")
+ty7$PeriodCar[ty7$year_all>=1962 & ty7$year_all<=1970]=("P7")
+ty7$PeriodCar[ty7$year_all>=1971 & ty7$year_all<=1978]=("P8")
+ty7$PeriodCar[ty7$year_all>=1979 & ty7$year_all<=1985]=("P9")
+ty7$PeriodCar[ty7$year_all>=1986 & ty7$year_all<=1990]=("P10")
+ty7$PeriodCar[ty7$year_all>=1991 & ty7$year_all<=1995]=("P11")
+ty7$PeriodCar[ty7$year_all>=1996 & ty7$year_all<=2000]=("P12")
+ty7$PeriodCar[ty7$year_all>=2001 & ty7$year_all<=2003]=("P13")
+ty7$PeriodCar[ty7$year_all>=2004 & ty7$year_all<=2006]=("P14")
+ty7$PeriodCar[ty7$year_all>=2007 & ty7$year_all<=2012]=("P15")
+ty7$PeriodCar=as.factor(ty7$PeriodCar)
+summary(ty7$PeriodCar)
+dim(ty7)
+#[1] 138 121
+
+# --- Caraquet August -------------------
+ty8$PeriodCar[ty8$year_all>=1719 & ty8$year_all<=1832]=("P1")
+ty8$PeriodCar[ty8$year_all>=1833 & ty8$year_all<=1900]=("P2")
+ty8$PeriodCar[ty8$year_all>=1901 & ty8$year_all<=1921]=("P3")
+ty8$PeriodCar[ty8$year_all>=1922 & ty8$year_all<=1937]=("P4")
+ty8$PeriodCar[ty8$year_all>=1938 & ty8$year_all<=1951]=("P5")
+ty8$PeriodCar[ty8$year_all>=1952 & ty8$year_all<=1961]=("P6")
+ty8$PeriodCar[ty8$year_all>=1962 & ty8$year_all<=1970]=("P7")
+ty8$PeriodCar[ty8$year_all>=1971 & ty8$year_all<=1978]=("P8")
+ty8$PeriodCar[ty8$year_all>=1979 & ty8$year_all<=1985]=("P9")
+ty8$PeriodCar[ty8$year_all>=1986 & ty8$year_all<=1990]=("P10")
+ty8$PeriodCar[ty8$year_all>=1991 & ty8$year_all<=1995]=("P11")
+ty8$PeriodCar[ty8$year_all>=1996 & ty8$year_all<=2000]=("P12")
+ty8$PeriodCar[ty8$year_all>=2001 & ty8$year_all<=2003]=("P13")
+ty8$PeriodCar[ty8$year_all>=2004 & ty8$year_all<=2006]=("P14")
+ty8$PeriodCar[ty8$year_all>=2007 & ty8$year_all<=2012]=("P15")
+ty8$PeriodCar=as.factor(ty8$PeriodCar)
+summary(ty8$PeriodCar)
+dim(ty8)
+#[1] 138 121
+
+# =======================================================
+# Caraquet April -----------------------------
+ty4PCar=aggregate(ty4, by=list(ty4$PeriodCar), FUN=mean, na.rm=TRUE)
+dim(ty4PCar)
+#14 X 122
+ty4PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
+save("ty4PCar", file="ty4PCar.RData")
+
+# Caraquet May -----------------------------
+ty5PCar=aggregate(ty5, by=list(ty5$PeriodCar), FUN=mean, na.rm=TRUE)
+dim(ty5PCar)
+#14 X 122
+ty5PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
+save("ty5PCar", file="ty5PCar.RData")
+
+# Caraquet June -----------------------------
+ty6PCar=aggregate(ty6, by=list(ty6$PeriodCar), FUN=mean, na.rm=TRUE)
+dim(ty6PCar)
+#14 X 122
+ty6PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
+save("ty6PCar", file="ty6PCar.RData")
+
+# Caraquet July -----------------------------
+ty7PCar=aggregate(ty7, by=list(ty7$PeriodCar), FUN=mean, na.rm=TRUE)
+dim(ty7PCar)
+#14 X 122
+ty7PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
+save("ty7PCar", file="ty7PCar.RData")
+
+# Caraquet August -----------------------------
+ty8PCar=aggregate(ty8, by=list(ty8$PeriodCar), FUN=mean, na.rm=TRUE)
+dim(ty8PCar)
+#14 X 122
+ty8PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
+save("ty8PCar", file="ty8PCar.RData")
+#========================================================================
+# MK 2016-04-14: create a new series of tables containing only the
+# variables of interest
+
+ty4PCarbis=ty4PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
+dim(ty4PCarbis)
+# 14 x 3
+ty5PCarbis=ty5PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
+dim(ty5PCarbis)
+# 14 x 3
+ty6PCarbis=ty6PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
+dim(ty6PCarbis)
+# 14 x 3
+ty7PCarbis=ty7PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
+dim(ty7PCarbis)
+# 14 x 3
+ty8PCarbis=ty8PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
+dim(ty8PCarbis)
+# 14 x 3
+
+# MK 2016-04-14:
+# Make one single file by binding columns with the "cbind" function
+meteoMonctonCar=c(ty4PCarbis,ty5PCarbis,ty6PCarbis,ty7PCarbis,ty8PCarbis)
+save("meteoMonctonCar",file="meteoMonctonCar.RData")
+write.csv(meteoMonctonCar,"meteoMonctonCar.csv")
+
 ###################################################################
 # PART III: define periods for the landuse data ####
 # Dec_2015_Moumita
@@ -1488,7 +1649,11 @@ landtMK=read.delim("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Base_donnees/
 # see file sent to Moumita 2016-04-07 "Peat_exploitation.xlsx
 # 135 ko
 
+#===================================================================
+# MK 2016-04-14
+landtMK=read.delim("C:/Users/Moumita/Post Doc at Shippagan/151210_env_scripts_from_Alain_to_Moumita/Land_data/Land_use_data4_MK.txt", header=TRUE)
 summary(landtMK)
+
 # See how "Territoral_delim" now contains Caraquet, PT, St-Simon
 # (Shippgan) and Tabusintac: these rows have peat data added by
 # Alain 2016-04-07
@@ -1586,15 +1751,18 @@ GPeriodMeanShiwes
 # is there a point in extracting the Pokemouche peat data for Shippagan???
 # TODO: change "Bassin_Pokemouche" for "St-Simon"
 # (code is OK for Petite Tracadie above)
-# Pokemouche subset ------------------------------------------------
-Pok=subset(landtMK, Territorial_delim=="Bassin_Pokemouche",select=c(Year,PeriodShiwes,Territorial_delim,Cumul_Peat_extract_Pok_pct))
-Pok
-PokPeriodMeanShiwes=aggregate(Pok, by=list(Pok$PeriodShiwes), mean, na.rm=T)
-PokPeriodMeanShiwes
+
+#MK done on 2016-04-14########################
+# St-Simon subset ------------------------------------------------
+
+StS=subset(landtMK, Territorial_delim=="St-Simon",select=c(Year,PeriodShiwes,Territorial_delim,Cumul_Peat_extract_Pok_pct))
+StS
+StSPeriodMeanShiwes=aggregate(StS, by=list(StS$PeriodShiwes), mean, na.rm=T)
+StSPeriodMeanShiwes
 
 # ++++++++ Merge Agr and peat data+++++++++++++++++++++++++
 
-landtMKShiwes=merge(GPeriodMeanShiwes, PokPeriodMeanShiwes, by="Group.1", all=TRUE)
+landtMKShiwes=merge(GPeriodMeanShiwes, StSPeriodMeanShiwes, by="Group.1", all=TRUE)
 summary(landtMKShiwes)
 
 save(landtMKShiwes,file="landtMKShiwes.RData")
@@ -1620,7 +1788,7 @@ landtMK$PeriodShieas[landtMK$Year>=2001 & landtMK$Year<=2010]=("P6")
 landtMK$PeriodShieas=as.factor(landtMK$PeriodShieas)
 summary(landtMK$PeriodShieas)
 dim(landtMK)
-
+# 45 x 22
 #Gloucester subset (agricultural data) By Shieas done 2016-03-31
 
 Gloucester=subset(landtMK,Territorial_delim=="Gloucester",select=c(Year, Period, PeriodShieas, Territorial_delim,Foin_hay_pct, Ble_weat_pct,Orge_barley_pct, Avoine_oats_pct,Hay_weat_barley_oats_pct))
@@ -1639,15 +1807,19 @@ GPeriodMeanShieas=aggregate(Gloucester, by=list(Gloucester$PeriodShieas), FUN="m
 GPeriodMeanShieas
 
 
-# TODO: replace "Bassin_Pokemouche" by St-Simon ##########
-Pok=subset(landtMK, Territorial_delim=="Bassin_Pokemouche",select=c(Year,PeriodShieas,Territorial_delim,Cumul_Peat_extract_Pok_pct))
-Pok
-PokPeriodMeanShieas=aggregate(Pok, by=list(Pok$PeriodShieas), mean, na.rm=T)
-PokPeriodMeanShieas
+# Replace "Bassin_Pokemouche" by St-Simon ##########
+# MK done on 2016-04-14 ##################
+
+# St-Simon subset ------------------------------------------------
+
+StS=subset(landtMK, Territorial_delim=="St-Simon",select=c(Year,PeriodShieas,Territorial_delim,Cumul_Peat_extract_Pok_pct))
+StS
+StSPeriodMeanShieas=aggregate(StS, by=list(StS$PeriodShieas), mean, na.rm=T)
+StSPeriodMeanShieas
 
 # ++++++++ Merge Agr and peat data+++++++++++++++++++++++++
 
-landtMKShieas=merge(GPeriodMeanShieas, PokPeriodMeanShieas, by="Group.1", all=TRUE)
+landtMKShieas=merge(GPeriodMeanShieas, StSPeriodMeanShieas, by="Group.1", all=TRUE)
 summary(landtMKShieas)
 
 save(landtMKShieas,file="landtMKShieas.RData")
@@ -1660,6 +1832,73 @@ points(landtMKShieas$Year.x~landtMKShieas$Ble_weat_pct, type="b", col="green", p
 points(landtMKShieas$Year.x~landtMKShieas$Orge_barley_pct, type="b", col="red", pch="b")
 points(landtMKShieas$Year.x~landtMKShieas$Avoine_oats_pct, type="b", col="purple", pch="o")
 points(landtMKShieas$Year.x~landtMKShieas$Cumul_Peat_extract_Pok_pct, type="b",pch="p", col="black")
+
+# =========================================================
+# _6) DEFINE LAND PERIODS FOR Caraquet ========
+# =======================================================
+
+# MK 2016-04-14
+landtMK=read.delim("C:/Users/Moumita/Post Doc at Shippagan/151210_env_scripts_from_Alain_to_Moumita/Land_data/Land_use_data4_MK.txt", header=TRUE)
+summary(landtMK)
+landtMK$PeriodCar[landtMK$Year>=1719 & landtMK$Year<=1832]=("P1")
+landtMK$PeriodCar[landtMK$Year>=1833 & landtMK$Year<=1900]=("P2")
+landtMK$PeriodCar[landtMK$Year>=1901 & landtMK$Year<=1921]=("P3")
+landtMK$PeriodCar[landtMK$Year>=1922 & landtMK$Year<=1937]=("P4")
+landtMK$PeriodCar[landtMK$Year>=1938 & landtMK$Year<=1951]=("P5")
+landtMK$PeriodCar[landtMK$Year>=1952 & landtMK$Year<=1961]=("P6")
+landtMK$PeriodCar[landtMK$Year>=1962 & landtMK$Year<=1970]=("P7")
+landtMK$PeriodCar[landtMK$Year>=1971 & landtMK$Year<=1978]=("P8")
+landtMK$PeriodCar[landtMK$Year>=1979 & landtMK$Year<=1985]=("P9")
+landtMK$PeriodCar[landtMK$Year>=1986 & landtMK$Year<=1990]=("P10")
+landtMK$PeriodCar[landtMK$Year>=1991 & landtMK$Year<=1995]=("P11")
+landtMK$PeriodCar[landtMK$Year>=1996 & landtMK$Year<=2000]=("P12")
+landtMK$PeriodCar[landtMK$Year>=2001 & landtMK$Year<=2003]=("P13")
+landtMK$PeriodCar[landtMK$Year>=2004 & landtMK$Year<=2006]=("P14")
+landtMK$PeriodCar[landtMK$Year>=2007 & landtMK$Year<=2012]=("P15")
+landtMK$PeriodCar=as.factor(landtMK$PeriodCar)
+summary(landtMK$PeriodCar)
+dim(landtMK)
+# 45 x 21
+
+# Gloucester subset for Caraquet ----------------------------
+Gloucester=subset(landtMK,Territorial_delim=="Gloucester",select=c(Year, PeriodCar, Territorial_delim,Foin_hay_pct, Ble_weat_pct,Orge_barley_pct, Avoine_oats_pct,Hay_weat_barley_oats_pct))
+Gloucester[,1:4]
+# Get number of cases by variable
+sapply(Gloucester, function(x)(sum(complete.cases(x))))
+
+# Get number of Foin cases by Period
+PeriodCases=tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodCar,sum,na.rm=T)/tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodCar,mean,na.rm=T)
+PeriodCases
+P10 P11 P12 P13 P14 P15  P2  P3  P4  P5  P6  P7  P8  P9 
+  1   1   1   1   1   1   3   3   1   2   2   1   1   1 
+sum(PeriodCases)
+# 20
+GPeriodMeanCar=aggregate(Gloucester, by=list(Gloucester$PeriodCar), FUN="mean", na.rm=TRUE)
+GPeriodMeanCar
+
+#MK done on 2016-04-14########################
+# Caraquet subset ------------------------------------------------
+
+Cart=subset(landtMK, Territorial_delim=="Caraquet",select=c(Year,PeriodCar,Territorial_delim,Cumul_Peat_extract_Pok_pct))
+Cart
+CartPeriodMeanCar=aggregate(Cart, by=list(Cart$PeriodCar), mean, na.rm=T)
+CartPeriodMeanCar
+
+# ++++++++ Merge Agr and peat data+++++++++++++++++++++++++
+
+landtMKCar=merge(GPeriodMeanCar, CartPeriodMeanCar, by="Group.1", all=TRUE)
+summary(landtMKCar)
+
+save(landtMKCar,file="landtMKCar.RData")
+write.csv(landtMKCar,"landtMKCar.csv")
+
+# For plotting----------------------------------
+plot(landtMKCar$Year.x~landtMKCar$Hay_weat_barley_oats_pct, type="b", xlim=c(0,0.06))
+points(landtMKCar$Year.x~landtMKCar$Foin_hay_pct, type="b", col="blue", pch="h")
+points(landtMKCar$Year.x~landtMKCar$Ble_weat_pct, type="b", col="green", pch="w")
+points(landtMKCar$Year.x~landtMKCar$Orge_barley_pct, type="b", col="red", pch="b")
+points(landtMKCar$Year.x~landtMKCar$Avoine_oats_pct, type="b", col="purple", pch="o")
+points(landtMKCar$Year.x~landtMKCar$Cumul_Peat_extract_Pok_pct, type="b",pch="p", col="black")
 
 ############################################################
 # Working on Lake Inkerman pigment concentration MK: 2016-04-12 ####
@@ -1691,5 +1930,6 @@ edit(allpigs$chla_Pheo)
 LakeInkAvChla_Pheo=subset(allpigs, Station=="Pokemouche_aval_Lac_Inkerman", select=c(Station,chla_Pheo))
 write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv")
 write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
+
 
 
