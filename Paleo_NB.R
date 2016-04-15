@@ -258,8 +258,13 @@ allpigs$Chla2
 allpigs$Pheo2
 edit(allpigs$chla_Pheo)
 
+##=============================================================================================
 # Creating subset for each station with Chla_Pheo
-# AP 2016-04-13: Why is creating ratio susets necessary?
+MK: 2014-04-15---------------------------------------
+I was not sure how to calculate the raio between Chl a to Pheo, when Alain showed that to
+me, I ran the script again to calculate the Chla:Pheo and then I saved for each 
+station, to have them in separate file, for incouporating in the master analisis file. 
+#================================================================================================
 TabusiAVChla_Pheo=subset(allpigs, Station=="Tabusintac_AVAL", select=c(Station,chla_Pheo))
 write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv")
 write.csv(TabusiAVChla_Pheo,"TabusiAVChla_Pheocsv.csv")
@@ -275,7 +280,9 @@ write.csv(PokAmWauChla_Pheo,"PokAmWaucsvChla_Pheo.csv")
 
 PetAmChla_Pheo=subset(allpigs, Station=="Petite_Tracadie_amont", select=c(Station,chla_Pheo))
 write.csv(PetAmChla_Pheo,"PetAmcsvChla_Pheo.csv")
+##########################################################################################
 
+##=============================================================================================
 # Get the levels of factor "Station"
 levels(allpigs$Station)
 
@@ -636,56 +643,62 @@ subset(ty4,select=c(year_all, year_fact,Period, Precip_mm_Moncton3, Tmoy_C_Monct
 # and are here based on the 3rd CRS age estimates.
 # These age estimates were defined in individual Excel files
 # (one per core station) by Moumita
-# 1) Maltampec April
-ty4$PeriodMalt[ty4$year_all>=1856 & ty4$year_all<=1895]=("P1")
-ty4$PeriodMalt[ty4$year_all>=1896 & ty4$year_all<=1929]=("P2")
-ty4$PeriodMalt[ty4$year_all>=1930 & ty4$year_all<=1956]=("P3")
-ty4$PeriodMalt[ty4$year_all>=1957 & ty4$year_all<=1981]=("P4")
-ty4$PeriodMalt[ty4$year_all>=1982 & ty4$year_all<=2010]=("P5")
+#=================================================================
+# MK: 2016-04-15
+Periods are corrected based on the 3rd series of CRS age (Binford), 
+corrected by AP, on 2016-04-15
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# 1) Maltampec April----------------------------------------
+ty4$PeriodMalt[ty4$year_all>=1876 & ty4$year_all<=1908]=("P1")
+ty4$PeriodMalt[ty4$year_all>=1909 & ty4$year_all<=1936]=("P2")
+ty4$PeriodMalt[ty4$year_all>=1937 & ty4$year_all<=1960]=("P3")
+ty4$PeriodMalt[ty4$year_all>=1961 & ty4$year_all<=1983]=("P4")
+ty4$PeriodMalt[ty4$year_all>=1984 & ty4$year_all<=2010]=("P5")
 ty4$PeriodMalt=as.factor(ty4$PeriodMalt)
 summary(ty4$PeriodMalt)
 dim(ty4)
 #[1] 137 121
 
 # --- Maltampec May ------------------
-ty5$PeriodMalt[ty5$year_all>=1856 & ty5$year_all<=1895]=("P1")
-ty5$PeriodMalt[ty5$year_all>=1896 & ty5$year_all<=1929]=("P2")
-ty5$PeriodMalt[ty5$year_all>=1930 & ty5$year_all<=1956]=("P3")
-ty5$PeriodMalt[ty5$year_all>=1957 & ty5$year_all<=1981]=("P4")
-ty5$PeriodMalt[ty5$year_all>=1982 & ty5$year_all<=2010]=("P5")
+ty5$PeriodMalt[ty5$year_all>=1876 & ty5$year_all<=1908]=("P1")
+ty5$PeriodMalt[ty5$year_all>=1909 & ty5$year_all<=1936]=("P2")
+ty5$PeriodMalt[ty5$year_all>=1937 & ty5$year_all<=1960]=("P3")
+ty5$PeriodMalt[ty5$year_all>=1961 & ty5$year_all<=1983]=("P4")
+ty5$PeriodMalt[ty5$year_all>=1984 & ty5$year_all<=2010]=("P5")
 ty5$PeriodMalt=as.factor(ty5$PeriodMalt)
 summary(ty5$PeriodMalt)
 dim(ty5)
 #[1] 137 121
 
 # --- Maltampec June -----------------
-ty6$PeriodMalt[ty6$year_all>=1856 & ty6$year_all<=1895]=("P1")
-ty6$PeriodMalt[ty6$year_all>=1896 & ty6$year_all<=1929]=("P2")
-ty6$PeriodMalt[ty6$year_all>=1930 & ty6$year_all<=1956]=("P3")
-ty6$PeriodMalt[ty6$year_all>=1957 & ty6$year_all<=1981]=("P4")
-ty6$PeriodMalt[ty6$year_all>=1982 & ty6$year_all<=2010]=("P5")
+ty6$PeriodMalt[ty6$year_all>=1876 & ty6$year_all<=1908]=("P1")
+ty6$PeriodMalt[ty6$year_all>=1909 & ty6$year_all<=1936]=("P2")
+ty6$PeriodMalt[ty6$year_all>=1937 & ty6$year_all<=1960]=("P3")
+ty6$PeriodMalt[ty6$year_all>=1961 & ty6$year_all<=1983]=("P4")
+ty6$PeriodMalt[ty6$year_all>=1984 & ty6$year_all<=2010]=("P5")
 ty6$PeriodMalt=as.factor(ty6$PeriodMalt)
 summary(ty6$PeriodMalt)
 dim(ty6)
 #[1] 137 121
 
 # --- Maltampec July ------------------------
-ty7$PeriodMalt[ty7$year_all>=1856 & ty7$year_all<=1895]=("P1")
-ty7$PeriodMalt[ty7$year_all>=1896 & ty7$year_all<=1929]=("P2")
-ty7$PeriodMalt[ty7$year_all>=1930 & ty7$year_all<=1956]=("P3")
-ty7$PeriodMalt[ty7$year_all>=1957 & ty7$year_all<=1981]=("P4")
-ty7$PeriodMalt[ty7$year_all>=1982 & ty7$year_all<=2010]=("P5")
+ty7$PeriodMalt[ty7$year_all>=1876 & ty7$year_all<=1908]=("P1")
+ty7$PeriodMalt[ty7$year_all>=1909 & ty7$year_all<=1936]=("P2")
+ty7$PeriodMalt[ty7$year_all>=1937 & ty7$year_all<=1960]=("P3")
+ty7$PeriodMalt[ty7$year_all>=1961 & ty7$year_all<=1983]=("P4")
+ty7$PeriodMalt[ty7$year_all>=1984 & ty7$year_all<=2010]=("P5")
 ty7$PeriodMalt=as.factor(ty7$PeriodMalt)
 summary(ty7$PeriodMalt)
 dim(ty7)
 #[1] 138 121
 
 # --- Maltampec August -------------------
-ty8$PeriodMalt[ty8$year_all>=1856 & ty8$year_all<=1895]=("P1")
-ty8$PeriodMalt[ty8$year_all>=1896 & ty8$year_all<=1929]=("P2")
-ty8$PeriodMalt[ty8$year_all>=1930 & ty8$year_all<=1956]=("P3")
-ty8$PeriodMalt[ty8$year_all>=1957 & ty8$year_all<=1981]=("P4")
-ty8$PeriodMalt[ty8$year_all>=1982 & ty8$year_all<=2010]=("P5")
+ty8$PeriodMalt[ty8$year_all>=1876 & ty8$year_all<=1908]=("P1")
+ty8$PeriodMalt[ty8$year_all>=1909 & ty8$year_all<=1936]=("P2")
+ty8$PeriodMalt[ty8$year_all>=1937 & ty8$year_all<=1960]=("P3")
+ty8$PeriodMalt[ty8$year_all>=1961 & ty8$year_all<=1983]=("P4")
+ty8$PeriodMalt[ty8$year_all>=1984 & ty8$year_all<=2010]=("P5")
 ty8$PeriodMalt=as.factor(ty8$PeriodMalt)
 summary(ty8$PeriodMalt)
 dim(ty8)
@@ -703,29 +716,28 @@ dim(ty8)
 # Maltampec April -----------------------------
 ty4PMalt=aggregate(ty4, by=list(ty4$PeriodMalt), FUN=mean, na.rm=TRUE)
 dim(ty4PMalt)
-# 5 x 122 on 2016-01-05 by AP
+# 5 x 122 
 ty4PMalt[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty4PMalt", file="ty4PMalt.RData")
-# 2.36 Ko file generated
 
 # Maltampec May -----------------------------
 ty5PMalt=aggregate(ty5, by=list(ty5$PeriodMalt), FUN=mean, na.rm=TRUE)
 dim(ty5PMalt)
-#[1]   5 122
+# 5 x 122
 ty5PMalt[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty5PMalt", file="ty5PMalt.RData")
 
 # Maltampec June -----------------------------
 ty6PMalt=aggregate(ty6, by=list(ty6$PeriodMalt), FUN=mean, na.rm=TRUE)
 dim(ty6PMalt)
-#[1]   5 122
+# 5 x 122
 ty6PMalt[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty6PMalt", file="ty6PMalt.RData")
 
 # Maltampec July -----------------------------
 ty7PMalt=aggregate(ty7, by=list(ty7$PeriodMalt), FUN=mean, na.rm=TRUE)
 dim(ty7PMalt)
-#[1]   5 122
+# 5 x 122
 ty7PMalt[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty7PMalt", file="ty7PMalt.RData")
 
@@ -762,7 +774,7 @@ save("meteoMonctonMalt",file="meteoMonctonMalt.RData")
 write.csv(meteoMonctonMalt,"meteoMonctonMalt.csv")
 
 # ================ Periods for Waugh =================
-# ========== corrected by AP 2016-01-05 =============
+# ========== corrected by MK 2016-04-15 =============
 
 # ---- Waugh April ---------------------------
 class(ty4$year_all) # numeric, so we should be able to do maths on it
@@ -770,29 +782,20 @@ stem(ty4$year_all)
 ty4$PeriodWaugh=as.numeric(ty4$PeriodWaugh)
 # Define as numeric first if you get error message
 # "invalid factor level, NA generated"
-ty4$PeriodWaugh[ty4$year_all>=1866 & ty4$year_all<=1897]="P1"
-ty4$PeriodWaugh[ty4$year_all>=1898 & ty4$year_all<=1937]="P2"
-ty4$PeriodWaugh[ty4$year_all>=1938 & ty4$year_all<=1968]="P3"
-ty4$PeriodWaugh[ty4$year_all>=1969 & ty4$year_all<=1984]="P4"
-ty4$PeriodWaugh[ty4$year_all>=1985 & ty4$year_all<=1996]="P5"
-ty4$PeriodWaugh[ty4$year_all>=1997 & ty4$year_all<=2010]="P6"
+ty4$PeriodWaugh[ty4$year_all>=1943 & ty4$year_all<=1963]="P1"
+ty4$PeriodWaugh[ty4$year_all>=1964 & ty4$year_all<=1982]="P2"
+ty4$PeriodWaugh[ty4$year_all>=1983 & ty4$year_all<=1996]="P3"
+ty4$PeriodWaugh[ty4$year_all>=1997 & ty4$year_all<=2010]="P4"
 ty4$PeriodWaugh=as.factor(ty4$PeriodWaugh)
 summary(ty4$PeriodWaugh)
-# AP 2016-01-05:
-# P1 P2 P3 P4 P5 P6
-# 25 40 31 16 12 13
 dim(ty4)
 #[1] 137 121
-# AP to MK 2016-01-05: execute the following lines
-# for Waugh May through August...
 
 # --- Waugh May ------------------------
-ty5$PeriodWaugh[ty5$year_all>=1866 & ty5$year_all<=1897]=("P1")
-ty5$PeriodWaugh[ty5$year_all>=1898 & ty5$year_all<=1937]=("P2")
-ty5$PeriodWaugh[ty5$year_all>=1938 & ty5$year_all<=1968]=("P3")
-ty5$PeriodWaugh[ty5$year_all>=1969 & ty5$year_all<=1984]=("P4")
-ty5$PeriodWaugh[ty5$year_all>=1985 & ty5$year_all<=1996]=("P5")
-ty5$PeriodWaugh[ty5$year_all>=1997 & ty5$year_all<=2010]=("P6")
+ty5$PeriodWaugh[ty5$year_all>=1943 & ty5$year_all<=1963]=("P1")
+ty5$PeriodWaugh[ty5$year_all>=1964 & ty5$year_all<=1982]=("P2")
+ty5$PeriodWaugh[ty5$year_all>=1983 & ty5$year_all<=1996]=("P3")
+ty5$PeriodWaugh[ty5$year_all>=1997 & ty5$year_all<=2010]=("P4")
 ty5$PeriodWaugh=as.factor(ty5$PeriodWaugh)
 summary(ty5$PeriodWaugh)
 dim(ty5)
@@ -805,12 +808,10 @@ ty6$PeriodWaugh=as.numeric(ty6$PeriodWaugh)
 # "invalid factor level, NA generated"
 
 # --- Waugh June -------------------------
-ty6$PeriodWaugh[ty6$year_all>=1866 & ty6$year_all<=1897]=("P1")
-ty6$PeriodWaugh[ty6$year_all>=1898 & ty6$year_all<=1937]=("P2")
-ty6$PeriodWaugh[ty6$year_all>=1938 & ty6$year_all<=1968]=("P3")
-ty6$PeriodWaugh[ty6$year_all>=1969 & ty6$year_all<=1984]=("P4")
-ty6$PeriodWaugh[ty6$year_all>=1985 & ty6$year_all<=1996]=("P5")
-ty6$PeriodWaugh[ty6$year_all>=1997 & ty6$year_all<=2010]=("P6")
+ty6$PeriodWaugh[ty6$year_all>=1943 & ty6$year_all<=1963]=("P1")
+ty6$PeriodWaugh[ty6$year_all>=1964 & ty6$year_all<=1982]=("P2")
+ty6$PeriodWaugh[ty6$year_all>=1983 & ty6$year_all<=1996]=("P3")
+ty6$PeriodWaugh[ty6$year_all>=1997 & ty6$year_all<=2010]=("P4")
 ty6$PeriodWaugh=as.factor(ty6$PeriodWaugh)
 summary(ty6$PeriodWaugh)
 dim(ty6)
@@ -823,12 +824,10 @@ ty7$PeriodWaugh=as.numeric(ty7$PeriodWaugh)
 # "invalid factor level, NA generated"
 
 # --- Waugh July -------------------------
-ty7$PeriodWaugh[ty7$year_all>=1866 & ty7$year_all<=1897]=("P1")
-ty7$PeriodWaugh[ty7$year_all>=1898 & ty7$year_all<=1937]=("P2")
-ty7$PeriodWaugh[ty7$year_all>=1938 & ty7$year_all<=1968]=("P3")
-ty7$PeriodWaugh[ty7$year_all>=1969 & ty7$year_all<=1984]=("P4")
-ty7$PeriodWaugh[ty7$year_all>=1985 & ty7$year_all<=1996]=("P5")
-ty7$PeriodWaugh[ty7$year_all>=1997 & ty7$year_all<=2010]=("P6")
+ty7$PeriodWaugh[ty7$year_all>=1943 & ty7$year_all<=1963]=("P1")
+ty7$PeriodWaugh[ty7$year_all>=1964 & ty7$year_all<=1982]=("P2")
+ty7$PeriodWaugh[ty7$year_all>=1983 & ty7$year_all<=1996]=("P3")
+ty7$PeriodWaugh[ty7$year_all>=1997 & ty7$year_all<=2010]=("P4")
 ty7$PeriodWaugh=as.factor(ty7$PeriodWaugh)
 summary(ty7$PeriodWaugh)
 dim(ty7)
@@ -839,12 +838,10 @@ stem(ty8$year_all)
 ty8$PeriodWaugh=as.numeric(ty8$PeriodWaugh)
 
 # --- Waugh August -------------------------------
-ty8$PeriodWaugh[ty8$year_all>=1866 & ty8$year_all<=1897]=("P1")
-ty8$PeriodWaugh[ty8$year_all>=1898 & ty8$year_all<=1937]=("P2")
-ty8$PeriodWaugh[ty8$year_all>=1938 & ty8$year_all<=1968]=("P3")
-ty8$PeriodWaugh[ty8$year_all>=1969 & ty8$year_all<=1984]=("P4")
-ty8$PeriodWaugh[ty8$year_all>=1985 & ty8$year_all<=1996]=("P5")
-ty8$PeriodWaugh[ty8$year_all>=1997 & ty8$year_all<=2010]=("P6")
+ty8$PeriodWaugh[ty8$year_all>=1943 & ty8$year_all<=1963]=("P1")
+ty8$PeriodWaugh[ty8$year_all>=1964 & ty8$year_all<=1982]=("P2")
+ty8$PeriodWaugh[ty8$year_all>=1983 & ty8$year_all<=1996]=("P3")
+ty8$PeriodWaugh[ty8$year_all>=1997 & ty8$year_all<=2010]=("P4")
 ty8$PeriodWaugh=as.factor(ty8$PeriodWaugh)
 summary(ty8$PeriodWaugh)
 dim(ty8)
@@ -854,35 +851,35 @@ dim(ty8)
 # Waugh April -----------------------------
 ty4PWau=aggregate(ty4, by=list(ty4$PeriodWaugh), FUN=mean, na.rm=TRUE)
 dim(ty4PWau)
-#[1]   6 122
+# 4 x 122
 ty4PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty4PWau", file="ty4PWau.RData")
 
 # Waugh May -----------------------------
 ty5PWau=aggregate(ty5, by=list(ty5$PeriodWaugh), FUN=mean, na.rm=TRUE)
 dim(ty5PWau)
-#[1]   6 122
+# 4 x 122
 ty5PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty5PWau", file="ty5PWau.RData")
 
 # Waugh June -----------------------------
 ty6PWau=aggregate(ty6, by=list(ty6$PeriodWaugh), FUN=mean, na.rm=TRUE)
 dim(ty6PWau)
-#[1]   6 122
+# 4 x 122
 ty6PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty6PWau", file="ty6PWau.RData")
 
 # Waugh July -----------------------------
 ty7PWau=aggregate(ty7, by=list(ty7$PeriodWaugh), FUN=mean, na.rm=TRUE)
 dim(ty7PWau)
-#[1]   6 122
+# 4 x 122
 ty7PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty7PWau", file="ty7PWau.RData")
 
 # Waugh August -----------------------------
 ty8PWau=aggregate(ty8, by=list(ty8$PeriodWaugh), FUN=mean, na.rm=TRUE)
 dim(ty8PWau)
-#[1]   6 122
+# 6 x 122
 ty8PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty8PWau", file="ty8PWau.RData")
 #====================================================================
@@ -891,19 +888,19 @@ MK 2016-01-09: create a new series of tables containing only the
 
 ty4PWaubis=ty4PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty4PWaubis)
-#[1] 6 3
+# 4 x 3
 ty5PWaubis=ty5PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty5PWaubis)
-#[1] 6 3
+# 4 x 3
 ty6PWaubis=ty6PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty6PWaubis)
-#[1] 6 3
+# 4 x 3
 ty7PWaubis=ty7PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty7PWaubis)
-#[1] 6 3
+# 4 x 3
 ty8PWaubis=ty8PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty8PWaubis)
-#[1] 6 3
+# 4 x 3
 
 #Jan 9th 2016==============================================
 meteoMonctonWau=c(ty4PWaubis,ty5PWaubis,ty6PWaubis,ty7PWaubis,ty8PWaubis)
@@ -915,33 +912,34 @@ write.csv(meteoMonctonWau,"meteoMonctonWau.csv")
 # All the seperation of periods based on CRS 3rd model (Binford, 1990)
 #_can be found in file "all_dates_together" excel sheet
 # P1 does not exsist as the first environmental data starts at 1873.
+# Corrected periods by MK done on 2016-04-15-----------------------------------------------------
 
-ty4$PeriodPetitAM[ty4$year_all>=1817 & ty4$year_all<=1866]=("P1")
-ty4$PeriodPetitAM[ty4$year_all>=1867 & ty4$year_all<=1901]=("P2")
-ty4$PeriodPetitAM[ty4$year_all>=1902 & ty4$year_all<=1930]=("P3")
-ty4$PeriodPetitAM[ty4$year_all>=1931 & ty4$year_all<=1957]=("P4")
-ty4$PeriodPetitAM[ty4$year_all>=1958 & ty4$year_all<=1970]=("P5")
-ty4$PeriodPetitAM[ty4$year_all>=1971 & ty4$year_all<=1981]=("P6")
-ty4$PeriodPetitAM[ty4$year_all>=1982 & ty4$year_all<=1988]=("P7")
-ty4$PeriodPetitAM[ty4$year_all>=1989 & ty4$year_all<=1994]=("P8")
-ty4$PeriodPetitAM[ty4$year_all>=1995 & ty4$year_all<=1999]=("P9")
-ty4$PeriodPetitAM[ty4$year_all>=2000 & ty4$year_all<=2004]=("P10")
+ty4$PeriodPetitAM[ty4$year_all>=1839 & ty4$year_all<=1879]=("P1")
+ty4$PeriodPetitAM[ty4$year_all>=1880 & ty4$year_all<=1908]=("P2")
+ty4$PeriodPetitAM[ty4$year_all>=1909 & ty4$year_all<=1934]=("P3")
+ty4$PeriodPetitAM[ty4$year_all>=1935 & ty4$year_all<=1958]=("P4")
+ty4$PeriodPetitAM[ty4$year_all>=1959 & ty4$year_all<=1972]=("P5")
+ty4$PeriodPetitAM[ty4$year_all>=1973 & ty4$year_all<=1981]=("P6")
+ty4$PeriodPetitAM[ty4$year_all>=1982 & ty4$year_all<=1989]=("P7")
+ty4$PeriodPetitAM[ty4$year_all>=1990 & ty4$year_all<=1994]=("P8")
+ty4$PeriodPetitAM[ty4$year_all>=1995 & ty4$year_all<=2000]=("P9")
+ty4$PeriodPetitAM[ty4$year_all>=2001 & ty4$year_all<=2004]=("P10")
 ty4$PeriodPetitAM[ty4$year_all>=2005 & ty4$year_all<=2010]=("P11")
 ty4$PeriodPetitAM=as.factor(ty4$PeriodPetitAM)
 summary(ty4$PeriodPetitAM)
 dim(ty4)
 [1] 137 121
 # --- Petite Tracadie May ---------------
-ty5$PeriodPetitAM[ty5$year_all>=1817 & ty5$year_all<=1866]=("P1")
-ty5$PeriodPetitAM[ty5$year_all>=1867 & ty5$year_all<=1901]=("P2")
-ty5$PeriodPetitAM[ty5$year_all>=1902 & ty5$year_all<=1930]=("P3")
-ty5$PeriodPetitAM[ty5$year_all>=1931 & ty5$year_all<=1957]=("P4")
-ty5$PeriodPetitAM[ty5$year_all>=1958 & ty5$year_all<=1970]=("P5")
-ty5$PeriodPetitAM[ty5$year_all>=1971 & ty5$year_all<=1981]=("P6")
-ty5$PeriodPetitAM[ty5$year_all>=1982 & ty5$year_all<=1988]=("P7")
-ty5$PeriodPetitAM[ty5$year_all>=1989 & ty5$year_all<=1994]=("P8")
-ty5$PeriodPetitAM[ty5$year_all>=1995 & ty5$year_all<=1999]=("P9")
-ty5$PeriodPetitAM[ty5$year_all>=2000 & ty5$year_all<=2004]=("P10")
+ty5$PeriodPetitAM[ty5$year_all>=1839 & ty5$year_all<=1879]=("P1")
+ty5$PeriodPetitAM[ty5$year_all>=1880 & ty5$year_all<=1908]=("P2")
+ty5$PeriodPetitAM[ty5$year_all>=1909 & ty5$year_all<=1934]=("P3")
+ty5$PeriodPetitAM[ty5$year_all>=1935 & ty5$year_all<=1958]=("P4")
+ty5$PeriodPetitAM[ty5$year_all>=1959 & ty5$year_all<=1972]=("P5")
+ty5$PeriodPetitAM[ty5$year_all>=1973 & ty5$year_all<=1981]=("P6")
+ty5$PeriodPetitAM[ty5$year_all>=1982 & ty5$year_all<=1989]=("P7")
+ty5$PeriodPetitAM[ty5$year_all>=1990 & ty5$year_all<=1994]=("P8")
+ty5$PeriodPetitAM[ty5$year_all>=1995 & ty5$year_all<=2000]=("P9")
+ty5$PeriodPetitAM[ty5$year_all>=2001 & ty5$year_all<=2004]=("P10")
 ty5$PeriodPetitAM[ty5$year_all>=2005 & ty5$year_all<=2010]=("P11")
 ty5$PeriodPetitAM=as.factor(ty5$PeriodPetitAM)
 summary(ty5$PeriodPetitAM)
@@ -949,32 +947,32 @@ dim(ty5)
 [1] 137 121
 # --- Petite Tracadie June ---------------
 
-ty6$PeriodPetitAM[ty6$year_all>=1817 & ty6$year_all<=1866]=("P1")
-ty6$PeriodPetitAM[ty6$year_all>=1867 & ty6$year_all<=1901]=("P2")
-ty6$PeriodPetitAM[ty6$year_all>=1902 & ty6$year_all<=1930]=("P3")
-ty6$PeriodPetitAM[ty6$year_all>=1931 & ty6$year_all<=1957]=("P4")
-ty6$PeriodPetitAM[ty6$year_all>=1958 & ty6$year_all<=1970]=("P5")
-ty6$PeriodPetitAM[ty6$year_all>=1971 & ty6$year_all<=1981]=("P6")
-ty6$PeriodPetitAM[ty6$year_all>=1982 & ty6$year_all<=1988]=("P7")
-ty6$PeriodPetitAM[ty6$year_all>=1989 & ty6$year_all<=1994]=("P8")
-ty6$PeriodPetitAM[ty6$year_all>=1995 & ty6$year_all<=1999]=("P9")
-ty6$PeriodPetitAM[ty6$year_all>=2000 & ty6$year_all<=2004]=("P10")
+ty6$PeriodPetitAM[ty6$year_all>=1839 & ty6$year_all<=1879]=("P1")
+ty6$PeriodPetitAM[ty6$year_all>=1880 & ty6$year_all<=1908]=("P2")
+ty6$PeriodPetitAM[ty6$year_all>=1909 & ty6$year_all<=1934]=("P3")
+ty6$PeriodPetitAM[ty6$year_all>=1935 & ty6$year_all<=1958]=("P4")
+ty6$PeriodPetitAM[ty6$year_all>=1959 & ty6$year_all<=1972]=("P5")
+ty6$PeriodPetitAM[ty6$year_all>=1973 & ty6$year_all<=1981]=("P6")
+ty6$PeriodPetitAM[ty6$year_all>=1982 & ty6$year_all<=1989]=("P7")
+ty6$PeriodPetitAM[ty6$year_all>=1990 & ty6$year_all<=1994]=("P8")
+ty6$PeriodPetitAM[ty6$year_all>=1995 & ty6$year_all<=2000]=("P9")
+ty6$PeriodPetitAM[ty6$year_all>=2001 & ty6$year_all<=2004]=("P10")
 ty6$PeriodPetitAM[ty6$year_all>=2005 & ty6$year_all<=2010]=("P11")
 ty6$PeriodPetitAM=as.factor(ty6$PeriodPetitAM)
 summary(ty6$PeriodPetitAM)
 dim(ty6)
 [1] 137 121
 # --- Petite Tracadie July ---------------
-ty7$PeriodPetitAM[ty7$year_all>=1817 & ty7$year_all<=1866]=("P1")
-ty7$PeriodPetitAM[ty7$year_all>=1867 & ty7$year_all<=1901]=("P2")
-ty7$PeriodPetitAM[ty7$year_all>=1902 & ty7$year_all<=1930]=("P3")
-ty7$PeriodPetitAM[ty7$year_all>=1931 & ty7$year_all<=1957]=("P4")
-ty7$PeriodPetitAM[ty7$year_all>=1958 & ty7$year_all<=1970]=("P5")
-ty7$PeriodPetitAM[ty7$year_all>=1971 & ty7$year_all<=1981]=("P6")
-ty7$PeriodPetitAM[ty7$year_all>=1982 & ty7$year_all<=1988]=("P7")
-ty7$PeriodPetitAM[ty7$year_all>=1989 & ty7$year_all<=1994]=("P8")
-ty7$PeriodPetitAM[ty7$year_all>=1995 & ty7$year_all<=1999]=("P9")
-ty7$PeriodPetitAM[ty7$year_all>=2000 & ty7$year_all<=2004]=("P10")
+ty7$PeriodPetitAM[ty7$year_all>=1839 & ty7$year_all<=1879]=("P1")
+ty7$PeriodPetitAM[ty7$year_all>=1880 & ty7$year_all<=1908]=("P2")
+ty7$PeriodPetitAM[ty7$year_all>=1909 & ty7$year_all<=1934]=("P3")
+ty7$PeriodPetitAM[ty7$year_all>=1935 & ty7$year_all<=1958]=("P4")
+ty7$PeriodPetitAM[ty7$year_all>=1959 & ty7$year_all<=1972]=("P5")
+ty7$PeriodPetitAM[ty7$year_all>=1973 & ty7$year_all<=1981]=("P6")
+ty7$PeriodPetitAM[ty7$year_all>=1982 & ty7$year_all<=1989]=("P7")
+ty7$PeriodPetitAM[ty7$year_all>=1990 & ty7$year_all<=1994]=("P8")
+ty7$PeriodPetitAM[ty7$year_all>=1995 & ty7$year_all<=2000]=("P9")
+ty7$PeriodPetitAM[ty7$year_all>=2001 & ty7$year_all<=2004]=("P10")
 ty7$PeriodPetitAM[ty7$year_all>=2005 & ty7$year_all<=2010]=("P11")
 ty7$PeriodPetitAM=as.factor(ty7$PeriodPetitAM)
 summary(ty7$PeriodPetitAM)
@@ -982,16 +980,16 @@ dim(ty7)
 [1] 138 121
 # --- Petite Tracadie August ---------------
 
-ty8$PeriodPetitAM[ty8$year_all>=1817 & ty8$year_all<=1866]=("P1")
-ty8$PeriodPetitAM[ty8$year_all>=1867 & ty8$year_all<=1901]=("P2")
-ty8$PeriodPetitAM[ty8$year_all>=1902 & ty8$year_all<=1930]=("P3")
-ty8$PeriodPetitAM[ty8$year_all>=1931 & ty8$year_all<=1957]=("P4")
-ty8$PeriodPetitAM[ty8$year_all>=1958 & ty8$year_all<=1970]=("P5")
-ty8$PeriodPetitAM[ty8$year_all>=1971 & ty8$year_all<=1981]=("P6")
-ty8$PeriodPetitAM[ty8$year_all>=1982 & ty8$year_all<=1988]=("P7")
-ty8$PeriodPetitAM[ty8$year_all>=1989 & ty8$year_all<=1994]=("P8")
-ty8$PeriodPetitAM[ty8$year_all>=1995 & ty8$year_all<=1999]=("P9")
-ty8$PeriodPetitAM[ty8$year_all>=2000 & ty8$year_all<=2004]=("P10")
+ty8$PeriodPetitAM[ty8$year_all>=1839 & ty8$year_all<=1879]=("P1")
+ty8$PeriodPetitAM[ty8$year_all>=1880 & ty8$year_all<=1908]=("P2")
+ty8$PeriodPetitAM[ty8$year_all>=1909 & ty8$year_all<=1934]=("P3")
+ty8$PeriodPetitAM[ty8$year_all>=1935 & ty8$year_all<=1958]=("P4")
+ty8$PeriodPetitAM[ty8$year_all>=1959 & ty8$year_all<=1972]=("P5")
+ty8$PeriodPetitAM[ty8$year_all>=1973 & ty8$year_all<=1981]=("P6")
+ty8$PeriodPetitAM[ty8$year_all>=1982 & ty8$year_all<=1989]=("P7")
+ty8$PeriodPetitAM[ty8$year_all>=1990 & ty8$year_all<=1994]=("P8")
+ty8$PeriodPetitAM[ty8$year_all>=1995 & ty8$year_all<=2000]=("P9")
+ty8$PeriodPetitAM[ty8$year_all>=2001 & ty8$year_all<=2004]=("P10")
 ty8$PeriodPetitAM[ty8$year_all>=2005 & ty8$year_all<=2010]=("P11")
 ty8$PeriodPetitAM=as.factor(ty8$PeriodPetitAM)
 summary(ty8$PeriodPetitAM)
@@ -1001,35 +999,35 @@ dim(ty8)
 #Petite Travadie Amont April---------------------------
 ty4PPetit=aggregate(ty4, by=list(ty4$PeriodPetitAM), FUN=mean, na.rm=TRUE)
 dim(ty4PPetit)
-[1]  10 122
+# 11 x 122
 ty4PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty4PPetit", file="ty4PPetit.RData")
 
 # Petite Tracadie May -----------------------------
 ty5PPetit=aggregate(ty5, by=list(ty5$PeriodPetitAM), FUN=mean, na.rm=TRUE)
 dim(ty5PPetit)
-10 122
+# 11 x 122
 ty5PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty5PPetit", file="ty5PPetit.RData")
 
 # Petitte Tracadie June -----------------------------
 ty6PPetit=aggregate(ty6, by=list(ty6$PeriodPetitAM), FUN=mean, na.rm=TRUE)
 dim(ty6PPetit)
-[1]  10 122
+# 11 x 122
 ty6PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty6PPetit", file="ty6PPetit.RData")
 
 # Petite Tracadie July -----------------------------
 ty7PPetit=aggregate(ty7, by=list(ty7$PeriodPetitAM), FUN=mean, na.rm=TRUE)
 dim(ty7PPetit)
-[1]  10 122
+# 11 x 122
 ty7PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty7PPetit", file="ty7PPetit.RData")
 
 # Petite Tracadie August -----------------------------
 ty8PPetit=aggregate(ty8, by=list(ty8$PeriodPetitAM), FUN=mean, na.rm=TRUE)
 dim(ty8PPetit)
-[1]  10 122
+# 11 x 122
 ty8PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty8PPetit", file="ty8PPetit.RData")
 
@@ -1039,69 +1037,69 @@ save("ty8PPetit", file="ty8PPetit.RData")
 
 ty4PPetitbis=ty4PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty4PPetitbis)
-# [1] 10  3
+# [1] 11  3
 ty5PPetitbis=ty5PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty5PPetitbis)
-#[1] 10  3
+#[1] 11  3
 ty6PPetitbis=ty6PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty6PPetitbis)
-#[1] 10  3
+#[1] 11  3
 ty7PPetitbis=ty7PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty7PPetitbis)
-#[1] 10  3
+#[1] 11  3
 ty8PPetitbis=ty8PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty8PPetitbis)
-#[1] 10  3
+#[1] 11  3
 meteoMonctonPetit=c(ty4PPetitbis,ty5PPetitbis,ty6PPetitbis,ty7PPetitbis,ty8PPetitbis)
 save("meteoMonctonPetit",file="meteoMonctonPetit.RData")
-write.csv(meteoMonctonPetit,"meteoMonctonPetit.csv")-----------------------
+write.csv(meteoMonctonPetit,"meteoMonctonPetit.csv")
 
 #==================Shippagan west=============================
-# MK 2016-03-30
-# --- Shippagan west April ---------------
+# MK corrected on 2016-04-15
+#---- Shippagan west April ---------------
 class(ty4$year_all) # numeric, so we should be able to do maths on it
 stem(ty4$year_all)
 ty4$PeriodShiwes=as.numeric(ty4$PeriodShiwes)
 
-ty4$PeriodShiwes[ty4$year_all>=1905 & ty4$year_all<=1949]=("P1")
-ty4$PeriodShiwes[ty4$year_all>=1950 & ty4$year_all<=1983]=("P2")
-ty4$PeriodShiwes[ty4$year_all>=1984 & ty4$year_all<=2000]=("P3")
+ty4$PeriodShiwes[ty4$year_all>=1916 & ty4$year_all<=1954]=("P1")
+ty4$PeriodShiwes[ty4$year_all>=1955 & ty4$year_all<=1984]=("P2")
+ty4$PeriodShiwes[ty4$year_all>=1985 & ty4$year_all<=2000]=("P3")
 ty4$PeriodShiwes[ty4$year_all>=2001 & ty4$year_all<=2010]=("P4")
 ty4$PeriodShiwes=as.factor(ty4$PeriodShiwes)
 summary(ty4$PeriodShiwes)
 dim(ty4)
 #[1] 137 121
 # --- Shippagan west May ------------------
-ty5$PeriodShiwes[ty5$year_all>=1905 & ty5$year_all<=1949]=("P1")
-ty5$PeriodShiwes[ty5$year_all>=1950 & ty5$year_all<=1983]=("P2")
-ty5$PeriodShiwes[ty5$year_all>=1984 & ty5$year_all<=2000]=("P3")
+ty5$PeriodShiwes[ty5$year_all>=1916 & ty5$year_all<=1954]=("P1")
+ty5$PeriodShiwes[ty5$year_all>=1955 & ty5$year_all<=1984]=("P2")
+ty5$PeriodShiwes[ty5$year_all>=1985 & ty5$year_all<=2000]=("P3")
 ty5$PeriodShiwes[ty5$year_all>=2001 & ty5$year_all<=2010]=("P4")
 ty5$PeriodShiwes=as.factor(ty5$PeriodShiwes)
 summary(ty5$PeriodShiwes)
 dim(ty5)
 #[1] 137 121
 # --- Shippagan west June -----------------
-ty6$PeriodShiwes[ty6$year_all>=1905 & ty6$year_all<=1949]=("P1")
-ty6$PeriodShiwes[ty6$year_all>=1950 & ty6$year_all<=1983]=("P2")
-ty6$PeriodShiwes[ty6$year_all>=1984 & ty6$year_all<=2000]=("P3")
+ty6$PeriodShiwes[ty6$year_all>=1916 & ty6$year_all<=1954]=("P1")
+ty6$PeriodShiwes[ty6$year_all>=1955 & ty6$year_all<=1984]=("P2")
+ty6$PeriodShiwes[ty6$year_all>=1985 & ty6$year_all<=2000]=("P3")
 ty6$PeriodShiwes[ty6$year_all>=2001 & ty6$year_all<=2010]=("P4")
 ty6$PeriodShiwes=as.factor(ty6$PeriodShiwes)
 summary(ty6$PeriodShiwes)
 dim(ty6)
 #[1] 137 121
 # --- Shippagan west July ------------------------
-ty7$PeriodShiwes[ty7$year_all>=1905 & ty7$year_all<=1949]=("P1")
-ty7$PeriodShiwes[ty7$year_all>=1950 & ty7$year_all<=1983]=("P2")
-ty7$PeriodShiwes[ty7$year_all>=1984 & ty7$year_all<=2000]=("P3")
+ty7$PeriodShiwes[ty7$year_all>=1916 & ty7$year_all<=1954]=("P1")
+ty7$PeriodShiwes[ty7$year_all>=1955 & ty7$year_all<=1984]=("P2")
+ty7$PeriodShiwes[ty7$year_all>=1985 & ty7$year_all<=2000]=("P3")
 ty7$PeriodShiwes[ty7$year_all>=2001 & ty7$year_all<=2010]=("P4")
 ty7$PeriodShiwes=as.factor(ty7$PeriodShiwes)
 summary(ty7$PeriodShiwes)
 dim(ty7)
 #[1] 138 121
 # --- Shippagan west August -------------------
-ty8$PeriodShiwes[ty8$year_all>=1905 & ty8$year_all<=1949]=("P1")
-ty8$PeriodShiwes[ty8$year_all>=1950 & ty8$year_all<=1983]=("P2")
-ty8$PeriodShiwes[ty8$year_all>=1984 & ty8$year_all<=2000]=("P3")
+ty8$PeriodShiwes[ty8$year_all>=1916 & ty8$year_all<=1954]=("P1")
+ty8$PeriodShiwes[ty8$year_all>=1955 & ty8$year_all<=1984]=("P2")
+ty8$PeriodShiwes[ty8$year_all>=1985 & ty8$year_all<=2000]=("P3")
 ty8$PeriodShiwes[ty8$year_all>=2001 & ty8$year_all<=2010]=("P4")
 ty8$PeriodShiwes=as.factor(ty8$PeriodShiwes)
 summary(ty8$PeriodShiwes)
@@ -1113,34 +1111,35 @@ dim(ty8)
 # Shippagan west April -----------------------------
 ty4PShiwes=aggregate(ty4, by=list(ty4$PeriodShiwes), FUN=mean, na.rm=TRUE)
 dim(ty4PShiwes)
-#[1]   4 122
+# 4 x 123
 ty4PShiwes[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty4PShiwes", file="ty4PShiwes.RData")
 
 # Shippagan west May -----------------------------
 ty5PShiwes=aggregate(ty5, by=list(ty5$PeriodShiwes), FUN=mean, na.rm=TRUE)
 dim(ty5PShiwes)
-#[1]   4 122
+# 4 x 123
 ty5PShiwes[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty5PShiwes", file="ty5PShiwes.RData")
 
 # Shippagan west June -----------------------------
 ty6PShiwes=aggregate(ty6, by=list(ty6$PeriodShiwes), FUN=mean, na.rm=TRUE)
 dim(ty6PShiwes)
-#[1]   4 122
+# 4 x 123
 ty6PShiwes[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty6PShiwes", file="ty6PShiwes.RData")
 
 # Shippagan west July -----------------------------
 ty7PShiwes=aggregate(ty7, by=list(ty7$PeriodShiwes), FUN=mean, na.rm=TRUE)
 dim(ty7PShiwes)
+# 4 x 123
 ty7PShiwes[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty7PShiwes", file="ty7PShiwes.RData")
 
 # Shippagan west Aug -----------------------------
 ty8PShiwes=aggregate(ty8, by=list(ty8$PeriodShiwes), FUN=mean, na.rm=TRUE)
 dim(ty8PShiwes)
-#[1]   4 122
+# 4 x 123
 ty8PShiwes[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty8PShiwes", file="ty8PShiwes.RData")
 
@@ -1167,97 +1166,109 @@ save("meteoMonctonShiwes",file="meteoMonctonShiwes.RData")
 write.csv(meteoMonctonShiwes,"meteoMonctonShiwes.csv")
 
 #================Shippagan east===============================
+# Corrected on 2016-04-16--------------------------------------
+
 #-------Shippagan east April------------------
-ty4$PeriodShieas[ty4$year_all>=1921 & ty4$year_all<=1942]=("P1")
-ty4$PeriodShieas[ty4$year_all>=1943 & ty4$year_all<=1963]=("P2")
-ty4$PeriodShieas[ty4$year_all>=1964 & ty4$year_all<=1979]=("P3")
-ty4$PeriodShieas[ty4$year_all>=1980 & ty4$year_all<=1991]=("P4")
-ty4$PeriodShieas[ty4$year_all>=1992 & ty4$year_all<=2000]=("P5")
-ty4$PeriodShieas[ty4$year_all>=2001 & ty4$year_all<=2010]=("P6")
+ty4$PeriodShieas[ty4$year_all>=1932 & ty4$year_all<=1939]=("P1")
+ty4$PeriodShieas[ty4$year_all>=1940 & ty4$year_all<=1952]=("P2")
+ty4$PeriodShieas[ty4$year_all>=1953 & ty4$year_all<=1969]=("P3")
+ty4$PeriodShieas[ty4$year_all>=1970 & ty4$year_all<=1982]=("P4")
+ty4$PeriodShieas[ty4$year_all>=1983 & ty4$year_all<=1992]=("P5")
+ty4$PeriodShieas[ty4$year_all>=1993 & ty4$year_all<=2001]=("P6")
+ty4$PeriodShieas[ty4$year_all>=2002 & ty4$year_all<=2010]=("P7")
 ty4$PeriodShieas=as.factor(ty4$PeriodShieas)
 summary(ty4$PeriodShieas)
 dim(ty4)
-# 137 x 121
+# 137 x 123
 #-------Shippagan east May------------------
-ty5$PeriodShieas[ty5$year_all>=1921 & ty5$year_all<=1942]=("P1")
-ty5$PeriodShieas[ty5$year_all>=1943 & ty5$year_all<=1963]=("P2")
-ty5$PeriodShieas[ty5$year_all>=1964 & ty5$year_all<=1979]=("P3")
-ty5$PeriodShieas[ty5$year_all>=1980 & ty5$year_all<=1991]=("P4")
-ty5$PeriodShieas[ty5$year_all>=1992 & ty5$year_all<=2000]=("P5")
-ty5$PeriodShieas[ty5$year_all>=2001 & ty5$year_all<=2010]=("P6")
+ty5$PeriodShieas[ty5$year_all>=1932 & ty5$year_all<=1939]=("P1")
+ty5$PeriodShieas[ty5$year_all>=1940 & ty5$year_all<=1952]=("P2")
+ty5$PeriodShieas[ty5$year_all>=1953 & ty5$year_all<=1969]=("P3")
+ty5$PeriodShieas[ty5$year_all>=1970 & ty5$year_all<=1982]=("P4")
+ty5$PeriodShieas[ty5$year_all>=1983 & ty5$year_all<=1992]=("P5")
+ty5$PeriodShieas[ty5$year_all>=1993 & ty5$year_all<=2001]=("P6")
+ty5$PeriodShieas[ty5$year_all>=2002 & ty5$year_all<=2010]=("P7")
 ty5$PeriodShieas=as.factor(ty5$PeriodShieas)
 summary(ty5$PeriodShieas)
 dim(ty5)
-# 137 x 121
+# 137 x 123
 
 #-------Shippagan east June------------------
-ty6$PeriodShieas[ty6$year_all>=1921 & ty6$year_all<=1942]=("P1")
-ty6$PeriodShieas[ty6$year_all>=1943 & ty6$year_all<=1963]=("P2")
-ty6$PeriodShieas[ty6$year_all>=1964 & ty6$year_all<=1979]=("P3")
-ty6$PeriodShieas[ty6$year_all>=1980 & ty6$year_all<=1991]=("P4")
-ty6$PeriodShieas[ty6$year_all>=1992 & ty6$year_all<=2000]=("P5")
-ty6$PeriodShieas[ty6$year_all>=2001 & ty6$year_all<=2010]=("P6")
+ty6$PeriodShieas[ty6$year_all>=1932 & ty6$year_all<=1939]=("P1")
+ty6$PeriodShieas[ty6$year_all>=1940 & ty6$year_all<=1952]=("P2")
+ty6$PeriodShieas[ty6$year_all>=1953 & ty6$year_all<=1969]=("P3")
+ty6$PeriodShieas[ty6$year_all>=1970 & ty6$year_all<=1982]=("P4")
+ty6$PeriodShieas[ty6$year_all>=1983 & ty6$year_all<=1992]=("P5")
+ty6$PeriodShieas[ty6$year_all>=1993 & ty6$year_all<=2001]=("P6")
+ty6$PeriodShieas[ty6$year_all>=2002 & ty6$year_all<=2010]=("P7")
 ty6$PeriodShieas=as.factor(ty6$PeriodShieas)
 summary(ty6$PeriodShieas)
 dim(ty6)
-# 137 x 121
+# 137 x 123
 
 #-------Shippagan east July------------------
-ty7$PeriodShieas[ty7$year_all>=1921 & ty7$year_all<=1942]=("P1")
-ty7$PeriodShieas[ty7$year_all>=1943 & ty7$year_all<=1963]=("P2")
-ty7$PeriodShieas[ty7$year_all>=1964 & ty7$year_all<=1979]=("P3")
-ty7$PeriodShieas[ty7$year_all>=1980 & ty7$year_all<=1991]=("P4")
-ty7$PeriodShieas[ty7$year_all>=1992 & ty7$year_all<=2000]=("P5")
-ty7$PeriodShieas[ty7$year_all>=2001 & ty7$year_all<=2010]=("P6")
+ty7$PeriodShieas[ty7$year_all>=1932 & ty7$year_all<=1939]=("P1")
+ty7$PeriodShieas[ty7$year_all>=1940 & ty7$year_all<=1952]=("P2")
+ty7$PeriodShieas[ty7$year_all>=1953 & ty7$year_all<=1969]=("P3")
+ty7$PeriodShieas[ty7$year_all>=1970 & ty7$year_all<=1982]=("P4")
+ty7$PeriodShieas[ty7$year_all>=1983 & ty7$year_all<=1992]=("P5")
+ty7$PeriodShieas[ty7$year_all>=1993 & ty7$year_all<=2001]=("P6")
+ty7$PeriodShieas[ty7$year_all>=2002 & ty7$year_all<=2010]=("P7")
 ty7$PeriodShieas=as.factor(ty7$PeriodShieas)
 summary(ty7$PeriodShieas)
 dim(ty7)
-# 138 x 121
+# 138 x 123
 #-------Shippagan east August------------------
-ty8$PeriodShieas[ty8$year_all>=1921 & ty8$year_all<=1942]=("P1")
-ty8$PeriodShieas[ty8$year_all>=1943 & ty8$year_all<=1963]=("P2")
-ty8$PeriodShieas[ty8$year_all>=1964 & ty8$year_all<=1979]=("P3")
-ty8$PeriodShieas[ty8$year_all>=1980 & ty8$year_all<=1991]=("P4")
-ty8$PeriodShieas[ty8$year_all>=1992 & ty8$year_all<=2000]=("P5")
-ty8$PeriodShieas[ty8$year_all>=2001 & ty8$year_all<=2010]=("P6")
+ty8$PeriodShieas[ty8$year_all>=1932 & ty8$year_all<=1939]=("P1")
+ty8$PeriodShieas[ty8$year_all>=1940 & ty8$year_all<=1952]=("P2")
+ty8$PeriodShieas[ty8$year_all>=1953 & ty8$year_all<=1969]=("P3")
+ty8$PeriodShieas[ty8$year_all>=1970 & ty8$year_all<=1982]=("P4")
+ty8$PeriodShieas[ty8$year_all>=1983 & ty8$year_all<=1992]=("P5")
+ty8$PeriodShieas[ty8$year_all>=1993 & ty8$year_all<=2001]=("P6")
+ty8$PeriodShieas[ty8$year_all>=2002 & ty8$year_all<=2010]=("P7")
 ty8$PeriodShieas=as.factor(ty8$PeriodShieas)
 summary(ty8$PeriodShieas)
 dim(ty8)
-# 138 x 121
+# 138 x 123
+
+######Need to check with Alain, why ty4PShieas has 
+different dimesion than other files###############################
 
 #============================================================================
 # Shippagan east April------------------
 ty4PShieas=aggregate(ty4, by=list(ty4$PeriodShieas), FUN=mean, na.rm=TRUE)
 dim(ty4PShieas)
-# 6 x 122
+# 6 x 124
 ty4PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty4PShieas", file="ty4PShieas.RData")
+
+########################################################################
 
 # Shippagan east May------------------
 ty5PShieas=aggregate(ty5, by=list(ty5$PeriodShieas), FUN=mean, na.rm=TRUE)
 dim(ty5PShieas)
-# 6 x 122
+# 7 x 124
 ty5PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty5PShieas", file="ty5PShieas.RData")
 
 # Shippagan east June------------------
 ty6PShieas=aggregate(ty6, by=list(ty6$PeriodShieas), FUN=mean, na.rm=TRUE)
 dim(ty6PShieas)
-#6 x 122
+#7 x 124
 ty6PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty6PShieas", file="ty6PShieas.RData")
 
 # Shippagan east July------------------
 ty7PShieas=aggregate(ty7, by=list(ty7$PeriodShieas), FUN=mean, na.rm=TRUE)
 dim(ty7PShieas)
-#6 x 122
+#7 x 124
 ty7PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty7PShieas", file="ty7PShieas.RData")
 
 # Shippagan east Aug------------------
 ty8PShieas=aggregate(ty8, by=list(ty8$PeriodShieas), FUN=mean, na.rm=TRUE)
 dim(ty8PShieas)
-#6 x 122
+#7 x 124
 ty8PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty8PShieas", file="ty8PShieas.RData")
 
@@ -1268,16 +1279,16 @@ dim(ty4PShieasbis)
 # 6 x 3
 ty5PShieasbis=ty5PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty5PShieasbis)
-# 6 x 3
+# 7 x 3
 ty6PShieasbis=ty6PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty6PShieasbis)
-# 6 x 3
+# 7 x 3
 ty7PShieasbis=ty7PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty7PShieasbis)
-# 6 x 3
+# 7 x 3
 ty8PShieasbis=ty8PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty8PShieasbis)
-# 6 x 3
+# 7 x 3
 meteoMonctonShieas=c(ty4PShieasbis,ty5PShieasbis,ty6PShieasbis,ty7PShieasbis,ty8PShieasbis)
 save("meteoMonctonShieas",file="meteoMonctonShieas.RData")
 write.csv(meteoMonctonShieas,"meteoMonctonShieas.csv")
@@ -1501,16 +1512,16 @@ summary(landt$Year)
 
 # ============================================================
 # _1) DEFINE LAND PERIODS FOR MALTAMPEC ==========
-# MK March 31st 2016-03-31
+# MK April, 2016-04-15
 # Create period division based on CRS age estimates specific
-# to Maltampec, as defined in "All dats together...xlsx",
+# to Maltampec, as defined in "All dats corrected...xlsx",
 # and as previously done for the meteo data (above).
 # =========================================================
-landt$PeriodMalt[landt$Year>=1856 & landt$Year<=1895]=("P1")
-landt$PeriodMalt[landt$Year>=1896 & landt$Year<=1929]=("P2")
-landt$PeriodMalt[landt$Year>=1930 & landt$Year<=1956]=("P3")
-landt$PeriodMalt[landt$Year>=1957 & landt$Year<=1981]=("P4")
-landt$PeriodMalt[landt$Year>=1982 & landt$Year<=2010]=("P5")
+landt$PeriodMalt[landt$Year>=1876 & landt$Year<=1908]=("P1")
+landt$PeriodMalt[landt$Year>=1809 & landt$Year<=1936]=("P2")
+landt$PeriodMalt[landt$Year>=1937 & landt$Year<=1960]=("P3")
+landt$PeriodMalt[landt$Year>=1961 & landt$Year<=1983]=("P4")
+landt$PeriodMalt[landt$Year>=1984 & landt$Year<=2010]=("P5")
 landt$PeriodMalt=as.factor(landt$PeriodMalt)
 summary(landt$PeriodMalt)
 dim(landt)
@@ -1580,12 +1591,10 @@ points(landtMalt$Year.x~landtMalt$Cumul_Peat_extract_Pok_pct, type="b",pch="p", 
 # =====================================================
 # _2) DEFINE LAND PERIODS FOR WAUGH ====
 # =====================================================
-landt$PeriodWau[landt$Year>=1866 & landt$Year<=1897]=("P1")
-landt$PeriodWau[landt$Year>=1898 & landt$Year<=1937]=("P2")
-landt$PeriodWau[landt$Year>=1938 & landt$Year<=1968]=("P3")
-landt$PeriodWau[landt$Year>=1969 & landt$Year<=1984]=("P4")
-landt$PeriodWau[landt$Year>=1985 & landt$Year<=1996]=("P5")
-landt$PeriodWau[landt$Year>=1997 & landt$Year<=2010]=("P6")
+landt$PeriodWau[landt$Year>=1943 & landt$Year<=1963]=("P1")
+landt$PeriodWau[landt$Year>=1964 & landt$Year<=1982]=("P2")
+landt$PeriodWau[landt$Year>=1983 & landt$Year<=1996]=("P3")
+landt$PeriodWau[landt$Year>=1997 & landt$Year<=2010]=("P4")
 landt$PeriodWau=as.factor(landt$PeriodWau)
 summary(landt$PeriodWau)
 dim(landt)
@@ -1636,7 +1645,7 @@ points(landtWau$Year.x~landtWau$Cumul_Peat_extract_Pok_pct, type="b",pch="p", co
 # ========================================================
 # _3) DEFINE LAND PERIODS FOR Petite Tracadie Amont  ====
 # =======================================================
-# MK April 11th 2016-04-11
+# MK corrected the Period, 2016-04-16----------------------
 pathland = file.path("C:/Users/Moumita")
 pathland
 pathland = file.path("/Post Doc at Shipgaan/151210_env_scripts_from_Alain_to_Moumita/land_data")
@@ -1663,16 +1672,16 @@ summary(landtMK)
 subset(landtMK,Year=="2009" & Territorial_delim=="St-Simon",select=c(Year, Territorial_delim,Surface_census_km2,Cumul_Peat_extract_Pok_ha, Cumul_Peat_extract_Pok_pct))
 622/ (138.26*100) # 0.044, or 4.4% = "Cumul_Peat_extract_Pok_pct
 
-landtMK$PeriodPtAm[landtMK$Year>=1817 & landtMK$Year<=1866]=("P1")
-landtMK$PeriodPtAm[landtMK$Year>=1867 & landtMK$Year<=1901]=("P2")
-landtMK$PeriodPtAm[landtMK$Year>=1902 & landtMK$Year<=1930]=("P3")
-landtMK$PeriodPtAm[landtMK$Year>=1931 & landtMK$Year<=1957]=("P4")
-landtMK$PeriodPtAm[landtMK$Year>=1958 & landtMK$Year<=1970]=("P5")
-landtMK$PeriodPtAm[landtMK$Year>=1971 & landtMK$Year<=1981]=("P6")
-landtMK$PeriodPtAm[landtMK$Year>=1982 & landtMK$Year<=1988]=("P7")
-landtMK$PeriodPtAm[landtMK$Year>=1989 & landtMK$Year<=1994]=("P8")
-landtMK$PeriodPtAm[landtMK$Year>=1995 & landtMK$Year<=1999]=("P9")
-landtMK$PeriodPtAm[landtMK$Year>=2000 & landtMK$Year<=2004]=("P10")
+landtMK$PeriodPtAm[landtMK$Year>=1839 & landtMK$Year<=1879]=("P1")
+landtMK$PeriodPtAm[landtMK$Year>=1880 & landtMK$Year<=1908]=("P2")
+landtMK$PeriodPtAm[landtMK$Year>=1909 & landtMK$Year<=1934]=("P3")
+landtMK$PeriodPtAm[landtMK$Year>=1935 & landtMK$Year<=1958]=("P4")
+landtMK$PeriodPtAm[landtMK$Year>=1959 & landtMK$Year<=1972]=("P5")
+landtMK$PeriodPtAm[landtMK$Year>=1973 & landtMK$Year<=1981]=("P6")
+landtMK$PeriodPtAm[landtMK$Year>=1982 & landtMK$Year<=1989]=("P7")
+landtMK$PeriodPtAm[landtMK$Year>=1990 & landtMK$Year<=1994]=("P8")
+landtMK$PeriodPtAm[landtMK$Year>=1995 & landtMK$Year<=2000]=("P9")
+landtMK$PeriodPtAm[landtMK$Year>=2001 & landtMK$Year<=2004]=("P10")
 landtMK$PeriodPtAm[landtMK$Year>=2005 & landtMK$Year<=2010]=("P11")
 landtMK$PeriodPtAm=as.factor(landtMK$PeriodPtAm)
 summary(landtMK$PeriodPtAm)
@@ -1722,10 +1731,11 @@ points(landtMKPtAm$Year.x~landtMKPtAm$Cumul_Peat_extract_Pok_ha, type="b",pch="p
 
 # ==================================================================
 # _4) DEFINE LAND PERIODS FOR Shippagan West defined periods =========
+#----MK: corrected on 2016-04-15-------------
 # ==================================================================
-landtMK$PeriodShiwes[landtMK$Year>=1905 & landtMK$Year<=1949]=("P1")
-landtMK$PeriodShiwes[landtMK$Year>=1950 & landtMK$Year<=1983]=("P2")
-landtMK$PeriodShiwes[landtMK$Year>=1984 & landtMK$Year<=2000]=("P3")
+landtMK$PeriodShiwes[landtMK$Year>=1916 & landtMK$Year<=1954]=("P1")
+landtMK$PeriodShiwes[landtMK$Year>=1955 & landtMK$Year<=1984]=("P2")
+landtMK$PeriodShiwes[landtMK$Year>=1985 & landtMK$Year<=2000]=("P3")
 landtMK$PeriodShiwes[landtMK$Year>=2001 & landtMK$Year<=2010]=("P4")
 landtMK$PeriodShiwes=as.factor(landtMK$PeriodShiwes)
 summary(landtMK$PeriodShiwes)
@@ -1779,12 +1789,13 @@ points(landtMKShiwes$Year.x~landtMKShiwes$Cumul_Peat_extract_Pok_pct, type="b",p
 # =========================================================
 # _5) DEFINE LAND PERIODS FOR Shippagan east ========
 # =======================================================
-landtMK$PeriodShieas[landtMK$Year>=1921 & landtMK$Year<=1942]=("P1")
-landtMK$PeriodShieas[landtMK$Year>=1943 & landtMK$Year<=1963]=("P2")
-landtMK$PeriodShieas[landtMK$Year>=1964 & landtMK$Year<=1979]=("P3")
-landtMK$PeriodShieas[landtMK$Year>=1980 & landtMK$Year<=1991]=("P4")
-landtMK$PeriodShieas[landtMK$Year>=1992 & landtMK$Year<=2000]=("P5")
-landtMK$PeriodShieas[landtMK$Year>=2001 & landtMK$Year<=2010]=("P6")
+landtMK$PeriodShieas[landtMK$Year>=1932 & landtMK$Year<=1939]=("P1")
+landtMK$PeriodShieas[landtMK$Year>=1940 & landtMK$Year<=1952]=("P2")
+landtMK$PeriodShieas[landtMK$Year>=1953 & landtMK$Year<=1969]=("P3")
+landtMK$PeriodShieas[landtMK$Year>=1970 & landtMK$Year<=1982]=("P4")
+landtMK$PeriodShieas[landtMK$Year>=1983 & landtMK$Year<=1992]=("P5")
+landtMK$PeriodShieas[landtMK$Year>=1993 & landtMK$Year<=2001]=("P6")
+landtMK$PeriodShieas[landtMK$Year>=2002 & landtMK$Year<=2010]=("P6")
 landtMK$PeriodShieas=as.factor(landtMK$PeriodShieas)
 summary(landtMK$PeriodShieas)
 dim(landtMK)
