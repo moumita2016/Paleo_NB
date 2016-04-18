@@ -644,10 +644,11 @@ subset(ty4,select=c(year_all, year_fact,Period, Precip_mm_Moncton3, Tmoy_C_Monct
 # These age estimates were defined in individual Excel files
 # (one per core station) by Moumita
 #=================================================================
-# MK: 2016-04-15
+######################################################################
+#MK: 2016-04-15
 Periods are corrected based on the 3rd series of CRS age (Binford), 
 corrected by AP, on 2016-04-15
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+##########################################################################
 
 # 1) Maltampec April----------------------------------------
 ty4$PeriodMalt[ty4$year_all>=1876 & ty4$year_all<=1908]=("P1")
@@ -1166,7 +1167,7 @@ save("meteoMonctonShiwes",file="meteoMonctonShiwes.RData")
 write.csv(meteoMonctonShiwes,"meteoMonctonShiwes.csv")
 
 #================Shippagan east===============================
-# Corrected on 2016-04-16--------------------------------------
+# Corrected on 2016-04-18--------------------------------------
 
 #-------Shippagan east April------------------
 ty4$PeriodShieas[ty4$year_all>=1932 & ty4$year_all<=1939]=("P1")
@@ -1179,7 +1180,7 @@ ty4$PeriodShieas[ty4$year_all>=2002 & ty4$year_all<=2010]=("P7")
 ty4$PeriodShieas=as.factor(ty4$PeriodShieas)
 summary(ty4$PeriodShieas)
 dim(ty4)
-# 137 x 123
+# 137 x 121
 #-------Shippagan east May------------------
 ty5$PeriodShieas[ty5$year_all>=1932 & ty5$year_all<=1939]=("P1")
 ty5$PeriodShieas[ty5$year_all>=1940 & ty5$year_all<=1952]=("P2")
@@ -1191,7 +1192,7 @@ ty5$PeriodShieas[ty5$year_all>=2002 & ty5$year_all<=2010]=("P7")
 ty5$PeriodShieas=as.factor(ty5$PeriodShieas)
 summary(ty5$PeriodShieas)
 dim(ty5)
-# 137 x 123
+# 137 x 121
 
 #-------Shippagan east June------------------
 ty6$PeriodShieas[ty6$year_all>=1932 & ty6$year_all<=1939]=("P1")
@@ -1204,7 +1205,7 @@ ty6$PeriodShieas[ty6$year_all>=2002 & ty6$year_all<=2010]=("P7")
 ty6$PeriodShieas=as.factor(ty6$PeriodShieas)
 summary(ty6$PeriodShieas)
 dim(ty6)
-# 137 x 123
+# 137 x 121
 
 #-------Shippagan east July------------------
 ty7$PeriodShieas[ty7$year_all>=1932 & ty7$year_all<=1939]=("P1")
@@ -1217,7 +1218,7 @@ ty7$PeriodShieas[ty7$year_all>=2002 & ty7$year_all<=2010]=("P7")
 ty7$PeriodShieas=as.factor(ty7$PeriodShieas)
 summary(ty7$PeriodShieas)
 dim(ty7)
-# 138 x 123
+# 138 x 121
 #-------Shippagan east August------------------
 ty8$PeriodShieas[ty8$year_all>=1932 & ty8$year_all<=1939]=("P1")
 ty8$PeriodShieas[ty8$year_all>=1940 & ty8$year_all<=1952]=("P2")
@@ -1229,16 +1230,13 @@ ty8$PeriodShieas[ty8$year_all>=2002 & ty8$year_all<=2010]=("P7")
 ty8$PeriodShieas=as.factor(ty8$PeriodShieas)
 summary(ty8$PeriodShieas)
 dim(ty8)
-# 138 x 123
-
-######Need to check with Alain, why ty4PShieas has 
-different dimesion than other files###############################
+# 138 x 121
 
 #============================================================================
 # Shippagan east April------------------
 ty4PShieas=aggregate(ty4, by=list(ty4$PeriodShieas), FUN=mean, na.rm=TRUE)
 dim(ty4PShieas)
-# 6 x 124
+# 7 x 122
 ty4PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty4PShieas", file="ty4PShieas.RData")
 
@@ -1247,28 +1245,28 @@ save("ty4PShieas", file="ty4PShieas.RData")
 # Shippagan east May------------------
 ty5PShieas=aggregate(ty5, by=list(ty5$PeriodShieas), FUN=mean, na.rm=TRUE)
 dim(ty5PShieas)
-# 7 x 124
+# 7 x 122
 ty5PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty5PShieas", file="ty5PShieas.RData")
 
 # Shippagan east June------------------
 ty6PShieas=aggregate(ty6, by=list(ty6$PeriodShieas), FUN=mean, na.rm=TRUE)
 dim(ty6PShieas)
-#7 x 124
+#7 x 122
 ty6PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty6PShieas", file="ty6PShieas.RData")
 
 # Shippagan east July------------------
 ty7PShieas=aggregate(ty7, by=list(ty7$PeriodShieas), FUN=mean, na.rm=TRUE)
 dim(ty7PShieas)
-#7 x 124
+#7 x 122
 ty7PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty7PShieas", file="ty7PShieas.RData")
 
 # Shippagan east Aug------------------
 ty8PShieas=aggregate(ty8, by=list(ty8$PeriodShieas), FUN=mean, na.rm=TRUE)
 dim(ty8PShieas)
-#7 x 124
+#7 x 122
 ty8PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty8PShieas", file="ty8PShieas.RData")
 
@@ -1276,7 +1274,7 @@ save("ty8PShieas", file="ty8PShieas.RData")
 
 ty4PShieasbis=ty4PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty4PShieasbis)
-# 6 x 3
+# 7 x 3
 ty5PShieasbis=ty5PShieas[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 dim(ty5PShieasbis)
 # 7 x 3
@@ -1469,7 +1467,6 @@ write.csv(meteoMonctonCar,"meteoMonctonCar.csv")
 # Dec17th _2015-12-17_Moumita
 
 pathland = file.path("C:/Users/Moumita")
-
 pathland
 pathland = file.path("/Post Doc at Shipgaan/151210_env_scripts_from_Alain_to_Moumita/land_data")
 getwd()
@@ -1525,7 +1522,7 @@ landt$PeriodMalt[landt$Year>=1984 & landt$Year<=2010]=("P5")
 landt$PeriodMalt=as.factor(landt$PeriodMalt)
 summary(landt$PeriodMalt)
 dim(landt)
-# 29 x 21
+# 40 x 21
 landt$PeriodMalt=as.factor(landt$PeriodMalt)
 summary(landt$PeriodMalt)
 
@@ -1550,8 +1547,8 @@ sapply(Gloucester, function(x)(sum(complete.cases(x))))
 # Get number of Foin cases by Period
 PeriodCases=tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodMalt,sum,na.rm=T)/tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodMalt,mean,na.rm=T)
 PeriodCases
-# P1 P2 P3 P4 P5
-#  3  3  4  4  5
+# P2 P3 P4 P5 
+ 7  3  4  5 
 sum(PeriodCases)
 # 19
 
@@ -1576,7 +1573,6 @@ PokPeriodMeanMalt
 landtMalt=merge(GPeriodMeanMalt, PokPeriodMeanMalt, by="Group.1", all=TRUE)
 landtMalt
 summary(landtMalt)
-
 save(landtMalt,file="landtMalt.RData")
 write.csv(landtMalt,"landtMalt.csv")
 
@@ -1598,7 +1594,7 @@ landt$PeriodWau[landt$Year>=1997 & landt$Year<=2010]=("P4")
 landt$PeriodWau=as.factor(landt$PeriodWau)
 summary(landt$PeriodWau)
 dim(landt)
-# 29 X 21
+# 40 X 22
 
 # Gloucester subset by PeriodWau done 2016-03-31 ----------------------------
 Gloucester=subset(landt,Territorial_delim=="Gloucester",select=c(Year, Period, PeriodWau, Territorial_delim,Foin_hay_pct, Ble_weat_pct,Orge_barley_pct, Avoine_oats_pct,Hay_weat_barley_oats_pct))
@@ -1607,15 +1603,13 @@ Gloucester=subset(landt,Territorial_delim=="Gloucester",select=c(Year, Period, P
 Gloucester$Foin_hay_pct
 names(Gloucester)
 tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodWau,sum,na.rm=T)
-
 PeriodCases=tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodWau,sum,na.rm=T)/tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodWau,mean,na.rm=T)
-
 PeriodCases=tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodWau,sum,na.rm=T)/tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodWau,mean,na.rm=T)
 PeriodCases
-# P1 P2 P3 P4 P5 P6
-# 3  4  5  2  3  2
+#P1 P2 P3 P4 
+ 3  3  3  2 
 sum(PeriodCases)
-# 19
+# 11
 GPeriodMeanWau=aggregate(Gloucester, by=list(Gloucester$PeriodWau), FUN="mean", na.rm=TRUE)
 GPeriodMeanWau
 
@@ -1630,7 +1624,6 @@ PokPeriodMeanWau
 
 landtWau=merge(GPeriodMeanWau, PokPeriodMeanWau, by="Group.1", all=TRUE)
 summary(landtWau)
-
 save(landtWau,file="landtWau.RData")
 write.csv(landtWau,"landtWau.csv")
 
@@ -1698,8 +1691,8 @@ sapply(Gloucester, function(x)(sum(complete.cases(x))))
 # Get number of Foin cases by Period
 PeriodCases=tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodPtAm,sum,na.rm=T)/tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodPtAm,mean,na.rm=T)
 PeriodCases
-# P1 P10 P11  P2  P3  P4  P5  P6  P7  P8  P9
-# NaN   1   1   4   2   4   2   2   1   1   1
+#P1 P10 P11  P2  P3  P4  P5  P6  P7  P8  P9 
+  1   1   1   3   3   3   3   1   1   1   1  
 sum(PeriodCases,na.rm=T)
 # x 19
 
@@ -1717,7 +1710,6 @@ PetPeriodMeanPtAm
 
 landtMKPtAm=merge(GPeriodMeanPtAm, PetPeriodMeanPtAm, by="Group.1", all=TRUE)
 summary(landtMKPtAm)
-
 save(landtMKPtAm,file="landtMKPtAm.RData")
 write.csv(landtMKPtAm,"landtMKPtAm.csv")
 
@@ -1750,17 +1742,12 @@ sapply(Gloucester, function(x)(sum(complete.cases(x))))
 # Get number of Foin cases by Period
 PeriodCases=tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodShiwes,sum,na.rm=T)/tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodShiwes,mean,na.rm=T)
 PeriodCases
-# P1 P2 P3 P4
-# 4  6  3  2
+#P2 P3 P4 
+ 5  3  2  
 sum(PeriodCases)
-# 15
+# 10
 GPeriodMeanShiwes=aggregate(Gloucester, by=list(Gloucester$PeriodShiwes), FUN="mean", na.rm=TRUE)
 GPeriodMeanShiwes
-
-# TODO AP 2016-04-13: check that code below is OK: ###########
-# is there a point in extracting the Pokemouche peat data for Shippagan???
-# TODO: change "Bassin_Pokemouche" for "St-Simon"
-# (code is OK for Petite Tracadie above)
 
 #MK done on 2016-04-14########################
 # St-Simon subset ------------------------------------------------
@@ -1774,7 +1761,6 @@ StSPeriodMeanShiwes
 
 landtMKShiwes=merge(GPeriodMeanShiwes, StSPeriodMeanShiwes, by="Group.1", all=TRUE)
 summary(landtMKShiwes)
-
 save(landtMKShiwes,file="landtMKShiwes.RData")
 write.csv(landtMKShiwes,"landtMKShiwes.csv")
 
@@ -1795,13 +1781,13 @@ landtMK$PeriodShieas[landtMK$Year>=1953 & landtMK$Year<=1969]=("P3")
 landtMK$PeriodShieas[landtMK$Year>=1970 & landtMK$Year<=1982]=("P4")
 landtMK$PeriodShieas[landtMK$Year>=1983 & landtMK$Year<=1992]=("P5")
 landtMK$PeriodShieas[landtMK$Year>=1993 & landtMK$Year<=2001]=("P6")
-landtMK$PeriodShieas[landtMK$Year>=2002 & landtMK$Year<=2010]=("P6")
+landtMK$PeriodShieas[landtMK$Year>=2002 & landtMK$Year<=2010]=("P7")
 landtMK$PeriodShieas=as.factor(landtMK$PeriodShieas)
 summary(landtMK$PeriodShieas)
 dim(landtMK)
-# 45 x 22
-#Gloucester subset (agricultural data) By Shieas done 2016-03-31
+# 45 x 23
 
+#Gloucester subset (agricultural data) By Shieas done 2016-03-31----------------
 Gloucester=subset(landtMK,Territorial_delim=="Gloucester",select=c(Year, Period, PeriodShieas, Territorial_delim,Foin_hay_pct, Ble_weat_pct,Orge_barley_pct, Avoine_oats_pct,Hay_weat_barley_oats_pct))
 Gloucester[,1:4]
 # Get number of cases by variable
@@ -1810,13 +1796,12 @@ sapply(Gloucester, function(x)(sum(complete.cases(x))))
 # Get number of Foin cases by Period
 PeriodCases=tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodShieas,sum,na.rm=T)/tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodShieas,mean,na.rm=T)
 PeriodCases
-# P1 P2 P3 P4 P5 P6
-#  3  3  2  3  1  2
+#P2 P3 P4 P5 P6 P7 
+ 2  3  2  2  2  1  
 sum(PeriodCases)
-# 14
+# 12
 GPeriodMeanShieas=aggregate(Gloucester, by=list(Gloucester$PeriodShieas), FUN="mean", na.rm=TRUE)
 GPeriodMeanShieas
-
 
 # Replace "Bassin_Pokemouche" by St-Simon ##########
 # MK done on 2016-04-14 ##################
@@ -1832,7 +1817,6 @@ StSPeriodMeanShieas
 
 landtMKShieas=merge(GPeriodMeanShieas, StSPeriodMeanShieas, by="Group.1", all=TRUE)
 summary(landtMKShieas)
-
 save(landtMKShieas,file="landtMKShieas.RData")
 write.csv(landtMKShieas,"landtMKShieas.csv")
 
