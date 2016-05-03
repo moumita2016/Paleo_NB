@@ -15,7 +15,7 @@ PeriMM=630.82
 M$Peri2=(M$Peri/M$Fraction_injected) / (M$Sediment_dry_mass_g * M$Organic_content_pct) * (1000/PeriMM)
 summary(M$Peri2)
 M$Peri2
-AphaMM=
+AphaMM=731.02
 M$Apha2=(M$Apha/M$Fraction_injected) / (M$Sediment_dry_mass_g * M$Organic_content_pct) * (1000/AphaMM)
 summary(M$Apha2)
 M$Apha2
@@ -198,13 +198,9 @@ allpigs$Peri2=(allpigs$Peri/allpigs$Fraction_injected) / (allpigs$Sediment_dry_m
 summary(allpigs$Peri2)
 allpigs$Peri2
 
-# _Apha, TODO need to get MM ====
-# AP 2016-04-19 In the absence of referenced value, 
-# take the the average MM of other pigments.
-# As we are only interested in relative variations
-# through time, the absolute concentartion values
-# do not matter...
-# AphaMM=
+# MK: done on 03-05-2016======================
+# _Apha =========== 
+AphaMM=731.02
 summary(allpigs$Apha)
 stem(allpigs$Apha)
 allpigs$Apha2=(allpigs$Apha/allpigs$Fraction_injected) / (allpigs$Sediment_dry_mass_g * allpigs$Organic_content_pct) * (1000/AphaMM)
@@ -216,11 +212,13 @@ summary(allpigs$Myxo)
 MyxoMM=731.01
 allpigs$Myxo2=(allpigs$Myxo/allpigs$Fraction_injected) / (allpigs$Sediment_dry_mass_g * allpigs$Organic_content_pct) * (1000/MyxoMM)
 summary(allpigs$Myxo2)
+allpigs$Myxo2
 
 # _Allox ====
 AlloxMM=564.84
 allpigs$Allox2=(allpigs$Allox/allpigs$Fraction_injected) / (allpigs$Sediment_dry_mass_g * allpigs$Organic_content_pct) * (1000/AlloxMM)
 summary(allpigs$Allox2)
+allpigs$Allox2
 
 # _Diatox ====
 DiatoxMM=566.86
@@ -241,52 +239,58 @@ allpigs[order(allpigs$Canth,decreasing=T),c("Station","Canth","Sediment_dry_mass
 allpigs$Canth[allpigs$Canth<0]=0
 allpigs[order(allpigs$Canth,decreasing=T),c("Station","Canth")]
 
-
 CanthMM=564.82
 allpigs$Canth2=(allpigs$Canth/allpigs$Fraction_injected) / (allpigs$Sediment_dry_mass_g * allpigs$Organic_content_pct) * (1000/CanthMM)
 summary(allpigs$Canth2)
-
 stem(allpigs$Canth2)
+allpigs$Canth2
 
 # _Chl-b ====
 ChlbMM=907.49
 allpigs$Chlb2=(allpigs$Chlb/allpigs$Fraction_injected) / (allpigs$Sediment_dry_mass_g * allpigs$Organic_content_pct) * (1000/ChlbMM)
 summary(allpigs$Chlb2)
+allpigs$Chlb2
 
 # _Echin ====
 EchiMM=550.86
 allpigs$Echi2=(allpigs$Echi/allpigs$Fraction_injected) / (allpigs$Sediment_dry_mass_g * allpigs$Organic_content_pct) * (1000/EchiMM)
 summary(allpigs$Echi2)
+allpigs$Echi2
 
 # _ Chl-a ====
 ChlaMM=893.51
 allpigs$Chla2=(allpigs$Chla/allpigs$Fraction_injected) / (allpigs$Sediment_dry_mass_g * allpigs$Organic_content_pct) * (1000/ChlaMM)
 summary(allpigs$Chla2)
+allpigs$Chla2
 
 # _Alpha_carot ====
 Alpha_carotMM=536.87
 allpigs$Alpha_carot2=(allpigs$Alpha_carot/allpigs$Fraction_injected) / (allpigs$Sediment_dry_mass_g * allpigs$Organic_content_pct) * (1000/Alpha_carotMM)
 summary(allpigs$Alpha_carot2)
+allpigs$Alpha_carot2
 
 # _Beta-carotene ====
 Beta_caroMM=536.89
 allpigs$Beta_caro2=(allpigs$Beta_caro/allpigs$Fraction_injected) / (allpigs$Sediment_dry_mass_g * allpigs$Organic_content_pct) * (1000/Beta_caroMM)
 summary(allpigs$Beta_caro2)
+allpigs$Beta_caro2
 
 # _Pheo ====
 PheoMM=871.19
 allpigs$Pheo2=(allpigs$Pheo/allpigs$Fraction_injected) / (allpigs$Sediment_dry_mass_g * allpigs$Organic_content_pct) * (1000/PheoMM)
 summary(allpigs$Pheo2)
 stem(allpigs$Pheo2)
+allpigs$Pheo2
+
+write.csv(allpigs,"allpigscsv.csv")
 
 # _Compute ratios MK and AP 2016-03-31 ====
 allpigs$chla_Pheo=allpigs$Chla2/allpigs$Pheo2
 write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv")
 save(allpigs,file=paste(epath,"/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/allpigs.RData",sep=""))
-
 summary(allpigs$chla_Pheo)
 
-
+#===========================================================================
 # Creating subset for each station with Chla_Pheo
 # MK: 2016-04-15
 # I was not sure how to calculate the raio between Chl a to Pheo, when Alain showed that to
