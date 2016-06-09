@@ -162,7 +162,6 @@ write.csv(allpigs,"allpigscsv.csv")
 
 # If you want to save file elsewhere:
 # write.csv(allpigs,"C:/path/to/directory/allpigscsv.csv")
-epath = file.path("C:/Users/Moumita")
 write.csv(allpigs("C:/epath,"/Post Doc at Shipgaan/allpigscsv.csv"))
 
 # Save the "allpigs" data as RData, if you want...
@@ -199,7 +198,7 @@ summary(allpigs$Peri2)
 allpigs$Peri2
 
 # MK: done on 03-05-2016======================
-# _Apha =========== 
+# _Apha ===========
 AphaMM=731.02
 summary(allpigs$Apha)
 stem(allpigs$Apha)
@@ -468,8 +467,8 @@ cor(allpigssub3, use="pairwise.complete.obs",method="pearson")
 names(allpigs)
 summary(allpigs)
 allpigssub1=subset(allpigs,!is.na(Fuco2) & !is.na(chla_Pheo),
-                   select=c(Fuco2, Myxo2, Allox2, Diatox2, LutZea2, 
-                            Canth2, Chlb2,Echi2, Chla2, Alpha_carot2, 
+                   select=c(Fuco2, Myxo2, Allox2, Diatox2, LutZea2,
+                            Canth2, Chlb2,Echi2, Chla2, Alpha_carot2,
                             Beta_caro2,  Pheo2, chla_Pheo))
 summary(allpigssub1)
 dim(allpigssub1) # 211 x 13
@@ -489,9 +488,9 @@ summary(subset(allpigs,Station=="Pokemouche_aval_Lac_Inkerman",
 # Create a subset with no missing data
 # and remove Myxo2, Alpha_carot2 (all zeroes)
 allpigssub3=
-  subset(allpigs, 
+  subset(allpigs,
     Station=="Pokemouche_aval_Lac_Inkerman" & !is.na(Fuco2) & !is.na(chla_Pheo),
-                   select=c(Fuco2, Allox2,Diatox2,LutZea2,Canth2,Chlb2, 
+                   select=c(Fuco2, Allox2,Diatox2,LutZea2,Canth2,Chlb2,
                             Echi2,Chla2, Beta_caro2, Pheo2,chla_Pheo))
 dim(allpigssub3) # 28 x 11
 summary(allpigssub3)
@@ -506,7 +505,7 @@ mtext("Inkerman")
 # _3) PCA Maltempec ====
 # AP 2016-04-19 TODO:
 # rerun PCAs below, making sure subsets have
-# no missing values, and contain no variables 
+# no missing values, and contain no variables
 # with only zeroes
 allpigssub3=subset(allpigs, Station=="Pokemouche_amont_Maltampec" & !is.na(Fuco2),select=c(Fuco2, Allox2:Chla2,Beta_caro2,Pheo2))
 dim(allpigssub3)
@@ -591,7 +590,7 @@ subset(ty4,select=c(year_all, year_fact,Period, Precip_mm_Moncton3, Tmoy_C_Monct
 
 
 # _Periods for Maltampec, by Moumita 2015-12-17 ======
-# =====(Dec 17th_2015_Maltempec 2010) 
+# =====(Dec 17th_2015_Maltempec 2010)
 
 # AP to MK 2016-01-05: We need to have a different name
 # for each "Period" variable (one for Maltampec, one for Waugh...)
@@ -617,7 +616,7 @@ summary(ty4$PeriodMalt)
 dim(ty4)
 #[1] 137 121
 
-#  Maltampec May 
+#  Maltampec May
 ty5$PeriodMalt[ty5$year_all>=1876 & ty5$year_all<=1908]=("P1")
 ty5$PeriodMalt[ty5$year_all>=1909 & ty5$year_all<=1936]=("P2")
 ty5$PeriodMalt[ty5$year_all>=1937 & ty5$year_all<=1960]=("P3")
@@ -628,7 +627,7 @@ summary(ty5$PeriodMalt)
 dim(ty5)
 #[1] 137 121
 
-# --- Maltampec June 
+# --- Maltampec June
 ty6$PeriodMalt[ty6$year_all>=1876 & ty6$year_all<=1908]=("P1")
 ty6$PeriodMalt[ty6$year_all>=1909 & ty6$year_all<=1936]=("P2")
 ty6$PeriodMalt[ty6$year_all>=1937 & ty6$year_all<=1960]=("P3")
@@ -650,7 +649,7 @@ summary(ty7$PeriodMalt)
 dim(ty7)
 #[1] 138 121
 
-# --- Maltampec August 
+# --- Maltampec August
 ty8$PeriodMalt[ty8$year_all>=1876 & ty8$year_all<=1908]=("P1")
 ty8$PeriodMalt[ty8$year_all>=1909 & ty8$year_all<=1936]=("P2")
 ty8$PeriodMalt[ty8$year_all>=1937 & ty8$year_all<=1960]=("P3")
@@ -676,28 +675,28 @@ dim(ty4PMalt)
 ty4PMalt[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty4PMalt", file="ty4PMalt.RData")
 
-# Maltampec May 
+# Maltampec May
 ty5PMalt=aggregate(ty5, by=list(ty5$PeriodMalt), FUN=mean, na.rm=TRUE)
 dim(ty5PMalt)
 # 5 x 122
 ty5PMalt[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty5PMalt", file="ty5PMalt.RData")
 
-# Maltampec June 
+# Maltampec June
 ty6PMalt=aggregate(ty6, by=list(ty6$PeriodMalt), FUN=mean, na.rm=TRUE)
 dim(ty6PMalt)
 # 5 x 122
 ty6PMalt[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty6PMalt", file="ty6PMalt.RData")
 
-# Maltampec July 
+# Maltampec July
 ty7PMalt=aggregate(ty7, by=list(ty7$PeriodMalt), FUN=mean, na.rm=TRUE)
 dim(ty7PMalt)
 # 5 x 122
 ty7PMalt[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty7PMalt", file="ty7PMalt.RData")
 
-# Maltampec August 
+# Maltampec August
 ty8PMalt=aggregate(ty8, by=list(ty8$PeriodMalt), FUN=mean, na.rm=TRUE)
 dim(ty8PMalt)
 #[1]   5 122
@@ -730,9 +729,9 @@ save("meteoMonctonMalt",file="meteoMonctonMalt.RData")
 write.csv(meteoMonctonMalt,"meteoMonctonMalt.csv")
 
 # ================ _Periods for Waugh =================
-# ========== corrected by MK 2016-04-15 
+# ========== corrected by MK 2016-04-15
 
-# ---- Waugh April 
+# ---- Waugh April
 class(ty4$year_all) # numeric, so we should be able to do maths on it
 stem(ty4$year_all)
 ty4$PeriodWaugh=as.numeric(ty4$PeriodWaugh)
@@ -747,7 +746,7 @@ summary(ty4$PeriodWaugh)
 dim(ty4)
 #[1] 137 121
 
-# --- Waugh May 
+# --- Waugh May
 ty5$PeriodWaugh[ty5$year_all>=1943 & ty5$year_all<=1963]=("P1")
 ty5$PeriodWaugh[ty5$year_all>=1964 & ty5$year_all<=1982]=("P2")
 ty5$PeriodWaugh[ty5$year_all>=1983 & ty5$year_all<=1996]=("P3")
@@ -763,7 +762,7 @@ ty6$PeriodWaugh=as.numeric(ty6$PeriodWaugh)
 # Define as numeric first if you get error message
 # "invalid factor level, NA generated"
 
-# --- Waugh June 
+# --- Waugh June
 ty6$PeriodWaugh[ty6$year_all>=1943 & ty6$year_all<=1963]=("P1")
 ty6$PeriodWaugh[ty6$year_all>=1964 & ty6$year_all<=1982]=("P2")
 ty6$PeriodWaugh[ty6$year_all>=1983 & ty6$year_all<=1996]=("P3")
@@ -779,7 +778,7 @@ ty7$PeriodWaugh=as.numeric(ty7$PeriodWaugh)
 # Define as numeric first if you get error message
 # "invalid factor level, NA generated"
 
-# --- Waugh July 
+# --- Waugh July
 ty7$PeriodWaugh[ty7$year_all>=1943 & ty7$year_all<=1963]=("P1")
 ty7$PeriodWaugh[ty7$year_all>=1964 & ty7$year_all<=1982]=("P2")
 ty7$PeriodWaugh[ty7$year_all>=1983 & ty7$year_all<=1996]=("P3")
@@ -804,35 +803,35 @@ dim(ty8)
 #[1] 138 121
 
 # __Aggregate Waugh ----
-# Waugh April 
+# Waugh April
 ty4PWau=aggregate(ty4, by=list(ty4$PeriodWaugh), FUN=mean, na.rm=TRUE)
 dim(ty4PWau)
 # 4 x 122
 ty4PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty4PWau", file="ty4PWau.RData")
 
-# Waugh May 
+# Waugh May
 ty5PWau=aggregate(ty5, by=list(ty5$PeriodWaugh), FUN=mean, na.rm=TRUE)
 dim(ty5PWau)
 # 4 x 122
 ty5PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty5PWau", file="ty5PWau.RData")
 
-# Waugh June 
+# Waugh June
 ty6PWau=aggregate(ty6, by=list(ty6$PeriodWaugh), FUN=mean, na.rm=TRUE)
 dim(ty6PWau)
 # 4 x 122
 ty6PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty6PWau", file="ty6PWau.RData")
 
-# Waugh July 
+# Waugh July
 ty7PWau=aggregate(ty7, by=list(ty7$PeriodWaugh), FUN=mean, na.rm=TRUE)
 dim(ty7PWau)
 # 4 x 122
 ty7PWau[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty7PWau", file="ty7PWau.RData")
 
-# Waugh August 
+# Waugh August
 ty8PWau=aggregate(ty8, by=list(ty8$PeriodWaugh), FUN=mean, na.rm=TRUE)
 dim(ty8PWau)
 # 4 x 122
@@ -864,7 +863,7 @@ save("meteoMonctonWau",file="meteoMonctonWau.RData")
 write.csv(meteoMonctonWau,"meteoMonctonWau.csv")
 
 # ================ _Periods for Petite Tracadie =================
-# --- Petite Tracadie April 
+# --- Petite Tracadie April
 # All the seperation of periods based on CRS 3rd model (Binford, 1990)
 #_can be found in file "all_dates_together" excel sheet
 # P1 does not exsist as the first environmental data starts at 1873.
@@ -885,7 +884,7 @@ ty4$PeriodPetitAM=as.factor(ty4$PeriodPetitAM)
 summary(ty4$PeriodPetitAM)
 dim(ty4)
 [1] 137 121
-# --- Petite Tracadie May 
+# --- Petite Tracadie May
 ty5$PeriodPetitAM[ty5$year_all>=1839 & ty5$year_all<=1879]=("P1")
 ty5$PeriodPetitAM[ty5$year_all>=1880 & ty5$year_all<=1908]=("P2")
 ty5$PeriodPetitAM[ty5$year_all>=1909 & ty5$year_all<=1934]=("P3")
@@ -901,7 +900,7 @@ ty5$PeriodPetitAM=as.factor(ty5$PeriodPetitAM)
 summary(ty5$PeriodPetitAM)
 dim(ty5)
 [1] 137 121
-# --- Petite Tracadie June 
+# --- Petite Tracadie June
 
 ty6$PeriodPetitAM[ty6$year_all>=1839 & ty6$year_all<=1879]=("P1")
 ty6$PeriodPetitAM[ty6$year_all>=1880 & ty6$year_all<=1908]=("P2")
@@ -918,7 +917,7 @@ ty6$PeriodPetitAM=as.factor(ty6$PeriodPetitAM)
 summary(ty6$PeriodPetitAM)
 dim(ty6)
 [1] 137 121
-# --- Petite Tracadie July 
+# --- Petite Tracadie July
 ty7$PeriodPetitAM[ty7$year_all>=1839 & ty7$year_all<=1879]=("P1")
 ty7$PeriodPetitAM[ty7$year_all>=1880 & ty7$year_all<=1908]=("P2")
 ty7$PeriodPetitAM[ty7$year_all>=1909 & ty7$year_all<=1934]=("P3")
@@ -934,7 +933,7 @@ ty7$PeriodPetitAM=as.factor(ty7$PeriodPetitAM)
 summary(ty7$PeriodPetitAM)
 dim(ty7)
 [1] 138 121
-# --- Petite Tracadie August 
+# --- Petite Tracadie August
 
 ty8$PeriodPetitAM[ty8$year_all>=1839 & ty8$year_all<=1879]=("P1")
 ty8$PeriodPetitAM[ty8$year_all>=1880 & ty8$year_all<=1908]=("P2")
@@ -965,21 +964,21 @@ dim(ty5PPetit)
 ty5PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty5PPetit", file="ty5PPetit.RData")
 
-# Petitte Tracadie June 
+# Petitte Tracadie June
 ty6PPetit=aggregate(ty6, by=list(ty6$PeriodPetitAM), FUN=mean, na.rm=TRUE)
 dim(ty6PPetit)
 # 11 x 122
 ty6PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty6PPetit", file="ty6PPetit.RData")
 
-# Petite Tracadie July 
+# Petite Tracadie July
 ty7PPetit=aggregate(ty7, by=list(ty7$PeriodPetitAM), FUN=mean, na.rm=TRUE)
 dim(ty7PPetit)
 # 11 x 122
 ty7PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty7PPetit", file="ty7PPetit.RData")
 
-# Petite Tracadie August 
+# Petite Tracadie August
 ty8PPetit=aggregate(ty8, by=list(ty8$PeriodPetitAM), FUN=mean, na.rm=TRUE)
 dim(ty8PPetit)
 # 11 x 122
@@ -1010,7 +1009,7 @@ write.csv(meteoMonctonPetit,"meteoMonctonPetit.csv")
 
 # _Periods for Shippagan west=============================
 # MK corrected on 2016-04-15
-#---- Shippagan west April 
+#---- Shippagan west April
 class(ty4$year_all) # numeric, so we should be able to do maths on it
 stem(ty4$year_all)
 ty4$PeriodShiwes=as.numeric(ty4$PeriodShiwes)
@@ -1041,7 +1040,7 @@ ty6$PeriodShiwes=as.factor(ty6$PeriodShiwes)
 summary(ty6$PeriodShiwes)
 dim(ty6)
 #[1] 137 121
-# --- Shippagan west July 
+# --- Shippagan west July
 ty7$PeriodShiwes[ty7$year_all>=1916 & ty7$year_all<=1954]=("P1")
 ty7$PeriodShiwes[ty7$year_all>=1955 & ty7$year_all<=1984]=("P2")
 ty7$PeriodShiwes[ty7$year_all>=1985 & ty7$year_all<=2000]=("P3")
@@ -1069,28 +1068,28 @@ dim(ty4PShiwes)
 ty4PShiwes[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty4PShiwes", file="ty4PShiwes.RData")
 
-# Shippagan west May 
+# Shippagan west May
 ty5PShiwes=aggregate(ty5, by=list(ty5$PeriodShiwes), FUN=mean, na.rm=TRUE)
 dim(ty5PShiwes)
 # 4 x 123
 ty5PShiwes[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty5PShiwes", file="ty5PShiwes.RData")
 
-# Shippagan west June 
+# Shippagan west June
 ty6PShiwes=aggregate(ty6, by=list(ty6$PeriodShiwes), FUN=mean, na.rm=TRUE)
 dim(ty6PShiwes)
 # 4 x 123
 ty6PShiwes[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty6PShiwes", file="ty6PShiwes.RData")
 
-# Shippagan west July 
+# Shippagan west July
 ty7PShiwes=aggregate(ty7, by=list(ty7$PeriodShiwes), FUN=mean, na.rm=TRUE)
 dim(ty7PShiwes)
 # 4 x 123
 ty7PShiwes[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty7PShiwes", file="ty7PShiwes.RData")
 
-# Shippagan west Aug 
+# Shippagan west Aug
 ty8PShiwes=aggregate(ty8, by=list(ty8$PeriodShiwes), FUN=mean, na.rm=TRUE)
 dim(ty8PShiwes)
 # 4 x 123
@@ -1264,7 +1263,7 @@ summary(ty4$PeriodCar)
 dim(ty4)
 # 137 X 121
 
-# --- Caraquet May 
+# --- Caraquet May
 ty5$PeriodCar[ty5$year_all>=1807 & ty5$year_all<=1866]=("P1")
 ty5$PeriodCar[ty5$year_all>=1867 & ty5$year_all<=1907]=("P2")
 ty5$PeriodCar[ty5$year_all>=1908 & ty5$year_all<=1926]=("P3")
@@ -1327,7 +1326,7 @@ summary(ty7$PeriodCar)
 dim(ty7)
 #[1] 138 121
 
-# --- Caraquet August 
+# --- Caraquet August
 ty8$PeriodCar[ty8$year_all>=1807 & ty8$year_all<=1866]=("P1")
 ty8$PeriodCar[ty8$year_all>=1867 & ty8$year_all<=1907]=("P2")
 ty8$PeriodCar[ty8$year_all>=1908 & ty8$year_all<=1926]=("P3")
@@ -1356,14 +1355,14 @@ dim(ty4PCar)
 ty4PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty4PCar", file="ty4PCar.RData")
 
-# Caraquet May 
+# Caraquet May
 ty5PCar=aggregate(ty5, by=list(ty5$PeriodCar), FUN=mean, na.rm=TRUE)
 dim(ty5PCar)
 #14 X 122
 ty5PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty5PCar", file="ty5PCar.RData")
 
-# Caraquet June 
+# Caraquet June
 ty6PCar=aggregate(ty6, by=list(ty6$PeriodCar), FUN=mean, na.rm=TRUE)
 dim(ty6PCar)
 #14 X 122
@@ -1377,7 +1376,7 @@ dim(ty7PCar)
 ty7PCar[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty7PCar", file="ty7PCar.RData")
 
-# Caraquet August 
+# Caraquet August
 ty8PCar=aggregate(ty8, by=list(ty8$PeriodCar), FUN=mean, na.rm=TRUE)
 dim(ty8PCar)
 #14 X 122
@@ -1783,7 +1782,7 @@ points(landtMKShieas$Year.x~landtMKShieas$Cumul_Peat_extract_Pok_pct, type="b",p
 # MK 2016-04-14
 landtMK=read.delim("C:/Users/Moumita/Post Doc at Shippagan/151210_env_scripts_from_Alain_to_Moumita/Land_data/Land_use_data4_MK.txt", header=TRUE)
 summary(landtMK)
-# AP 2016-04-19 Bounds should be corrected here and in the 
+# AP 2016-04-19 Bounds should be corrected here and in the
 # "All dates_corrected)160105_ap_MK.xlsx" file sent from
 # Moumita on 2016-04-18 (once we will have the Caraquet pigment data)
 landtMK$PeriodCar[landtMK$Year>=1807 & landtMK$Year<=1866]=("P1")
@@ -1851,8 +1850,6 @@ points(landtMKCar$Year.x~landtMKCar$Cumul_Peat_extract_Pok_pct, type="b",pch="p"
 # Working on Lake Inkerman pigment concentration MK: 2016-04-12 ####
 ########################################################
 
-epath = file.path("C:/Users/Moumita")
-epath
 allpigs=read.delim("C:/Users/Moumita/Post Doc at Shippagan/All pigments/Pigments_analyses_to_Moumita.txt",header=T)
 summary(allpigs)
 dim(allpigs)
@@ -1868,15 +1865,71 @@ PokAvLacInk=subset(allpigs,Station=="Pokemouche_aval_Lac_Inkerman")
 dim(PokAvLacInk)
 # --------------------------------------------------------------------
 allpigs$chla_Pheo=allpigs$Chla2/allpigs$Pheo2
-write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv")
+write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv") # cannot write a variable to csv!
 summary(allpigs$chla_Pheo)
 allpigs$Chla2
 allpigs$Pheo2
 edit(allpigs$chla_Pheo)
 # Creating subset for Chla_Pheo--------------------
 LakeInkAvChla_Pheo=subset(allpigs, Station=="Pokemouche_aval_Lac_Inkerman", select=c(Station,chla_Pheo))
-write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv")
+# write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv") # cannot write a variable to csv!
 write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
 
+###################################################
+# Import the pigment-environment file, AP 2016-06-09
+####################################################
+# Save "For analysis_updated_April 18th.xlsx" as "Pigs_env_160506.csv"
+foran=read.csv2("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env_160506.csv")
+dim(foran)
+library(Hmisc) # to use function "contents"
+contents(foran)
+summary(foran)
+ edit(foran)
+# Petite Tracadie subset with function "grepl"
+foran$Tmoy_C_4
+PT=subset(foran,grepl("Petite_Tracadie",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+PT[,1:5]
+dim(PT)
+# Y matrix
+PTpigs=subset(PT,select=c(Fuco2:Pheo2))
+dim(PTpigs)
+
+# X matrix
+PTenv=subset(PT,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
+dim(PTenv)
 
 
+# Selection of variable
+help(ordistep)
+
+# First create "intercept-only model"
+rda0=rda(PTpigs~1,data=PTenv)
+rda0
+(summary(rda0))
+
+# Then create full rda model
+rda1=rda(PTpigs~.,data=PTenv)
+rda1
+summary(rda1)
+
+# Selection procedure with function "ordistep"
+ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
+
+# Build RDA based on selection
+rda2=rda(PTpigs~PT$Tmoy_C_6,scale=T)
+rda2
+summary(rda2)
+
+# Test significance of model
+anova(rda2)
+
+# Test by alternative method
+permutest(rda2,permutation=9999)
+
+
+# Alternative, more stable selection procedure with function "forward.sel"
+# install.packages("packfor")
+# library(packfor)
+# library(vegan)
+# help(forward.sel)
+# forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
