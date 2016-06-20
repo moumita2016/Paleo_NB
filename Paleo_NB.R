@@ -1879,7 +1879,7 @@ write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
 # Import the pigment-environment file, AP 2016-06-09
 ####################################################
 # Save "For analysis_updated_April 18th.xlsx" as "Pigs_env_160506.csv"
-foran=read.csv2("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env_160506.csv")
+foran=read.csv("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env_160506.csv")
 dim(foran)
 library(Hmisc) # to use function "contents"
 contents(foran)
@@ -1933,3 +1933,165 @@ permutest(rda2,permutation=9999)
 # library(vegan)
 # help(forward.sel)
 # forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
+
+###################################################
+# Import the pigment-environment file, MK 2016-06-20
+####################################################
+# Save "For analysis.xlsx" as "Pigs_env.csv"
+foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
+dim(foran)
+library(Hmisc) # to use function "contents"
+contents(foran)
+summary(foran)
+edit(foran)
+
+# Petite Tracadie subset with function "grepl"---------------
+
+foran$Tmoy_C_4
+PT=subset(foran,grepl("Petite_Tracadie_amont",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+PT[,1:5]
+dim(PT)
+# Y matrix
+PTpigs=subset(PT,select=c(Fuco2:Pheo2))
+dim(PTpigs)
+
+# X matrix
+PTenv=subset(PT,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
+dim(PTenv)
+
+# Selection of variable------------------------------------
+help(ordistep)
+
+# First create "intercept-only model"
+rda0=rda(PTpigs~1,data=PTenv)
+rda0
+(summary(rda0))
+
+# Then create full rda model
+rda1=rda(PTpigs~.,data=PTenv)
+rda1
+summary(rda1)
+
+# Selection procedure with function "ordistep"------------------------------------
+ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
+
+# Build RDA based on selection
+rda2=rda(PTpigs~PT$Tmoy_C_6,scale=T)
+rda2
+summary(rda2)
+
+# Test significance of model
+anova(rda2)
+
+# Test by alternative method
+permutest(rda2,permutation=9999)
+
+
+# Alternative, more stable selection procedure with function "forward.sel"
+# install.packages("packfor")
+# library(packfor)
+# library(vegan)
+# help(forward.sel)
+# forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
+#=========================================================================
+#### Maltempec subset with function "grepl"---------------
+foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
+dim(foran)
+library(Hmisc) # to use function "contents"
+contents(foran)
+summary(foran)
+edit(foran)
+
+foran$Tmoy_C_4
+Malt=subset(foran,grepl("Pokemouche_amont_Maltempec",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+Malt[,1:5]
+dim(Malt)
+# Y matrix
+Maltpigs=subset(Malt,select=c(Fuco2:Pheo2))
+dim(Maltpigs)
+
+# X matrix
+Maltenv=subset(Malt,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
+dim(Maltenv)
+
+# First create "intercept-only model"------------------------
+rda0=rda(Maltpigs~1,data=Maltenv)
+rda0
+(summary(rda0))
+
+# Then create full rda model
+rda1=rda(Maltpigs~.,data=Maltenv)
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+### got this warning, please check Alin, the data sheet looks good, I am not sure------------------------
+#Error in na.fail.default(list(Precip_mm_4_April = c(3.078055556, 2.834186879,  : 
+  missing values in object
+
+rda1
+summary(rda1)
+
+# Selection procedure with function "ordistep"---------------------------------
+ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
+
+# Build RDA based on selection
+
+
+
+#=====================================================================
+#### Waugh subset with function "grepl"---------------
+
+foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
+dim(foran)
+library(Hmisc) # to use function "contents"
+contents(foran)
+summary(foran)
+edit(foran)
+
+foran$Tmoy_C_4
+Wau=subset(foran,grepl("Pokemouche_amont_Waugh",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+Wau[,1:5]
+dim(Wau)
+# Y matrix
+Waupigs=subset(Wau,select=c(Fuco2:Pheo2))
+dim(Waupigs)
+
+# X matrix
+Wauenv=subset(Wau,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
+dim(Wauenv)
+
+# Selection of variable------------------------------------
+help(ordistep)
+
+# First create "intercept-only model"
+rda0=rda(Waupigs~1,data=Wauenv)
+rda0
+(summary(rda0))
+
+# Then create full rda model
+rda1=rda(Waupigs~.,data=Wauenv)
+rda1
+summary(rda1)
+
+# Selection procedure with function "ordistep"------------------------------------
+ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
+#================================================================================
+# MK: this is the only one env variable for Waugh -----------------------------------------------------------
+#                           Df  AIC       F N.Perm Pr(>F)  
++ Ble_weat_pct              1   43 10.1831    999  0.086 .
+
+# Build RDA based on selection
+rda2=rda(Waupigs~Wau$Ble_weat_pct,scale=T)
+
+#                Df    AIC      F N.Perm Pr(>F)
+- Ble_weat_pct  1 48.351 10.183    999  0.103
+===========================================================================
+rda2
+summary(rda2)
+plot(rda2)
+# Test significance of model
+anova(rda2)
+
+# Test by alternative method
+permutest(rda2,permutation=9999)
+
+
+
