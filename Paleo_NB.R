@@ -1879,30 +1879,46 @@ write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
 # Import the pigment-environment file, AP 2016-06-09
 ####################################################
 # Save "For analysis_updated_April 18th.xlsx" as "Pigs_env_160506.csv"
+<<<<<<< HEAD
 foran=read.csv("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env_160506.csv")
+=======
+R.Version()
+foran=read.csv2("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env_160506.csv")
+>>>>>>> 5ec2e8f11cbf79287b88ff2e1a593c860f49c3b0
 dim(foran)
+names(foran)
 library(Hmisc) # to use function "contents"
 contents(foran)
 summary(foran)
  edit(foran)
 # Petite Tracadie subset with function "grepl"
 foran$Tmoy_C_4
+
+PT=subset(foran,grepl("Petite_Tracadie",SampleName) & !is.na(CRS_Binford))
+
 PT=subset(foran,grepl("Petite_Tracadie",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
 PT[,1:5]
 dim(PT)
 # Y matrix
 PTpigs=subset(PT,select=c(Fuco2:Pheo2))
-dim(PTpigs)
+PTpigs=subset(PT,select=c(Fuco2,Allox2:Chla2,Beta_caro2:Pheo2))
+dim(PTpigs) # 11 x 10 if 2 with zeroes are removed
+names(PTpigs)
+summary(PTpigs)
+
 
 # X matrix
-PTenv=subset(PT,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
+PTenv=subset(PT,select=c(Precip_mm_4_April:Tmoy_C_8, Foin_hay_pct:Hay_weat_barley_oats_pct))
+# PTenv=subset(PT,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct, Cumul_Peat_extract_Pok_pct))
+PTenv
 dim(PTenv)
-
+summary(PTenv)
 
 # Selection of variable
 help(ordistep)
 
 # First create "intercept-only model"
+library("vegan")
 rda0=rda(PTpigs~1,data=PTenv)
 rda0
 (summary(rda0))
@@ -1911,6 +1927,7 @@ rda0
 rda1=rda(PTpigs~.,data=PTenv)
 rda1
 summary(rda1)
+plot(rda1)
 
 # Selection procedure with function "ordistep"
 ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
@@ -1928,10 +1945,17 @@ permutest(rda2,permutation=9999)
 
 
 # Alternative, more stable selection procedure with function "forward.sel"
-# install.packages("packfor")
-# library(packfor)
+# From https://r-forge.r-project.org/R/?group_id=195
+install.packages("packfor", repos="http://R-Forge.R-project.org")
+# If that does not work, download packfor_0.0-8.tar.gz and compile from source
+
+# Compile package "packfor" from source based on
+# http://stackoverflow.com/questions/1474081/how-do-i-install-an-r-package-from-source
+install.packages("packfor", repos=NULL, type="C:/Users/alain/Downloads/packfor_0.0-8.tar.gz")
+library(packfor)
 # library(vegan)
 # help(forward.sel)
+<<<<<<< HEAD
 # forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
 
 ###################################################
@@ -2011,8 +2035,34 @@ Maltpigs=subset(Malt,select=c(Fuco2:Pheo2))
 dim(Maltpigs)
 
 # X matrix
-Maltenv=subset(Malt,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
+
+Maltenv=subset(Malt,select=c(Precip_mm_4_April:Tmoy_C_8,Foin_hay_pct:Hay_weat_barley_oats_pct,Cumul_Peat_extract_Pok_pct))
 dim(Maltenv)
+
+# MK and AP: June 30th++++++++++++++++++++++++++++++++++++++
+summary(Maltenv)
+
+#================================================================
+#MK: for missing values of agriculture, have used the mean-----------------
+Maltenv$Ble_weat_pct
+ediMaltenv[5,'Ble_weat_pct']=mean(Maltenv$Ble_weat_pct,na.rm=T)
+
+Maltenv$Foin_hay_pct
+Maltenv[5,'Foin_hay_pct']=mean(Maltenv$Foin_hay_pct,na.rm=T)
+
+Maltenv$Orge_barley_pct 
+Maltenv[5,'Orge_barley_pct']=mean(Maltenv$Orge_barley_pct,na.rm=T)
+
+Maltenv$Avoine_oats_pct
+Maltenv[5,'Avoine_oats_pct']=mean(Maltenv$Avoine_oats_pct,na.rm=T)
+
+Maltenv$Hay_weat_barley_oats_pct 
+Maltenv[5,'Hay_weat_barley_oats_pct']=mean(Maltenv$Hay_weat_barley_oats_pct,na.rm=T)
+
+
+Maltenv$Cumul_Peat_extract_Pok_pct[is.na(Maltenv$Cumul_Peat_extract_Pok_pct)]=0
+Maltenv$Cumul_Peat_extract_Pok_pct
+
 
 # First create "intercept-only model"------------------------
 rda0=rda(Maltpigs~1,data=Maltenv)
@@ -2021,11 +2071,6 @@ rda0
 
 # Then create full rda model
 rda1=rda(Maltpigs~.,data=Maltenv)
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-### got this warning, please check Alin, the data sheet looks good, I am not sure------------------------
-#Error in na.fail.default(list(Precip_mm_4_April = c(3.078055556, 2.834186879,  : 
-  missing values in object
-
 rda1
 summary(rda1)
 
@@ -2033,8 +2078,26 @@ summary(rda1)
 ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
 
 # Build RDA based on selection
+rda2=rda(Maltpigs~Malt$Tmoy_C_7+Malt$Precip_mm_6_June,scale=T)
+rda2
+summary(rda2)
+plot(rda2)
 
+# MK: June 30th, rda2 but scaling is different------------------------
+rda2=rda(Maltpigs~Malt$Tmoy_C_7+Malt$Precip_mm_6_June,scale=F)
+rda2
+summary(rda2)
+plot(rda2)
 
+# Test significance of model
+anova(rda2)
+
+# Test by alternative method
+# Test significance of model
+anova(rda2)
+
+# Test by alternative method
+permutest(rda2,permutation=9999)
 
 #=====================================================================
 #### Waugh subset with function "grepl"---------------
@@ -2093,5 +2156,13 @@ anova(rda2)
 # Test by alternative method
 permutest(rda2,permutation=9999)
 
-
+====================================================
+forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
+help(forward.sel)
+# Build RDA with Tmoy_C_4
+rdaT4=rda(PTpigs~PTenv$Tmoy_C_4)
+anova(rdaT4)
+rdaT4
+summary(rdaT4)
+plot(rdaT4)
 
