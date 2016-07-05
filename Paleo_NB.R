@@ -2003,20 +2003,36 @@ ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000
 rda2=rda(PTpigs~PT$Tmoy_C_6,scale=T)
 rda2
 summary(rda2)
+plot(rda2)
 
+#==== MK, July 5th 2016: Build RDA based on selection, adding two most significant env variables================
+rda2=rda(PTpigs~PT$Tmoy_C_6+PT$Tmoy_C_7,scale=T)
+rda2
+summary(rda2)
+plot(rda2)
+
+rda2=rda(PTpigs~PT$Tmoy_C_6+PT$Tmoy_C_7,scale=F)
+rda2
+summary(rda2)
+plot(rda2)
+#=====================================================
 # Test significance of model
 anova(rda2)
 
 # Test by alternative method
 permutest(rda2,permutation=9999)
 
-
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# MK: Tried to load packfor from local zipped file, but did not work, giving
+error message, packfor was built under R version 3.3.0
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Alternative, more stable selection procedure with function "forward.sel"
-# install.packages("packfor")
-# library(packfor)
+install.packages("packfor", repos=NULL, type="C:/Users/Moumita/Downloads/packfor_0.0-8.tar.gz")
+library(packfor)
 # library(vegan)
 # help(forward.sel)
 # forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
+
 #=========================================================================
 #### Maltempec subset with function "grepl"---------------
 foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
@@ -2045,7 +2061,7 @@ summary(Maltenv)
 #================================================================
 #MK: for missing values of agriculture, have used the mean-----------------
 Maltenv$Ble_weat_pct
-ediMaltenv[5,'Ble_weat_pct']=mean(Maltenv$Ble_weat_pct,na.rm=T)
+Maltenv[5,'Ble_weat_pct']=mean(Maltenv$Ble_weat_pct,na.rm=T)
 
 Maltenv$Foin_hay_pct
 Maltenv[5,'Foin_hay_pct']=mean(Maltenv$Foin_hay_pct,na.rm=T)
@@ -2063,7 +2079,8 @@ Maltenv[5,'Hay_weat_barley_oats_pct']=mean(Maltenv$Hay_weat_barley_oats_pct,na.r
 Maltenv$Cumul_Peat_extract_Pok_pct[is.na(Maltenv$Cumul_Peat_extract_Pok_pct)]=0
 Maltenv$Cumul_Peat_extract_Pok_pct
 
-
+edit(Maltenv)
+#---------------------------------------------------------------------
 # First create "intercept-only model"------------------------
 rda0=rda(Maltpigs~1,data=Maltenv)
 rda0
@@ -2078,7 +2095,7 @@ summary(rda1)
 ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
 
 # Build RDA based on selection
-rda2=rda(Maltpigs~Malt$Tmoy_C_7+Malt$Precip_mm_6_June,scale=T)
+rda2=rda(Maltpigs~Malt$Tmoy_C_7,scale=T)
 rda2
 summary(rda2)
 plot(rda2)
@@ -2156,13 +2173,12 @@ anova(rda2)
 # Test by alternative method
 permutest(rda2,permutation=9999)
 
+#----------MK: July 5th, RDA 2 based on scalling = F--------------------------
+rda2=rda(Waupigs~Wau$Ble_weat_pct,scale=F)
+rda2
+summary(rda2)
+plot(rda2)
+
 ====================================================
-forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
-help(forward.sel)
-# Build RDA with Tmoy_C_4
-rdaT4=rda(PTpigs~PTenv$Tmoy_C_4)
-anova(rdaT4)
-rdaT4
-summary(rdaT4)
-plot(rdaT4)
+
 
