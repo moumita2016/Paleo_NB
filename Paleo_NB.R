@@ -2179,6 +2179,75 @@ rda2
 summary(rda2)
 plot(rda2)
 
-====================================================
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# MK July 6th 2016: running RDA for Lake Inkerman subset for discussion of the "upstream vs downstream paper"
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
+dim(foran)
+library(Hmisc) # to use function "contents"
+contents(foran)
+summary(foran)
+edit(foran)
+
+foran$Tmoy_C_4
+Ink=subset(foran,grepl("Pokemouche_aval_Lac_Inkerman",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+Ink[,1:5]
+dim(Ink)
+# Y matrix
+Inkpigs=subset(Ink,select=c(Fuco2:Pheo2))
+dim(Inkpigs)
+
+# X matrix
+Inkenv=subset(Ink,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
+dim(Inkenv)
+
+==============================================================================
+#MK: for missing values of agriculture, have used the mean-----------------
+
+Inkenv$Orge_barley_pct 
+Inkenv[7,'Orge_barley_pct']=mean(Inkenv$Orge_barley_pct,na.rm=T)
+
+Inkenv$Avoine_oats_pct
+Inkenv[7,'Avoine_oats_pct']=mean(Inkenv$Avoine_oats_pct,na.rm=T)
+
+Inkenv$Hay_weat_barley_oats_pct 
+Inkenv[7,'Hay_weat_barley_oats_pct']=mean(Inkenv$Hay_weat_barley_oats_pct,na.rm=T)
+
+
+Inkenv$Cumul_Peat_extract_Pok_pct[is.na(Inkenv$Cumul_Peat_extract_Pok_pct)]=0
+Inkenv$Cumul_Peat_extract_Pok_pct
+
+edit(Inkenv)
+
+=================================================================================
+# First create "intercept-only model"
+rda0=rda(Inkpigs~1,data=Inkenv)
+rda0
+(summary(rda0))
+
+# Then create full rda model
+rda1=rda(Inkpigs~.,data=Inkenv)
+rda1
+summary(rda1)
+
+# Selection procedure with function "ordistep"------------------------------------
+ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
+
+# Build RDA based on selection
+#Precip_mm_5_May           1   71 4.3228    999  0.009 **
+
+rda2=rda(Inkpigs~Ink$Precip_mm_5_May,scale=T)
+rda2
+summary(rda2)
+plot(rda2)
+
+#=====================================================
+# Test significance of model
+anova(rda2)
+
+# Test by alternative method
+permutest(rda2,permutation=9999)
+
+# MK July 6th 2016: talk to Alain, regarding this result of Lake Inkerman, RDA===================
 
