@@ -2251,3 +2251,155 @@ permutest(rda2,permutation=9999)
 
 # MK July 6th 2016: talk to Alain, regarding this result of Lake Inkerman, RDA===================
 
+#=======================================================================
+#MK July 7th 2016:
+#---------------Shippagan east ----------------
+
+foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
+dim(foran)
+library(Hmisc) # to use function "contents"
+contents(foran)
+summary(foran)
+edit(foran)
+
+# Shippagan est subset with function "grepl"---------------
+
+foran$Tmoy_C_4
+Shiest=subset(foran,grepl("Shippagan Est",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+Shiest[,1:5]
+dim(Shiest)
+# Y matrix
+Shiestpigs=subset(Shiest,select=c(Fuco2:Pheo2))
+dim(Shiestpigs)
+
+# X matrix
+Shiestenv=subset(Shiest,select=c(Precip_mm_4_April:Tmoy_C_8,Foin_hay_pct:Hay_weat_barley_oats_pct,Cumul_Peat_extract_Pok_pct))
+dim(Shiestenv)
+
+# Selection of variable------------------------------------
+help(ordistep)
+
+# Missing values for agriculture, used mean-------------------
+Shiestenv$Ble_weat_pct
+Shiestenv[7,'Ble_weat_pct']=mean(Shiestenv$Ble_weat_pct,na.rm=T)
+
+Shiestenv$Foin_hay_pct
+Shiestenv[7,'Foin_hay_pct']=mean(Shiestenv$Foin_hay_pct,na.rm=T)
+
+Shiestenv$Orge_barley_pct 
+Shiestenv[7,'Orge_barley_pct']=mean(Shiestenv$Orge_barley_pct,na.rm=T)
+
+Shiestenv$Avoine_oats_pct
+Shiestenv[7,'Avoine_oats_pct']=mean(Shiestenv$Avoine_oats_pct,na.rm=T)
+
+Shiestenv$Hay_weat_barley_oats_pct 
+Shiestenv[7,'Hay_weat_barley_oats_pct']=mean(Shiestenv$Hay_weat_barley_oats_pct,na.rm=T)
+
+Shiestenv$Cumul_Peat_extract_Pok_pct[is.na(Shiestenv$Cumul_Peat_extract_Pok_pct)]=0
+Shiestenv$Cumul_Peat_extract_Pok_pct
+
+edit(Shiestenv)
+
+# First create "intercept-only model"
+rda0=rda(Shiestpigs~1,data=Shiestenv)
+rda0
+summary(rda0)
+
+# Then create full rda model
+rda1=rda(Shiestpigs~.,data=Shiestenv)
+rda1
+summary(rda1)
+
+# Selection procedure with function "ordistep"------------------------------------
+ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
+
+rda2=rda(Shiestpigs~Shiest$Tmoy_C_6,scale=T)
+rda2
+summary(rda2)
+plot(rda2)
+
+Importance of components:
+                        RDA1    PC1    PC2     PC3     PC4     PC5
+Eigenvalue            2.8021 4.2984 1.1426 0.49728 0.15699 0.10269
+Proportion Explained  0.3113 0.4776 0.1270 0.05525 0.01744 0.01141
+Cumulative Proportion 0.3113 0.7889 0.9159 0.97115 0.98859 1.00000
+
+
+#-------------Shippagan west----------------------------------
+
+foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
+dim(foran)
+library(Hmisc) # to use function "contents"
+contents(foran)
+summary(foran)
+edit(foran)
+
+# Shippagan West subset with function "grepl"---------------
+
+foran$Tmoy_C_4
+Shiwst=subset(foran,grepl("Shippagan Ouest",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+Shiwst[,1:5]
+dim(Shiwst)
+# Y matrix
+Shiwstpigs=subset(Shiwst,select=c(Fuco2:Pheo2))
+dim(Shiwstpigs)
+
+# X matrix
+Shiwstenv=subset(Shiwst,select=c(Precip_mm_4_April:Tmoy_C_8,Foin_hay_pct:Hay_weat_barley_oats_pct,Cumul_Peat_extract_Pok_pct))
+dim(Shiwstenv)
+
+# First create "intercept-only model"
+rda0=rda(Shiwstpigs~1,data=Shiwstenv)
+rda0
+(summary(rda0))
+
+# Missing values for agriculture, used mean-------------------
+Shiwstenv$Ble_weat_pct
+Shiwstenv[4,'Ble_weat_pct']=mean(Shiwstenv$Ble_weat_pct,na.rm=T)
+
+Shiwstenv$Foin_hay_pct
+Shiwstenv[4,'Foin_hay_pct']=mean(Shiwstenv$Foin_hay_pct,na.rm=T)
+
+Shiwstenv$Orge_barley_pct 
+Shiwstenv[4,'Orge_barley_pct']=mean(Shiwstenv$Orge_barley_pct,na.rm=T)
+
+Shiwstenv$Avoine_oats_pct
+Shiwstenv[4,'Avoine_oats_pct']=mean(Shiwstenv$Avoine_oats_pct,na.rm=T)
+
+Shiwstenv$Hay_weat_barley_oats_pct 
+Shiwstenv[4,'Hay_weat_barley_oats_pct']=mean(Shiwstenv$Hay_weat_barley_oats_pct,na.rm=T)
+
+Shiwstenv$Cumul_Peat_extract_Pok_pct[is.na(Shiwstenv$Cumul_Peat_extract_Pok_pct)]=0
+Shiwstenv$Cumul_Peat_extract_Pok_pct
+
+edit(Shiwstenv)
+
+# Then create full rda model
+rda1=rda(Shiwstpigs~.,data=Shiwstenv)
+rda1
+summary(rda1)
+
+# Selection procedure with function "ordistep"------------------------------------
+ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
+
+# Build RDA based on selection
+#Tmoy_C_4                    1 37.097 11.6376    999  0.041 *
+
+rda2=rda(Shiwstpigs~Shiwst$Tmoy_C_4,scale=T)
+rda2
+summary(rda2)
+plot(rda2)
+#-------------------------------------------------------
+Importance of components:
+                        RDA1    PC1    PC2
+Eigenvalue            5.6119 2.3249 1.0632
+Proportion Explained  0.6236 0.2583 0.1181
+Cumulative Proportion 0.6236 0.8819 1.0000
+#-----------------------------------------------------------
+
+# Test significance of model
+anova(rda2)
+
+# Test by alternative method
+permutest(rda2,permutation=9999)
+
