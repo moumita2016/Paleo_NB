@@ -92,7 +92,7 @@ epath = file.path("C:/Users/alain/Documents")
 
 epath
 
-allpigs=read.delim("C:/Users/Moumita/Post Doc at Shippagan/All pigments/Pigments_analyses_to_Moumita.txt",header=T)
+# allpigs=read.delim("C:/Users/Moumita/Post Doc at Shippagan/All pigments/Pigments_analyses_to_Moumita.txt",header=T)
 
 # From Alain's Win8 computer
 allpigs=read.delim("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Base_donnees/Fichiers_txt/Pigments_analyses_to_Moumita.txt",header=T)
@@ -169,8 +169,6 @@ save(allpigs,file="allpigs.RData")
 # For Alain Win8 computer:
 save(allpigs,file=paste(epath,"/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/allpigs.RData",sep=""))
 
-
-
 # Notice how RData files are smaller than equivalent csv files...
 
 # Load a RData file
@@ -190,7 +188,7 @@ summary(CarUppigs$MedianDepth_cm)
 # Generate a plot
 plot(CarUppigs$MedianDepth_cm~CarUppigs$Fuco2,ylim=rev(c(range(CarUppigs$MedianDepth_cm))),xlim=range(CarUppigs$Fuco2), type="b")
 
-# _Peri ====
+#_Peri ====
 summary(allpigs$Peri)
 PeriMM=630.82
 allpigs$Peri2=(allpigs$Peri/allpigs$Fraction_injected) / (allpigs$Sediment_dry_mass_g * allpigs$Organic_content_pct) * (1000/PeriMM)
@@ -412,7 +410,6 @@ save(TabusiAV,file="TabusiAV.RData")
 
 ########## Dec 1st 2015-12-01
 # _1) Correlation for "Pokemouche_aval_Lac_Inkerman" ====
-
 allpigssub3=subset(allpigs, Station=="Pokemouche_aval_Lac_Inkerman")
 dim(allpigssub3)
 # 29 38
@@ -1879,18 +1876,18 @@ write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
 # Import the pigment-environment file, AP 2016-06-09
 ####################################################
 # Save "For analysis_updated_April 18th.xlsx" as "Pigs_env_160506.csv"
-<<<<<<< HEAD
+# <<<<<<< HEAD
 foran=read.csv("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env_160506.csv")
-=======
-R.Version()
+
+# R.Version()
 foran=read.csv2("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env_160506.csv")
->>>>>>> 5ec2e8f11cbf79287b88ff2e1a593c860f49c3b0
+# >>>>>>> 5ec2e8f11cbf79287b88ff2e1a593c860f49c3b0
 dim(foran)
 names(foran)
 library(Hmisc) # to use function "contents"
 contents(foran)
 summary(foran)
- edit(foran)
+# edit(foran)
 # Petite Tracadie subset with function "grepl"
 foran$Tmoy_C_4
 
@@ -1915,7 +1912,7 @@ dim(PTenv)
 summary(PTenv)
 
 # Selection of variable
-help(ordistep)
+# help(ordistep)
 
 # First create "intercept-only model"
 library("vegan")
@@ -1931,6 +1928,7 @@ plot(rda1)
 
 # Selection procedure with function "ordistep"
 ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
+# T_moy_6 is the env. var. most strongly associated.
 
 # Build RDA based on selection
 rda2=rda(PTpigs~PT$Tmoy_C_6,scale=T)
@@ -1946,17 +1944,17 @@ permutest(rda2,permutation=9999)
 
 # Alternative, more stable selection procedure with function "forward.sel"
 # From https://r-forge.r-project.org/R/?group_id=195
-install.packages("packfor", repos="http://R-Forge.R-project.org")
+# install.packages("packfor", repos="http://R-Forge.R-project.org")
 # If that does not work, download packfor_0.0-8.tar.gz and compile from source
 
 # Compile package "packfor" from source based on
 # http://stackoverflow.com/questions/1474081/how-do-i-install-an-r-package-from-source
-install.packages("packfor", repos=NULL, type="C:/Users/alain/Downloads/packfor_0.0-8.tar.gz")
+# install.packages("packfor", repos=NULL, type="C:/Users/alain/Downloads/packfor_0.0-8.tar.gz")
 library(packfor)
 # library(vegan)
 # help(forward.sel)
-<<<<<<< HEAD
-# forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
+
+forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
 
 ###################################################
 # Import the pigment-environment file, MK 2016-06-20
@@ -2003,6 +2001,7 @@ ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000
 rda2=rda(PTpigs~PT$Tmoy_C_6,scale=T)
 rda2
 summary(rda2)
+# Figure 5a of upstream-downstream manuscript sent to L&O
 plot(rda2)
 
 #==== MK, July 5th 2016: Build RDA based on selection, adding two most significant env variables================
@@ -2024,11 +2023,11 @@ permutest(rda2,permutation=9999)
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # MK: Tried to load packfor from local zipped file, but did not work, giving
-error message, packfor was built under R version 3.3.0
+# error message, packfor was built under R version 3.3.0
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Alternative, more stable selection procedure with function "forward.sel"
-install.packages("packfor", repos=NULL, type="C:/Users/Moumita/Downloads/packfor_0.0-8.tar.gz")
-library(packfor)
+# install.packages("packfor", repos=NULL, type="C:/Users/Moumita/Downloads/packfor_0.0-8.tar.gz")
+# library(packfor)
 # library(vegan)
 # help(forward.sel)
 # forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
@@ -2066,13 +2065,13 @@ Maltenv[5,'Ble_weat_pct']=mean(Maltenv$Ble_weat_pct,na.rm=T)
 Maltenv$Foin_hay_pct
 Maltenv[5,'Foin_hay_pct']=mean(Maltenv$Foin_hay_pct,na.rm=T)
 
-Maltenv$Orge_barley_pct 
+Maltenv$Orge_barley_pct
 Maltenv[5,'Orge_barley_pct']=mean(Maltenv$Orge_barley_pct,na.rm=T)
 
 Maltenv$Avoine_oats_pct
 Maltenv[5,'Avoine_oats_pct']=mean(Maltenv$Avoine_oats_pct,na.rm=T)
 
-Maltenv$Hay_weat_barley_oats_pct 
+Maltenv$Hay_weat_barley_oats_pct
 Maltenv[5,'Hay_weat_barley_oats_pct']=mean(Maltenv$Hay_weat_barley_oats_pct,na.rm=T)
 
 
@@ -2155,7 +2154,7 @@ summary(rda1)
 ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
 #================================================================================
 # MK: this is the only one env variable for Waugh -----------------------------------------------------------
-#                           Df  AIC       F N.Perm Pr(>F)  
+#                           Df  AIC       F N.Perm Pr(>F)
 + Ble_weat_pct              1   43 10.1831    999  0.086 .
 
 # Build RDA based on selection
@@ -2205,13 +2204,13 @@ dim(Inkenv)
 ==============================================================================
 #MK: for missing values of agriculture, have used the mean-----------------
 
-Inkenv$Orge_barley_pct 
+Inkenv$Orge_barley_pct
 Inkenv[7,'Orge_barley_pct']=mean(Inkenv$Orge_barley_pct,na.rm=T)
 
 Inkenv$Avoine_oats_pct
 Inkenv[7,'Avoine_oats_pct']=mean(Inkenv$Avoine_oats_pct,na.rm=T)
 
-Inkenv$Hay_weat_barley_oats_pct 
+Inkenv$Hay_weat_barley_oats_pct
 Inkenv[7,'Hay_weat_barley_oats_pct']=mean(Inkenv$Hay_weat_barley_oats_pct,na.rm=T)
 
 
@@ -2286,13 +2285,13 @@ Shiestenv[7,'Ble_weat_pct']=mean(Shiestenv$Ble_weat_pct,na.rm=T)
 Shiestenv$Foin_hay_pct
 Shiestenv[7,'Foin_hay_pct']=mean(Shiestenv$Foin_hay_pct,na.rm=T)
 
-Shiestenv$Orge_barley_pct 
+Shiestenv$Orge_barley_pct
 Shiestenv[7,'Orge_barley_pct']=mean(Shiestenv$Orge_barley_pct,na.rm=T)
 
 Shiestenv$Avoine_oats_pct
 Shiestenv[7,'Avoine_oats_pct']=mean(Shiestenv$Avoine_oats_pct,na.rm=T)
 
-Shiestenv$Hay_weat_barley_oats_pct 
+Shiestenv$Hay_weat_barley_oats_pct
 Shiestenv[7,'Hay_weat_barley_oats_pct']=mean(Shiestenv$Hay_weat_barley_oats_pct,na.rm=T)
 
 Shiestenv$Cumul_Peat_extract_Pok_pct[is.na(Shiestenv$Cumul_Peat_extract_Pok_pct)]=0
@@ -2360,13 +2359,13 @@ Shiwstenv[4,'Ble_weat_pct']=mean(Shiwstenv$Ble_weat_pct,na.rm=T)
 Shiwstenv$Foin_hay_pct
 Shiwstenv[4,'Foin_hay_pct']=mean(Shiwstenv$Foin_hay_pct,na.rm=T)
 
-Shiwstenv$Orge_barley_pct 
+Shiwstenv$Orge_barley_pct
 Shiwstenv[4,'Orge_barley_pct']=mean(Shiwstenv$Orge_barley_pct,na.rm=T)
 
 Shiwstenv$Avoine_oats_pct
 Shiwstenv[4,'Avoine_oats_pct']=mean(Shiwstenv$Avoine_oats_pct,na.rm=T)
 
-Shiwstenv$Hay_weat_barley_oats_pct 
+Shiwstenv$Hay_weat_barley_oats_pct
 Shiwstenv[4,'Hay_weat_barley_oats_pct']=mean(Shiwstenv$Hay_weat_barley_oats_pct,na.rm=T)
 
 Shiwstenv$Cumul_Peat_extract_Pok_pct[is.na(Shiwstenv$Cumul_Peat_extract_Pok_pct)]=0
