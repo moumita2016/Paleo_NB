@@ -1,4 +1,4 @@
-# ######### PART zero (practice run): pigment concentration computations ####
+# ######### PART 0 (practice run): pigment concentration computations ####
 # This part is based on Maltampec data only; it was meant to serve
 # as a "practice".
 epath = file.path("C:/Users/Moumita")
@@ -81,6 +81,7 @@ dev.off()
 # and convert pigment concentration into nmol per g OM
 # based on the "Pigments_analyses_to_Moumita.txt" file that Alain
 # sent to Moumita on 2016-11-19
+# This file lacks Shippagan data!
 
 epath = file.path("C:/Users/Moumita")
 
@@ -93,12 +94,14 @@ epath
 
 # From Alain's Win8 computer
 allpigs=read.delim("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Base_donnees/Fichiers_txt/Pigments_analyses_to_Moumita.txt",header=T)
+
+file.info("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Base_donnees/Fichiers_txt/Pigments_analyses_to_Moumita.txt") # ctime 2015-11-23 on 2017-02-07
+
+dim(allpigs) # 212 rows x 27 columns
 # Also see xls version in C:\Users\alain\Documents\RECHERCHE_Labos_GIZC\_Base_donnees\Fichiers_xls_ods\Pigments_analyses_to_Moumita_151119.xlsx
 
 summary(allpigs)
-# Fuco and Canthax have negative values
-dim(allpigs)
-# 212 rows x 27 columns
+summary(allpigs$Station)
 
 #_ Fucoxanthin ====
 # Compute Fuco2 concentration in nmol/g for all records:
@@ -113,7 +116,6 @@ allpigs$Fuco2=(allpigs$Fuco/allpigs$Fraction_injected) / (allpigs$Sediment_dry_m
 summary(allpigs$Fuco2)
 # Identify negative values by sorting Fuco2
 allpigs[order(allpigs$Fuco2, decreasing=T),c("Station","Fuco","Sediment_dry_mass_g", "Fuco2")]
-
 
 # Check distribution with the "stem" function
 stem(allpigs$Fuco2)
@@ -275,10 +277,11 @@ summary(allpigs$Pheo2)
 stem(allpigs$Pheo2)
 allpigs$Pheo2
 
-write.csv(allpigs,"allpigscsv.csv")
-
 # _Compute ratios MK and AP 2016-03-31 ====
 allpigs$chla_Pheo=allpigs$Chla2/allpigs$Pheo2
+summary(allpigs$chla_Pheo)
+# write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv") ####
+
 write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv")
 save(allpigs,file=paste(epath,"/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/allpigs.RData",sep=""))
 summary(allpigs$chla_Pheo)
@@ -444,14 +447,21 @@ allpigssub3=subset(allpigs, Station=="Tabusintac_AVAL",select=(Fuco2:Pheo2))
 dim(allpigssub3)
 cor(allpigssub3, use="pairwise.complete.obs",method="pearson")
 
-##### PCA with prcomp 2015-12-01 ####
+# PART II PCA with prcomp 2015-12-01 ####
 
 # _1) PCA all stations ====
 # Only select those pigments for which values are non zeroes
 # Fuco2 and chla_Pheo have missing values: omit these cases
 # with "!is.na()", which means "is not is not available"
+
+# Read allpigs.csv created in part I
+file.info("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/allpigscsv.csv") # ctime 2016-04-19 on 2017-02-07
+
+allpigs=read.csv("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/allpigscsv.csv")
+dim(allpigs) # 212 x 42 on 2017-02-07
 names(allpigs)
-summary(allpigs)
+summary(allpigs$Station)
+
 allpigssub1=subset(allpigs,!is.na(Fuco2) & !is.na(chla_Pheo),
                    select=c(Fuco2, Myxo2, Allox2, Diatox2, LutZea2,
                             Canth2, Chlb2,Echi2, Chla2, Alpha_carot2,
@@ -520,14 +530,18 @@ dim(allpigssub3)
 allpigssub3=subset(allpigs, Station=="Tabusintac_AVAL" & !is.na(Fuco2),select=c(Fuco2, Allox2:Chlb2,Chla2,Beta_caro2,Pheo2))
 dim(allpigssub3)
 
-# _7) PCA Caraquet AVAL
+# _7) PCA Caraquet AVAL ====
 allpigssub3=subset(allpigs, Station=="Caraquet AVAL" & !is.na(Fuco2),select=c(Fuco2, Allox2:Chlb2,Chla2,Beta_caro2,Pheo2))
 prcomppigs=prcomp(allpigssub3, scale.=TRUE)
 
+# _8) PCA Shippagan East (inner bay) 2017-02-07
+summary(allpigs$Station)
+# Shippagan absent from file...
 
-# save.image() http://www.statmethods.net/interface/workspace.html
+# save.image() # following
+# http://www.statmethods.net/interface/workspace.html
 
-############ PART II: define periods for the meteo data ###############
+############ PART III: define periods for the meteo data ###############
 # Dec_2015_Moumita 2015-12
 # Dec 16th_2015_Moumita 2015-12-16
 
@@ -1218,7 +1232,7 @@ write.csv(meteoMonctonShieas,"meteoMonctonShieas.csv")
 
 
 # _Periods for Caraquet ========================================
-# MK: 2016-04-19---------Corrected the periods---------------------
+# __MK 2016-04-19 Corrected the periods---------------------
 #-----------Caraquet April
 ty4$PeriodCar[ty4$year_all>=1807 & ty4$year_all<=1866]=("P1")
 ty4$PeriodCar[ty4$year_all>=1867 & ty4$year_all<=1907]=("P2")
@@ -1385,9 +1399,8 @@ meteoMonctonCar=c(ty4PCarbis,ty5PCarbis,ty6PCarbis,ty7PCarbis,ty8PCarbis)
 save("meteoMonctonCar",file="meteoMonctonCar.RData")
 write.csv(meteoMonctonCar,"meteoMonctonCar.csv")
 
-# PART III: define periods for the landuse data ####
+# PART IV: define periods for the landuse data ####
 # Dec_2015_Moumita
-###################################################################
 # Dec17th _2015-12-17_Moumita
 
 pathland = file.path("C:/Users/Moumita")
@@ -1431,13 +1444,12 @@ landt$Year
 class(landt$Year)
 summary(landt$Year)
 
-# ============================================================
 # _1) DEFINE LAND PERIODS FOR MALTAMPEC ==========
 # MK April, 2016-04-15
 # Create period division based on CRS age estimates specific
 # to Maltampec, as defined in "All dats corrected...xlsx",
 # and as previously done for the meteo data (above).
-# =========================================================
+
 landt$PeriodMalt[landt$Year>=1876 & landt$Year<=1908]=("P1")
 landt$PeriodMalt[landt$Year>=1809 & landt$Year<=1936]=("P2")
 landt$PeriodMalt[landt$Year>=1937 & landt$Year<=1960]=("P3")
@@ -1461,7 +1473,7 @@ summary(landt$PeriodMalt)
 # all catchments.
 # AP extracted peat data from other catchments 2016-04-07
 
-# Gloucester subset----------------------------
+# __Gloucester subset----------------------------
 
 Gloucester=subset(landt,Territorial_delim=="Gloucester",select=c(Year, Period, PeriodMalt, Territorial_delim,Foin_hay_pct, Ble_weat_pct,Orge_barley_pct, Avoine_oats_pct,Hay_weat_barley_oats_pct))
 Gloucester[,1:4]
@@ -1476,17 +1488,13 @@ PeriodCases
 sum(PeriodCases)
 # 19
 
-# --------------------------------------------------------------
 # Aggregate the agriculural data (i.e. the Gloucester delimitation)
 # based on Maltampec age estimates
 # By PeriodMalt done 2016-03-31
-# -----------------------------------------------------------
 GPeriodMeanMalt=aggregate(Gloucester, by=list(Gloucester$PeriodMalt), FUN="mean", na.rm=TRUE)
 GPeriodMeanMalt
 
-# --------------------------------------------------------
 # Aggregate the peat data based on Maltampec age estimates
-# --------------------------------------------------------
 Pok=subset(landt, Territorial_delim=="Bassin_Pokemouche",select=c(Year,PeriodMalt,Territorial_delim,Cumul_Peat_extract_Pok_pct))
 Pok
 PokPeriodMeanMalt=aggregate(Pok, by=list(Pok$PeriodMalt), mean, na.rm=T)
@@ -1500,7 +1508,7 @@ summary(landtMalt)
 save(landtMalt,file="landtMalt.RData")
 write.csv(landtMalt,"landtMalt.csv")
 
-# Plot Malt land ----
+# __Plot Malt land ----
 plot(landtMalt$Year.x~landtMalt$Hay_weat_barley_oats_pct, type="b", xlim=c(0,0.06))
 points(landtMalt$Year.x~landtMalt$Foin_hay_pct, type="b", col="blue", pch="h")
 points(landtMalt$Year.x~landtMalt$Ble_weat_pct, type="b", col="green", pch="w")
@@ -1508,9 +1516,8 @@ points(landtMalt$Year.x~landtMalt$Orge_barley_pct, type="b", col="red", pch="b")
 points(landtMalt$Year.x~landtMalt$Avoine_oats_pct, type="b", col="purple", pch="o")
 points(landtMalt$Year.x~landtMalt$Cumul_Peat_extract_Pok_pct, type="b",pch="p", col="black")
 
-# =====================================================
 # _2) DEFINE LAND PERIODS FOR WAUGH ====
-# =====================================================
+
 landt$PeriodWau[landt$Year>=1943 & landt$Year<=1963]=("P1")
 landt$PeriodWau[landt$Year>=1964 & landt$Year<=1982]=("P2")
 landt$PeriodWau[landt$Year>=1983 & landt$Year<=1996]=("P3")
@@ -1520,7 +1527,7 @@ summary(landt$PeriodWau)
 dim(landt)
 # 40 X 22
 
-# Gloucester subset by PeriodWau done 2016-03-31 ----------------------------
+# __Gloucester subset by PeriodWau done 2016-03-31 ----------------------------
 Gloucester=subset(landt,Territorial_delim=="Gloucester",select=c(Year, Period, PeriodWau, Territorial_delim,Foin_hay_pct, Ble_weat_pct,Orge_barley_pct, Avoine_oats_pct,Hay_weat_barley_oats_pct))
 # Get number of Foin cases by Period
 
@@ -1530,28 +1537,29 @@ tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodWau,sum,na.rm=T)
 PeriodCases=tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodWau,sum,na.rm=T)/tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodWau,mean,na.rm=T)
 PeriodCases=tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodWau,sum,na.rm=T)/tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodWau,mean,na.rm=T)
 PeriodCases
-#P1 P2 P3 P4
- 3  3  3  2
-sum(PeriodCases)
-# 11
+
+# P1 P2 P3 P4
+#  3  3  3  2
+sum(PeriodCases) # 11
+
 GPeriodMeanWau=aggregate(Gloucester, by=list(Gloucester$PeriodWau), FUN="mean", na.rm=TRUE)
 GPeriodMeanWau
 
-# Pokemouche subset------------------------------------------------
+# __Pokemouche subset------------------------------------------------
 
 Pok=subset(landt, Territorial_delim=="Bassin_Pokemouche",select=c(Year,PeriodWau,Territorial_delim,Cumul_Peat_extract_Pok_pct))
 Pok
 PokPeriodMeanWau=aggregate(Pok, by=list(Pok$PeriodWau), mean, na.rm=T)
 PokPeriodMeanWau
 
-#  Merge Agr and peat data for Waugh ----
+# __Merge Agr and peat data for Waugh ----
 
 landtWau=merge(GPeriodMeanWau, PokPeriodMeanWau, by="Group.1", all=TRUE)
 summary(landtWau)
 save(landtWau,file="landtWau.RData")
 write.csv(landtWau,"landtWau.csv")
 
-# For plotting---------------------------
+# For plotting
 plot(landtWau$Year.x~landtWau$Hay_weat_barley_oats_pct, type="b", xlim=c(0,0.06))
 points(landtWau$Year.x~landtWau$Foin_hay_pct, type="b", col="blue", pch="h")
 points(landtWau$Year.x~landtWau$Ble_weat_pct, type="b", col="green", pch="w")
@@ -1559,9 +1567,7 @@ points(landtWau$Year.x~landtWau$Orge_barley_pct, type="b", col="red", pch="b")
 points(landtWau$Year.x~landtWau$Avoine_oats_pct, type="b", col="purple", pch="o")
 points(landtWau$Year.x~landtWau$Cumul_Peat_extract_Pok_pct, type="b",pch="p", col="black")
 
-# ========================================================
 # _3) DEFINE LAND PERIODS FOR Petite Tracadie Amont  ====
-# =======================================================
 # MK corrected the Period, 2016-04-16
 pathland = file.path("C:/Users/Moumita")
 pathland
@@ -1575,7 +1581,6 @@ landtMK=read.delim("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Base_donnees/
 # see file sent to Moumita 2016-04-07 "Peat_exploitation.xlsx
 # 135 ko
 
-#===================================================================
 # MK 2016-04-14
 landtMK=read.delim("C:/Users/Moumita/Post Doc at Shippagan/151210_env_scripts_from_Alain_to_Moumita/Land_data/Land_use_data4_MK.txt", header=TRUE)
 summary(landtMK)
@@ -1587,6 +1592,7 @@ summary(landtMK)
 # the right percentage values (computed in Excel by Moumita)
 subset(landtMK,Year=="2009" & Territorial_delim=="St-Simon",select=c(Year, Territorial_delim,Surface_census_km2,Cumul_Peat_extract_Pok_ha, Cumul_Peat_extract_Pok_pct))
 622/ (138.26*100) # 0.044, or 4.4% = "Cumul_Peat_extract_Pok_pct
+
 # __PT land periods ==============
 landtMK$PeriodPtAm[landtMK$Year>=1839 & landtMK$Year<=1879]=("P1")
 landtMK$PeriodPtAm[landtMK$Year>=1880 & landtMK$Year<=1908]=("P2")
@@ -1601,8 +1607,7 @@ landtMK$PeriodPtAm[landtMK$Year>=2001 & landtMK$Year<=2004]=("P10")
 landtMK$PeriodPtAm[landtMK$Year>=2005 & landtMK$Year<=2010]=("P11")
 landtMK$PeriodPtAm=as.factor(landtMK$PeriodPtAm)
 summary(landtMK$PeriodPtAm)
-dim(landtMK)
-# 45 X 21
+dim(landtMK) # 45 X 21
 
 # __ Get PT agricultural data ------
 Gloucester=subset(landtMK,Territorial_delim=="Gloucester",select=c(Year, Period, PeriodPtAm, Territorial_delim,Foin_hay_pct, Ble_weat_pct,Orge_barley_pct, Avoine_oats_pct,Hay_weat_barley_oats_pct))
@@ -1644,10 +1649,8 @@ points(landtMKPtAm$Year.x~landtMKPtAm$Orge_barley_pct, type="b", col="red", pch=
 points(landtMKPtAm$Year.x~landtMKPtAm$Avoine_oats_pct, type="b", col="purple", pch="o")
 points(landtMKPtAm$Year.x~landtMKPtAm$Cumul_Peat_extract_Pok_ha, type="b",pch="p", col="black")
 
-# ==================================================================
 # _4) DEFINE LAND PERIODS FOR Shippagan West defined periods =========
-#----MK: corrected on 2016-04-15-------------
-# ==================================================================
+# MK: corrected on 2016-04-15 
 landtMK$PeriodShiwes[landtMK$Year>=1916 & landtMK$Year<=1954]=("P1")
 landtMK$PeriodShiwes[landtMK$Year>=1955 & landtMK$Year<=1984]=("P2")
 landtMK$PeriodShiwes[landtMK$Year>=1985 & landtMK$Year<=2000]=("P3")
@@ -1655,7 +1658,8 @@ landtMK$PeriodShiwes[landtMK$Year>=2001 & landtMK$Year<=2012]=("P4")
 landtMK$PeriodShiwes=as.factor(landtMK$PeriodShiwes)
 summary(landtMK$PeriodShiwes)
 dim(landtMK) # 45 x 22
-# Gloucester subset for Shippagan ----------------------------
+
+# __Gloucester subset for Shippagan ----------------------------
 # By Shiwes done 2016-03-31
 Gloucester=subset(landtMK,Territorial_delim=="Gloucester",select=c(Year, PeriodShiwes, Territorial_delim,Foin_hay_pct, Ble_weat_pct,Orge_barley_pct, Avoine_oats_pct,Hay_weat_barley_oats_pct))
 Gloucester[,1:4]
@@ -1666,28 +1670,28 @@ sapply(Gloucester, function(x)(sum(complete.cases(x))))
 PeriodCases=tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodShiwes,sum,na.rm=T)/tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodShiwes,mean,na.rm=T)
 PeriodCases
 #P2 P3 P4
- 5  3  2
-sum(PeriodCases)
-# 10
+#  5  3  2
+sum(PeriodCases) # 10
+
 GPeriodMeanShiwes=aggregate(Gloucester, by=list(Gloucester$PeriodShiwes), FUN="mean", na.rm=TRUE)
 GPeriodMeanShiwes
+# MK done on 2016-04-14 
 
-#MK done on 2016-04-14########################
-# St-Simon subset ------------------------------------------------
+# __St-Simon subset ------------------------------------------------
 
 StS=subset(landtMK, Territorial_delim=="St-Simon",select=c(Year,PeriodShiwes,Territorial_delim,Cumul_Peat_extract_Pok_pct))
 StS
 StSPeriodMeanShiwes=aggregate(StS, by=list(StS$PeriodShiwes), mean, na.rm=T)
 StSPeriodMeanShiwes
 
-# ++++++++ Merge Agr and peat data+++++++++++++++++++++++++
+#  Merge Agr and peat data
 
 landtMKShiwes=merge(GPeriodMeanShiwes, StSPeriodMeanShiwes, by="Group.1", all=TRUE)
 summary(landtMKShiwes)
 save(landtMKShiwes,file="landtMKShiwes.RData")
 write.csv(landtMKShiwes,"landtMKShiwes.csv")
 
-# For plotting----------------------------------
+# For plotting
 plot(landtMKShiwes$Year.x~landtMKShiwes$Hay_weat_barley_oats_pct, type="b", xlim=c(0,0.06))
 points(landtMKShiwes$Year.x~landtMKShiwes$Foin_hay_pct, type="b", col="blue", pch="h")
 points(landtMKShiwes$Year.x~landtMKShiwes$Ble_weat_pct, type="b", col="green", pch="w")
@@ -1695,9 +1699,7 @@ points(landtMKShiwes$Year.x~landtMKShiwes$Orge_barley_pct, type="b", col="red", 
 points(landtMKShiwes$Year.x~landtMKShiwes$Avoine_oats_pct, type="b", col="purple", pch="o")
 points(landtMKShiwes$Year.x~landtMKShiwes$Cumul_Peat_extract_Pok_pct, type="b",pch="p", col="black")
 
-# =========================================================
 # _5) DEFINE LAND PERIODS FOR Shippagan east ========
-# =======================================================
 landtMK$PeriodShieas[landtMK$Year>=1932 & landtMK$Year<=1939]=("P1")
 landtMK$PeriodShieas[landtMK$Year>=1940 & landtMK$Year<=1952]=("P2")
 landtMK$PeriodShieas[landtMK$Year>=1953 & landtMK$Year<=1969]=("P3")
@@ -1710,7 +1712,7 @@ summary(landtMK$PeriodShieas)
 dim(landtMK)
 # 45 x 23
 
-#Gloucester subset (agricultural data) By Shieas done 2016-03-31----------------
+# __Gloucester subset (agricultural data) By Shieas done 2016-03-31----------------
 Gloucester=subset(landtMK,Territorial_delim=="Gloucester",select=c(Year, Period, PeriodShieas, Territorial_delim,Foin_hay_pct, Ble_weat_pct,Orge_barley_pct, Avoine_oats_pct,Hay_weat_barley_oats_pct))
 Gloucester[,1:4]
 # Get number of cases by variable
@@ -1726,10 +1728,10 @@ sum(PeriodCases)
 GPeriodMeanShieas=aggregate(Gloucester, by=list(Gloucester$PeriodShieas), FUN="mean", na.rm=TRUE)
 GPeriodMeanShieas
 
-# Replace "Bassin_Pokemouche" by St-Simon ##########
-# MK done on 2016-04-14 ##################
+# Replace "Bassin_Pokemouche" by St-Simon 
+# MK done on 2016-04-14 
 
-# St-Simon subset ------------------------------------------------
+# __St-Simon subset ------------------------------------------------
 
 StS=subset(landtMK, Territorial_delim=="St-Simon",select=c(Year,PeriodShieas,Territorial_delim,Cumul_Peat_extract_Pok_pct))
 StS
@@ -1743,7 +1745,7 @@ summary(landtMKShieas)
 save(landtMKShieas,file="landtMKShieas.RData")
 write.csv(landtMKShieas,"landtMKShieas.csv")
 
-# For plotting----------------------------------
+# For plotting
 plot(landtMKShieas$Year.x~landtMKShieas$Hay_weat_barley_oats_pct, type="b", xlim=c(0,0.06))
 points(landtMKShieas$Year.x~landtMKShieas$Foin_hay_pct, type="b", col="blue", pch="h")
 points(landtMKShieas$Year.x~landtMKShieas$Ble_weat_pct, type="b", col="green", pch="w")
@@ -1751,9 +1753,7 @@ points(landtMKShieas$Year.x~landtMKShieas$Orge_barley_pct, type="b", col="red", 
 points(landtMKShieas$Year.x~landtMKShieas$Avoine_oats_pct, type="b", col="purple", pch="o")
 points(landtMKShieas$Year.x~landtMKShieas$Cumul_Peat_extract_Pok_pct, type="b",pch="p", col="black")
 
-# =========================================================
 # _6) DEFINE LAND PERIODS FOR Caraquet ========
-# =======================================================
 
 # MK 2016-04-14
 landtMK=read.delim("C:/Users/Moumita/Post Doc at Shippagan/151210_env_scripts_from_Alain_to_Moumita/Land_data/Land_use_data4_MK.txt", header=TRUE)
@@ -1782,7 +1782,7 @@ summary(landtMK$PeriodCar)
 dim(landtMK)
 # 45 x 21
 
-# Gloucester subset for Caraquet ----------------------------
+# __Gloucester subset for Caraquet ----------------------------
 Gloucester=subset(landtMK,Territorial_delim=="Gloucester",select=c(Year, PeriodCar, Territorial_delim,Foin_hay_pct, Ble_weat_pct,Orge_barley_pct, Avoine_oats_pct,Hay_weat_barley_oats_pct))
 Gloucester[,1:4]
 # Get number of cases by variable
@@ -1798,8 +1798,8 @@ sum(PeriodCases)
 GPeriodMeanCar=aggregate(Gloucester, by=list(Gloucester$PeriodCar), FUN="mean", na.rm=TRUE)
 GPeriodMeanCar
 
-#MK done on 2016-04-14########################
-# Caraquet subset ------------------------------------------------
+#MK done on 2016-04-14
+# Caraquet subset 
 
 Cart=subset(landtMK, Territorial_delim=="Caraquet",select=c(Year,PeriodCar,Territorial_delim,Cumul_Peat_extract_Pok_pct))
 Cart
@@ -1814,7 +1814,7 @@ summary(landtMKCar)
 save(landtMKCar,file="landtMKCar.RData")
 write.csv(landtMKCar,"landtMKCar.csv")
 
-# For plotting----------------------------------
+# For plotting
 plot(landtMKCar$Year.x~landtMKCar$Hay_weat_barley_oats_pct, type="b", xlim=c(0,0.06))
 points(landtMKCar$Year.x~landtMKCar$Foin_hay_pct, type="b", col="blue", pch="h")
 points(landtMKCar$Year.x~landtMKCar$Ble_weat_pct, type="b", col="green", pch="w")
@@ -1822,9 +1822,8 @@ points(landtMKCar$Year.x~landtMKCar$Orge_barley_pct, type="b", col="red", pch="b
 points(landtMKCar$Year.x~landtMKCar$Avoine_oats_pct, type="b", col="purple", pch="o")
 points(landtMKCar$Year.x~landtMKCar$Cumul_Peat_extract_Pok_pct, type="b",pch="p", col="black")
 
-############################################################
-# Working on Lake Inkerman pigment concentration MK: 2016-04-12 ####
-########################################################
+# PART V : RDAs ====
+# _Lake Inkerman pigment concentration MK: 2016-04-12 ====
 
 allpigs=read.delim("C:/Users/Moumita/Post Doc at Shippagan/All pigments/Pigments_analyses_to_Moumita.txt",header=T)
 summary(allpigs)
@@ -1832,36 +1831,37 @@ dim(allpigs)
 # 212 rows x 27 columns
 names(allpigs)
 
-# Get the levels of factor "Station"----------------------
+# Get the levels of factor "Station"
 levels(allpigs$Station)
 
 # Create a subset for Pokemouche_aval_Lac_Inkerman
 
 PokAvLacInk=subset(allpigs,Station=="Pokemouche_aval_Lac_Inkerman")
 dim(PokAvLacInk)
-# --------------------------------------------------------------------
 allpigs$chla_Pheo=allpigs$Chla2/allpigs$Pheo2
 write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv") # cannot write a variable to csv!
 summary(allpigs$chla_Pheo)
 allpigs$Chla2
 allpigs$Pheo2
 edit(allpigs$chla_Pheo)
-# Creating subset for Chla_Pheo--------------------
+# Creating subset for Chla_Pheo 
 LakeInkAvChla_Pheo=subset(allpigs, Station=="Pokemouche_aval_Lac_Inkerman", select=c(Station,chla_Pheo))
 # write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv") # cannot write a variable to csv!
 write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
 
-###################################################
-# Import the pigment-environment file, AP 2016-06-09
-####################################################
-# Save "For analysis_updated_April 18th.xlsx" (attached in Moumitas' 2016-04-24 email) as "Pigs_env_160506.csv"
-# <<<<<<< HEAD
-foran=read.csv("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env_160506.csv")
+# ____Import the pigment-environment file, AP 2016-06-09 ####
 
-# R.Version()
-foran=read.csv2("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env_160506.csv")
-# >>>>>>> 5ec2e8f11cbf79287b88ff2e1a593c860f49c3b0
-dim(foran)
+# Save "For analysis_updated_April 18th.xlsx" (attached in Moumitas' 2016-04-24 email) as "Pigs_env_160506.csv"
+
+file.info("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
+
+foran=read.csv("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
+# Notice "read.csv" rather than "read.csv2", 
+# indicating the file comes from Moumita's anglo system
+
+# commit 5ec2e8f11cbf79287b88ff2e1a593c860f49c3b0
+
+dim(foran) # 174 x 63
 names(foran)
 library(Hmisc) # to use function "contents"
 contents(foran)
@@ -1935,21 +1935,21 @@ library(packfor)
 
 forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
 
-###################################################
-# Import the pigment-environment file, MK 2016-06-20
-####################################################
+# ____Import the pigment-environment file, MK 2016-06-20 ####
 # Save "For analysis.xlsx" as "Pigs_env.csv"
 foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
-dim(foran)
+
+foran=read.csv("Pigs_env.csv")
+dim(foran) 174 x 63 on 2017-02-07
+
 library(Hmisc) # to use function "contents"
 contents(foran)
 summary(foran)
-edit(foran)
 
-# Petite Tracadie subset with function "grepl"---------------
+# _Petite Tracadie amont ---------------
 
 foran$Tmoy_C_4
-PT=subset(foran,grepl("Petite_Tracadie_amont",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+PT=subset(foran,grepl("Petite_Tracadie_amont",SampleName) & !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
 PT[,1:5]
 dim(PT)
 # Y matrix
@@ -1960,8 +1960,7 @@ dim(PTpigs)
 PTenv=subset(PT,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
 dim(PTenv)
 
-# Selection of variable------------------------------------
-help(ordistep)
+# ____Selection of variables ------------------------------------
 
 # First create "intercept-only model"
 rda0=rda(PTpigs~1,data=PTenv)
@@ -1973,17 +1972,17 @@ rda1=rda(PTpigs~.,data=PTenv)
 rda1
 summary(rda1)
 
-# Selection procedure with function "ordistep"------------------------------------
+# ____Selection procedure with function "ordistep"------------------------------
 ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
 
-# Build RDA based on selection
+# ____Build RDA based on selection ----
 rda2=rda(PTpigs~PT$Tmoy_C_6,scale=T)
 rda2
 summary(rda2)
 # Figure 5a of upstream-downstream manuscript sent to L&O
 plot(rda2)
 
-#==== MK, July 5th 2016: Build RDA based on selection, adding two most significant env variables================
+# ____Build RDA based on selection, adding two most significant env variables MK, July 5th 2016: ================
 rda2=rda(PTpigs~PT$Tmoy_C_6+PT$Tmoy_C_7,scale=T)
 rda2
 summary(rda2)
@@ -1993,7 +1992,7 @@ rda2=rda(PTpigs~PT$Tmoy_C_6+PT$Tmoy_C_7,scale=F)
 rda2
 summary(rda2)
 plot(rda2)
-#=====================================================
+
 # Test significance of model
 anova(rda2)
 
@@ -2011,8 +2010,7 @@ permutest(rda2,permutation=9999)
 # help(forward.sel)
 # forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
 
-#=========================================================================
-#### Maltempec subset with function "grepl"---------------
+#### _Maltempec subset with function "grepl"---------------
 foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
 dim(foran)
 library(Hmisc) # to use function "contents"
@@ -2036,8 +2034,7 @@ dim(Maltenv)
 # MK and AP: June 30th++++++++++++++++++++++++++++++++++++++
 summary(Maltenv)
 
-#================================================================
-#MK: for missing values of agriculture, have used the mean-----------------
+# MK: for missing values of agriculture, have used the mean
 Maltenv$Ble_weat_pct
 Maltenv[5,'Ble_weat_pct']=mean(Maltenv$Ble_weat_pct,na.rm=T)
 
@@ -2058,8 +2055,7 @@ Maltenv$Cumul_Peat_extract_Pok_pct[is.na(Maltenv$Cumul_Peat_extract_Pok_pct)]=0
 Maltenv$Cumul_Peat_extract_Pok_pct
 
 edit(Maltenv)
-#---------------------------------------------------------------------
-# First create "intercept-only model"------------------------
+# ____First create "intercept-only model"------------------------
 rda0=rda(Maltpigs~1,data=Maltenv)
 rda0
 (summary(rda0))
@@ -2069,7 +2065,7 @@ rda1=rda(Maltpigs~.,data=Maltenv)
 rda1
 summary(rda1)
 
-# Selection procedure with function "ordistep"---------------------------------
+# ____Selection procedure with function "ordistep"---------------------------------
 ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
 
 # Build RDA based on selection
@@ -2078,7 +2074,7 @@ rda2
 summary(rda2)
 plot(rda2)
 
-# MK: June 30th, rda2 but scaling is different------------------------
+# ____MK: June 30th, rda2 but scaling is different------------------------
 rda2=rda(Maltpigs~Malt$Tmoy_C_7+Malt$Precip_mm_6_June,scale=F)
 rda2
 summary(rda2)
@@ -2094,8 +2090,7 @@ anova(rda2)
 # Test by alternative method
 permutest(rda2,permutation=9999)
 
-#=====================================================================
-#### Waugh subset with function "grepl"---------------
+#### _Waugh subset with function "grepl"---------------
 
 foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
 dim(foran)
@@ -2116,7 +2111,7 @@ dim(Waupigs)
 Wauenv=subset(Wau,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
 dim(Wauenv)
 
-# Selection of variable------------------------------------
+# ____Selection of variable------------------------------------
 help(ordistep)
 
 # First create "intercept-only model"
@@ -2129,10 +2124,9 @@ rda1=rda(Waupigs~.,data=Wauenv)
 rda1
 summary(rda1)
 
-# Selection procedure with function "ordistep"------------------------------------
+# ____Selection procedure with function "ordistep"------------------------------------
 ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
-#================================================================================
-# MK: this is the only one env variable for Waugh -----------------------------------------------------------
+# ____MK: this is the only one env variable for Waugh ------------------------
 #                           Df  AIC       F N.Perm Pr(>F)
 + Ble_weat_pct              1   43 10.1831    999  0.086 .
 
@@ -2151,16 +2145,15 @@ anova(rda2)
 # Test by alternative method
 permutest(rda2,permutation=9999)
 
-#----------MK: July 5th, RDA 2 based on scalling = F--------------------------
+# ____MK: July 5th, RDA 2 based on scalling = F--------------------------
 rda2=rda(Waupigs~Wau$Ble_weat_pct,scale=F)
 rda2
 summary(rda2)
 plot(rda2)
 
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # MK July 6th 2016: running RDA for Lake Inkerman subset for discussion of the "upstream vs downstream paper"
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+# _Inkerman ====
 foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
 dim(foran)
 library(Hmisc) # to use function "contents"
@@ -2180,7 +2173,7 @@ dim(Inkpigs)
 Inkenv=subset(Ink,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
 dim(Inkenv)
 
-#MK: for missing values of agriculture, have used the mean-----------------
+# ____MK: for missing values of agriculture, have used the mean-----------------
 
 Inkenv$Orge_barley_pct
 Inkenv[7,'Orge_barley_pct']=mean(Inkenv$Orge_barley_pct,na.rm=T)
@@ -2197,7 +2190,6 @@ Inkenv$Cumul_Peat_extract_Pok_pct
 
 edit(Inkenv)
 
-=================================================================================
 # First create "intercept-only model"
 rda0=rda(Inkpigs~1,data=Inkenv)
 rda0
@@ -2208,7 +2200,7 @@ rda1=rda(Inkpigs~.,data=Inkenv)
 rda1
 summary(rda1)
 
-# Selection procedure with function "ordistep"------------------------------------
+# ____Selection procedure with function "ordistep"----------------------------
 ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
 
 # Build RDA based on selection
@@ -2219,44 +2211,48 @@ rda2
 summary(rda2)
 plot(rda2)
 
-#=====================================================
-# Test significance of model
+# ____Test significance of model ####
 anova(rda2)
 
 # Test by alternative method
 permutest(rda2,permutation=9999)
 
-# MK July 6th 2016: talk to Alain, regarding this result of Lake Inkerman, RDA===================
+# MK July 6th 2016: talk to Alain, regarding this result of Lake Inkerman, RDA
 
-#=======================================================================
-#MK July 7th 2016:
-#---------------Shippagan east ----------------
+# MK July 7th 2016
+# _Shippagan east ----------------
 
-foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
-dim(foran)
-library(Hmisc) # to use function "contents"
-contents(foran)
-summary(foran)
-edit(foran)
+# ____ PCA on Shippagan East (inner bay) 2017-02-07 -------
 
-# Shippagan est subset with function "grepl"---------------
+ShipEastPCA=subset(foran,grepl("Shippagan E",SampleName) & MedianDepth_cm<=21, select=c(MedianDepth_cm,Beta_caro2, Chla2, Fuco2, Diatox2, Echi2, LutZea2, Chlb2, Allox2))
+names(ShipEastPCA)
+rownames(ShipEastPCA)=ShipEastPCA[,"MedianDepth_cm"]
+rownames(ShipEastPCA)
 
-foran$Tmoy_C_4
-Shiest=subset(foran,grepl("Shippagan Est",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+ShipEastPCA=subset(ShipEastPCA, select=-c(MedianDepth_cm))
+
+dim(ShipEastPCA) # 11 x 8 on 2017-02-07
+
+ShipEastPCAmod1=prcomp(ShipEastPCA, scale.=T)
+ShipEastPCAmod1
+summary(ShipEastPCAmod1)
+png("ShipEastPCA170207.png")
+biplot(ShipEastPCAmod1)
+dev.off()
+
+
+Shiest=subset(foran,grepl("Shippagan Est",SampleName) & !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
 Shiest[,1:5]
-dim(Shiest)
+dim(Shiest) # 7 x 63 on 2017-02-07
 # Y matrix
 Shiestpigs=subset(Shiest,select=c(Fuco2:Pheo2))
-dim(Shiestpigs)
+dim(Shiestpigs) # 7 x 12 on 2017-02-07
 
 # X matrix
 Shiestenv=subset(Shiest,select=c(Precip_mm_4_April:Tmoy_C_8,Foin_hay_pct:Hay_weat_barley_oats_pct,Cumul_Peat_extract_Pok_pct))
-dim(Shiestenv)
+dim(Shiestenv) # 7 x 16 on 2017-02-07
 
-# Selection of variable------------------------------------
-help(ordistep)
-
-# Missing values for agriculture, used mean-------------------
+# ____Missing values for agriculture, used mean-------------------
 Shiestenv$Ble_weat_pct
 Shiestenv[7,'Ble_weat_pct']=mean(Shiestenv$Ble_weat_pct,na.rm=T)
 
@@ -2277,6 +2273,8 @@ Shiestenv$Cumul_Peat_extract_Pok_pct
 
 edit(Shiestenv)
 
+# ____Selection of variable------------------------------------
+
 # First create "intercept-only model"
 rda0=rda(Shiestpigs~1,data=Shiestenv)
 rda0
@@ -2287,7 +2285,7 @@ rda1=rda(Shiestpigs~.,data=Shiestenv)
 rda1
 summary(rda1)
 
-# Selection procedure with function "ordistep"------------------------------------
+# ____Selection procedure with function "ordistep"-------------------------
 ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
 
 rda2=rda(Shiestpigs~Shiest$Tmoy_C_6,scale=T)
@@ -2295,14 +2293,14 @@ rda2
 summary(rda2)
 plot(rda2)
 
-Importance of components:
-                        RDA1    PC1    PC2     PC3     PC4     PC5
-Eigenvalue            2.8021 4.2984 1.1426 0.49728 0.15699 0.10269
-Proportion Explained  0.3113 0.4776 0.1270 0.05525 0.01744 0.01141
-Cumulative Proportion 0.3113 0.7889 0.9159 0.97115 0.98859 1.00000
+# Importance of components:
+#                        RDA1    PC1    PC2     PC3     PC4     PC5
+# Eigenvalue            2.8021 4.2984 1.1426 0.49728 0.15699 0.10269
+# Proportion Explained  0.3113 0.4776 0.1270 0.05525 0.01744 0.01141
+# Cumulative Proportion 0.3113 0.7889 0.9159 0.97115 0.98859 1.00000
 
 
-#-------------Shippagan west----------------------------------
+# _Shippagan west ----------------------------------
 
 foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
 dim(foran)
@@ -2311,7 +2309,7 @@ contents(foran)
 summary(foran)
 edit(foran)
 
-# Shippagan West subset with function "grepl"---------------
+# ____Shippagan West subset with function "grepl"---------------
 
 foran$Tmoy_C_4
 Shiwst=subset(foran,grepl("Shippagan Ouest",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
@@ -2330,7 +2328,7 @@ rda0=rda(Shiwstpigs~1,data=Shiwstenv)
 rda0
 (summary(rda0))
 
-# Missing values for agriculture, used mean-------------------
+# ____Missing values for agriculture, used mean-------------------
 Shiwstenv$Ble_weat_pct
 Shiwstenv[4,'Ble_weat_pct']=mean(Shiwstenv$Ble_weat_pct,na.rm=T)
 
@@ -2356,23 +2354,22 @@ rda1=rda(Shiwstpigs~.,data=Shiwstenv)
 rda1
 summary(rda1)
 
-# Selection procedure with function "ordistep"------------------------------------
+# ____Selection procedure with function "ordistep" -------------------------
 ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
 
 # Build RDA based on selection
-#Tmoy_C_4                    1 37.097 11.6376    999  0.041 *
+# Tmoy_C_4                    1 37.097 11.6376    999  0.041 *
 
 rda2=rda(Shiwstpigs~Shiwst$Tmoy_C_4,scale=T)
 rda2
 summary(rda2)
 plot(rda2)
-#-------------------------------------------------------
-Importance of components:
-                        RDA1    PC1    PC2
-Eigenvalue            5.6119 2.3249 1.0632
-Proportion Explained  0.6236 0.2583 0.1181
-Cumulative Proportion 0.6236 0.8819 1.0000
-#-----------------------------------------------------------
+
+# Importance of components:
+#                        RDA1    PC1    PC2
+# Eigenvalue            5.6119 2.3249 1.0632
+# Proportion Explained  0.6236 0.2583 0.1181
+# Cumulative Proportion 0.6236 0.8819 1.0000
 
 # Test significance of model
 anova(rda2)
