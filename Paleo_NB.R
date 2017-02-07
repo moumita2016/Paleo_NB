@@ -1,7 +1,6 @@
-# ######### Part zero (practice run): pigment concentration computations ####
+# ######### PART zero (practice run): pigment concentration computations ####
 # This part is based on Maltampec data only; it was meant to serve
 # as a "practice".
-#####################################################################
 epath = file.path("C:/Users/Moumita")
 epath
 M=read.delim2(paste(epath,"/Post Doc at Shipgaan/First set data/Maltampec_pigs.txt",sep=""),header=TRUE)
@@ -78,12 +77,10 @@ points(M$Median_depth_cm~ M$Beta_caro2, type="b", ylim=rev(c(0,50)), pch="B", co
 title(main="Maltampec pigments as of 2015-11-17")
 dev.off()
 
-#############################################################################
-# Part I: load "Pigments_analyses_to_Moumita.txt ####
+# PART I: load "Pigments_analyses_to_Moumita.txt ####
 # and convert pigment concentration into nmol per g OM
 # based on the "Pigments_analyses_to_Moumita.txt" file that Alain
 # sent to Moumita on 2016-11-19
-#############################################################################
 
 epath = file.path("C:/Users/Moumita")
 
@@ -103,8 +100,7 @@ summary(allpigs)
 dim(allpigs)
 # 212 rows x 27 columns
 
-#===============================
-# _Fucoxanthin ====
+#_ Fucoxanthin ====
 # Compute Fuco2 concentration in nmol/g for all records:
 FucoMM=658.91
 summary(subset(allpigs,select=c(Fuco,Fraction_injected, Sediment_dry_mass_g,Organic_content_pct)))
@@ -195,7 +191,7 @@ allpigs$Peri2=(allpigs$Peri/allpigs$Fraction_injected) / (allpigs$Sediment_dry_m
 summary(allpigs$Peri2)
 allpigs$Peri2
 
-# MK: done on 03-05-2016======================
+# _MK: done on 03-05-2016 ====
 # _Apha ===========
 AphaMM=731.02
 summary(allpigs$Apha)
@@ -287,12 +283,13 @@ write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv")
 save(allpigs,file=paste(epath,"/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/allpigs.RData",sep=""))
 summary(allpigs$chla_Pheo)
 
-#===========================================================================
 # Creating subset for each station with Chla_Pheo
 # MK: 2016-04-15
-# I was not sure how to calculate the raio between Chl a to Pheo, when Alain showed that to
-# me, I ran the script again to calculate the Chla:Pheo and then I saved for each
-# station, to have them in separate files, for incoporating in the master analisis file.
+# I was not sure how to calculate the raio between Chl a to Pheo, when Alain 
+# showed that to me, I ran the script again to calculate the Chla:Pheo and 
+# then I saved for each station, to have them in separate files, 
+# for incoporating in the master analisis file.
+
 # AP 2016-04-19: OK, so the code below could be deleted vvvvvvvvvvvvvvvvvvvvvv
 TabusiAVChla_Pheo=subset(allpigs, Station=="Tabusintac_AVAL", select=c(Station,chla_Pheo))
 write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv")
@@ -312,14 +309,14 @@ write.csv(PetAmChla_Pheo,"PetAmcsvChla_Pheo.csv")
 
 # The code above can be deleted ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-# Station subsets ####
-# Create a subset for "Caraquet AVAL
+# Station subsets (from north to south) ####
+# _Create a subset for "Caraquet AVAL ====
 CarUppigs=subset(allpigs,Station=="Caraquet AVAL")
 dim(CarUppigs) # 14 x 28
 summary(CarUppigs$Fuco2)
 summary(CarUppigs$MedianDepth_cm)
 
-# Generate a plot
+# __Generate a Caraquet AVAL plot --------
 plot(CarUppigs$MedianDepth_cm~CarUppigs$Fuco2,ylim=rev(c(range(CarUppigs$MedianDepth_cm))),xlim=range(CarUppigs$Fuco2), type="b")
 
 plot(CarUppigs$MedianDepth_cm~CarUppigs$Myxo2,ylim=rev(c(range(CarUppigs$MedianDepth_cm))),xlim=range(CarUppigs$Myxo2), type="b")
@@ -330,12 +327,7 @@ plot(CarUppigs$MedianDepth_cm~CarUppigs$Alpha_carot2,ylim=rev(c(range(CarUppigs$
 write.csv(CarUppigs,"CarUppigscsv.csv")
 save(CarUppigs,file="CarUppigs.RData")
 
-# Create a subset for Caraquet AVAL
-CarUppigs=subset(allpigs,Station=="Caraquet AVAL")
-dim(CarUppigs) # 14 x 28
-summary(CarUppigs$Fuco2)
-
-# Create a subset for Pokemouche_amont_Maltampec
+# _Create a subset for Pokemouche_amont_Maltampec ====
 PokAmMalt=subset(allpigs,Station=="Pokemouche_amont_Maltampec")
 dim(PokAmMalt)
 summary(PokAmMalt$Fuco2)
@@ -346,7 +338,7 @@ plot(PokAmMalt$MedianDepth_cm~PokAmMalt$Fuco2,ylim=rev(c(range(PokAmMalt$MedianD
 write.csv(PokAmMalt,"PokAmMaltcsv.csv")
 save(PokAmMalt,file="PokAmMalt.RData")
 
-# Create a subset for Pokemouche_amont_Waugh
+# _Create a subset for Pokemouche_amont_Waugh ====
 PokAmWau=subset(allpigs,Station=="Pokemouche_amont_Waugh")
 dim(PokAmWau)
 summary(PokAmWau$Fuco2)
@@ -355,7 +347,7 @@ plot(PokAmWau$MedianDepth_cm~PokAmWau$Fuco2,ylim=rev(c(range(PokAmWau$MedianDept
 write.csv(PokAmWau,"PokAmWaucsv.csv")
 save(PokAmMalt,file="PokAmWau.RData")
 
-#Create a subset for Pokemouche_aval_Lac_Inkerman
+# _Create a subset for Pokemouche_aval_Lac_Inkerman ====
 
 PokAvLacInk=subset(allpigs,Station=="Pokemouche_aval_Lac_Inkerman")
 dim(PokAvLacInk)
@@ -365,7 +357,7 @@ plot(PokAvLacInk$MedianDepth_cm~PokAvLacInk$Fuco2,ylim=rev(c(range(PokAvLacInk$M
 write.csv(PokAvLacInk,"PokAvLacInkcsv.csv")
 save(PokAvLacInk,file="PokAvLacInk.RData")
 
-#Create a subset for Petite_Tracadie_amont
+# _Create a subset for Petite_Tracadie_amont ====
 PetTraAm=subset(allpigs,Station=="Petite_Tracadie_amont")
 dim(PetTraAm)
 summary(PetTraAm$Fuco2)
@@ -374,7 +366,7 @@ plot(PetTraAm$MedianDepth_cm~PetTraAm$Fuco2,ylim=rev(c(range(PetTraAm$MedianDept
 write.csv(PetTraAm,"PetTraAmcsv.csv")
 save(PetTraAm,file="PetTraAm.RData")
 
-#Create a subset for Petite_Tracadie_AVAL
+# _Create a subset for Petite_Tracadie_AVAL ====
 
 PetTraAv=subset(allpigs,Station=="Petite_Tracadie_AVAL")
 dim(PetTraAv)
@@ -384,7 +376,7 @@ plot(PetTraAv$MedianDepth_cm~PetTraAv$Fuco2,ylim=rev(c(range(PetTraAv$MedianDept
 write.csv(PetTraAv,"PetTraAvcsv.csv")
 save(PetTraAv,file="PetTraAv.RData")
 
-#Create a subset for Tabusintac_amont
+# _Create a subset for Tabusintac_amont ====
 
 TabusiAm=subset(allpigs,Station=="Tabusintac_amont")
 dim(TabusiAm)
@@ -394,7 +386,7 @@ plot(TabusiAm$MedianDepth_cm~TabusiAm$Fuco2,ylim=rev(c(range(TabusiAm$MedianDept
 write.csv(TabusiAm,"TabusiAmcsv.csv")
 save(TabusiAm,file="TabusiAm.RData")
 
-#Create a subset for Tabusintac_AVAL
+# _Create a subset for Tabusintac_AVAL ====
 
 TabusiAV=subset(allpigs,Station=="Tabusintac_AVAL")
 dim(TabusiAV)
@@ -404,11 +396,10 @@ plot(TabusiAV$MedianDepth_cm~TabusiAV$Fuco2,ylim=rev(c(range(TabusiAV$MedianDept
 write.csv(TabusiAV,"TabusiAVcsv.csv")
 save(TabusiAV,file="TabusiAV.RData")
 
-##############################################################
-# Correlation matrix =========
-#############################################################
+# Correlation matrices ####
 
 ########## Dec 1st 2015-12-01
+
 # _1) Correlation for "Pokemouche_aval_Lac_Inkerman" ====
 allpigssub3=subset(allpigs, Station=="Pokemouche_aval_Lac_Inkerman")
 dim(allpigssub3)
@@ -453,9 +444,7 @@ allpigssub3=subset(allpigs, Station=="Tabusintac_AVAL",select=(Fuco2:Pheo2))
 dim(allpigssub3)
 cor(allpigssub3, use="pairwise.complete.obs",method="pearson")
 
-##########################################################################
 ##### PCA with prcomp 2015-12-01 ####
-##########################################################################
 
 # _1) PCA all stations ====
 # Only select those pigments for which values are non zeroes
@@ -538,13 +527,10 @@ prcomppigs=prcomp(allpigssub3, scale.=TRUE)
 
 # save.image() http://www.statmethods.net/interface/workspace.html
 
-
-
-################################################################
-# Part II: define periods for the meteo data ====
+############ PART II: define periods for the meteo data ###############
 # Dec_2015_Moumita 2015-12
 # Dec 16th_2015_Moumita 2015-12-16
-##################################################################
+
 library(car)
 # to use function "scatterplot"
 library(gdata)
@@ -587,7 +573,7 @@ subset(ty4,select=c(year_all, year_fact,Period, Precip_mm_Moncton3, Tmoy_C_Monct
 
 
 # _Periods for Maltampec, by Moumita 2015-12-17 ======
-# =====(Dec 17th_2015_Maltempec 2010)
+# Dec 17th_2015_Maltempec 2010
 
 # AP to MK 2016-01-05: We need to have a different name
 # for each "Period" variable (one for Maltampec, one for Waugh...)
@@ -596,11 +582,9 @@ subset(ty4,select=c(year_all, year_fact,Period, Precip_mm_Moncton3, Tmoy_C_Monct
 # These age estimates were defined in individual Excel files
 # (one per core station) by Moumita
 
-######################################################################
 # MK: 2016-04-15
 # Periods are corrected based on the 3rd series of CRS age (Binford),
 # corrected by AP, on 2016-04-15
-##########################################################################
 
 # 1) Maltampec April
 ty4$PeriodMalt[ty4$year_all>=1876 & ty4$year_all<=1908]=("P1")
@@ -657,7 +641,7 @@ summary(ty8$PeriodMalt)
 dim(ty8)
 #[1] 138 121
 
-# ___ Aggregate Malt data by period, Dec17th_2015-12-17 ----
+# __Aggregate Malt data by period, Dec17th_2015-12-17 ----
 # AP to MK 2016-01-05:
 # Now, we need to create Meteo files specific to each station,
 # because each station have different period definitions
@@ -725,7 +709,7 @@ meteoMonctonMalt=c(ty4PMaltbis,ty5PMaltbis,ty6PMaltbis,ty7PMaltbis,ty8PMaltbis)
 save("meteoMonctonMalt",file="meteoMonctonMalt.RData")
 write.csv(meteoMonctonMalt,"meteoMonctonMalt.csv")
 
-# ================ _Periods for Waugh =================
+# _Periods for Waugh =================
 # ========== corrected by MK 2016-04-15
 
 # ---- Waugh April
@@ -879,8 +863,8 @@ ty4$PeriodPetitAM[ty4$year_all>=2001 & ty4$year_all<=2004]=("P10")
 ty4$PeriodPetitAM[ty4$year_all>=2005 & ty4$year_all<=2010]=("P11")
 ty4$PeriodPetitAM=as.factor(ty4$PeriodPetitAM)
 summary(ty4$PeriodPetitAM)
-dim(ty4)
-[1] 137 121
+dim(ty4) # 137 x 121
+
 # --- Petite Tracadie May
 ty5$PeriodPetitAM[ty5$year_all>=1839 & ty5$year_all<=1879]=("P1")
 ty5$PeriodPetitAM[ty5$year_all>=1880 & ty5$year_all<=1908]=("P2")
@@ -895,10 +879,9 @@ ty5$PeriodPetitAM[ty5$year_all>=2001 & ty5$year_all<=2004]=("P10")
 ty5$PeriodPetitAM[ty5$year_all>=2005 & ty5$year_all<=2010]=("P11")
 ty5$PeriodPetitAM=as.factor(ty5$PeriodPetitAM)
 summary(ty5$PeriodPetitAM)
-dim(ty5)
-[1] 137 121
-# --- Petite Tracadie June
+dim(ty5) # 137 121
 
+# --- Petite Tracadie June
 ty6$PeriodPetitAM[ty6$year_all>=1839 & ty6$year_all<=1879]=("P1")
 ty6$PeriodPetitAM[ty6$year_all>=1880 & ty6$year_all<=1908]=("P2")
 ty6$PeriodPetitAM[ty6$year_all>=1909 & ty6$year_all<=1934]=("P3")
@@ -912,8 +895,8 @@ ty6$PeriodPetitAM[ty6$year_all>=2001 & ty6$year_all<=2004]=("P10")
 ty6$PeriodPetitAM[ty6$year_all>=2005 & ty6$year_all<=2010]=("P11")
 ty6$PeriodPetitAM=as.factor(ty6$PeriodPetitAM)
 summary(ty6$PeriodPetitAM)
-dim(ty6)
-[1] 137 121
+dim(ty6) # 137 121
+
 # --- Petite Tracadie July
 ty7$PeriodPetitAM[ty7$year_all>=1839 & ty7$year_all<=1879]=("P1")
 ty7$PeriodPetitAM[ty7$year_all>=1880 & ty7$year_all<=1908]=("P2")
@@ -928,10 +911,9 @@ ty7$PeriodPetitAM[ty7$year_all>=2001 & ty7$year_all<=2004]=("P10")
 ty7$PeriodPetitAM[ty7$year_all>=2005 & ty7$year_all<=2010]=("P11")
 ty7$PeriodPetitAM=as.factor(ty7$PeriodPetitAM)
 summary(ty7$PeriodPetitAM)
-dim(ty7)
-[1] 138 121
-# --- Petite Tracadie August
+dim(ty7) # 138 121
 
+# --- Petite Tracadie August
 ty8$PeriodPetitAM[ty8$year_all>=1839 & ty8$year_all<=1879]=("P1")
 ty8$PeriodPetitAM[ty8$year_all>=1880 & ty8$year_all<=1908]=("P2")
 ty8$PeriodPetitAM[ty8$year_all>=1909 & ty8$year_all<=1934]=("P3")
@@ -945,40 +927,38 @@ ty8$PeriodPetitAM[ty8$year_all>=2001 & ty8$year_all<=2004]=("P10")
 ty8$PeriodPetitAM[ty8$year_all>=2005 & ty8$year_all<=2010]=("P11")
 ty8$PeriodPetitAM=as.factor(ty8$PeriodPetitAM)
 summary(ty8$PeriodPetitAM)
-dim(ty8)
-[1] 138 121
+dim(ty8) # 138 121
+
 # __Aggregate Petite Travadie Amont April---------------------------
 ty4PPetit=aggregate(ty4, by=list(ty4$PeriodPetitAM), FUN=mean, na.rm=TRUE)
-dim(ty4PPetit)
-# 11 x 122
+dim(ty4PPetit) # 11 x 122
+
 ty4PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty4PPetit", file="ty4PPetit.RData")
 
 # Petite Tracadie May
 ty5PPetit=aggregate(ty5, by=list(ty5$PeriodPetitAM), FUN=mean, na.rm=TRUE)
-dim(ty5PPetit)
-# 11 x 122
+dim(ty5PPetit) # 11 x 122
+
 ty5PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty5PPetit", file="ty5PPetit.RData")
 
 # Petitte Tracadie June
 ty6PPetit=aggregate(ty6, by=list(ty6$PeriodPetitAM), FUN=mean, na.rm=TRUE)
-dim(ty6PPetit)
-# 11 x 122
+dim(ty6PPetit) # 11 x 122
+
 ty6PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty6PPetit", file="ty6PPetit.RData")
 
 # Petite Tracadie July
 ty7PPetit=aggregate(ty7, by=list(ty7$PeriodPetitAM), FUN=mean, na.rm=TRUE)
-dim(ty7PPetit)
-# 11 x 122
+dim(ty7PPetit) # 11 x 122
 ty7PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty7PPetit", file="ty7PPetit.RData")
 
 # Petite Tracadie August
 ty8PPetit=aggregate(ty8, by=list(ty8$PeriodPetitAM), FUN=mean, na.rm=TRUE)
-dim(ty8PPetit)
-# 11 x 122
+dim(ty8PPetit) # 11 x 122
 ty8PPetit[,c("Group.1","Precip_mm_Moncton3", "Tmoy_C_Moncton3")]
 save("ty8PPetit", file="ty8PPetit.RData")
 
@@ -1405,7 +1385,6 @@ meteoMonctonCar=c(ty4PCarbis,ty5PCarbis,ty6PCarbis,ty7PCarbis,ty8PCarbis)
 save("meteoMonctonCar",file="meteoMonctonCar.RData")
 write.csv(meteoMonctonCar,"meteoMonctonCar.csv")
 
-###################################################################
 # PART III: define periods for the landuse data ####
 # Dec_2015_Moumita
 ###################################################################
@@ -1875,7 +1854,7 @@ write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
 ###################################################
 # Import the pigment-environment file, AP 2016-06-09
 ####################################################
-# Save "For analysis_updated_April 18th.xlsx" as "Pigs_env_160506.csv"
+# Save "For analysis_updated_April 18th.xlsx" (attached in Moumitas' 2016-04-24 email) as "Pigs_env_160506.csv"
 # <<<<<<< HEAD
 foran=read.csv("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env_160506.csv")
 
@@ -2201,7 +2180,6 @@ dim(Inkpigs)
 Inkenv=subset(Ink,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
 dim(Inkenv)
 
-==============================================================================
 #MK: for missing values of agriculture, have used the mean-----------------
 
 Inkenv$Orge_barley_pct
