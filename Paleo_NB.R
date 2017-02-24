@@ -2236,10 +2236,20 @@ dim(ShipEastPCA) # 11 x 8 on 2017-02-07
 ShipEastPCAmod1=prcomp(ShipEastPCA, scale.=T)
 ShipEastPCAmod1
 summary(ShipEastPCAmod1)
+names(ShipEastPCAmod1)
+ShipEastPCAmod1$sdev
+ShipEastPCAmod1$rotation
+ShipEastPCAmod1$x # are coordinates
+# Try to detect discontinuity with Webseter's method
+# Legendre & Legendre 1998: 693
+ShipEastPCAmod1$center
+ShipEastPCAmod1$scale
+
 png("ShipEastPCA170207.png")
-biplot(ShipEastPCAmod1)
+biplot(ShipEastPCAmod1) # plot sent to Moumita 2017-02-07
 dev.off()
 
+plot(ShipEastPCAmod1$x[,1],ShipEastPCAmod1$x[,2])
 
 Shiest=subset(foran,grepl("Shippagan Est",SampleName) & !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
 Shiest[,1:5]
