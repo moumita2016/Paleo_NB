@@ -1,3 +1,20 @@
+# Under RStudio, navigating through code is made easy by creating
+# Sections; these are followed by at least 4 pound keys (###)
+# Sub-sections end with four equal signs or more (====)
+# Sub-sub-sections end with at least four dashes (----)
+# Such headings are recognzied by RStudio in the menu Code>Jump to...
+# Trailings can be made as long as required to visually structure the file.
+
+# This file contains work by Moumita Karmakar and Alain, 2015-2016
+# I decided not to use latex or rmarkdown syntax to keep things as
+# easy as possible for both of us. The file is under git control
+# and published on github: https://github.com/moumita2016/Paleo_NB/commits/master
+
+# The allpigs file does  not contain year data;
+# keep in mind that year data were not available for multiple cores.
+# Keep in mind that allpigs only has depths to about 50 cm
+# (find code below that restricts depth)
+
 # ######### PART 0 (practice run): pigment concentration computations ####
 # This part is based on Maltampec data only; it was meant to serve
 # as a "practice".
@@ -94,11 +111,17 @@ epath
 
 # From Alain's Win8 computer
 allpigs=read.delim("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Base_donnees/Fichiers_txt/Pigments_analyses_to_Moumita.txt",header=T)
+# File C:\Users\alain\Documents\RECHERCHE_Labos_GIZC\_Base_donnees\Fichiers_txt\Pigments_analyses_to_Moumita.txt
+# comes from C:\Users\alain\Documents\RECHERCHE_Labos_GIZC\_Base_donnees\Fichiers_xls_ods\Pigments_analyses_to_Moumita_151119.xlsx
+# Notice that the Excel file has red rows indicating duplicates. These must be removed in the data file as follows:
+
+allpigs=subset(allpigs,InitialRowOrder!=19 &
+                  InitialRowOrder!=73 & InitialRowOrder!=79)
+# allpigs2[,c(2,5,10)]
 
 file.info("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Base_donnees/Fichiers_txt/Pigments_analyses_to_Moumita.txt") # ctime 2015-11-23 on 2017-02-07
 
-dim(allpigs) # 212 rows x 27 columns
-# Also see xls version in C:\Users\alain\Documents\RECHERCHE_Labos_GIZC\_Base_donnees\Fichiers_xls_ods\Pigments_analyses_to_Moumita_151119.xlsx
+dim(allpigs) # 212 rows x 27 columns; 209 x 45 after removing duplicates 2017-09-20
 
 summary(allpigs)
 summary(allpigs$Station)
@@ -155,12 +178,22 @@ summary(subset(allpigs,select=c(Fuco,Fraction_injected, Sediment_dry_mass_g,Orga
 
 allpigs$Fuco2=(allpigs$Fuco/allpigs$Fraction_injected) / (allpigs$Sediment_dry_mass_g * allpigs$Organic_content_pct) * (1000/FucoMM)
 summary(allpigs$Fuco2)
+
+allpigs$ID[allpigs$Station=="Caraquet AVAL"]="C"
+allpigs$ID[allpigs$Station=="Pokemouche_amont_Maltampec"]="M"
+allpigs$ID[allpigs$Station=="Pokemouche_amont_Waugh"]="W"
+allpigs$ID[allpigs$Station=="Pokemouche_aval_Lac_Inkerman"]="I"
+allpigs$ID[allpigs$Station=="Petite_Tracadie_amont"]="p"
+allpigs$ID[allpigs$Station=="Petite_Tracadie_AVAL"]="P"
+allpigs$ID[allpigs$Station=="Tabusintac_amont"]="t"
+allpigs$ID[allpigs$Station=="Tabusintac_AVAL"]="T"
+allpigs$ID2=paste(allpigs$ID,allpigs$MedianDepth_cm,sep="")
+
+head(allpigs$ID2)
+
 # _Save data  ====
 write.csv(allpigs,"allpigscsv.csv")
 
-# If you want to save file elsewhere:
-# write.csv(allpigs,"C:/path/to/directory/allpigscsv.csv")
-write.csv(allpigs("C:/epath,"/Post Doc at Shipgaan/allpigscsv.csv"))
 
 # Save the "allpigs" data as RData, if you want...
 save(allpigs,file="allpigs.RData")
@@ -288,9 +321,9 @@ summary(allpigs$chla_Pheo)
 
 # Creating subset for each station with Chla_Pheo
 # MK: 2016-04-15
-# I was not sure how to calculate the raio between Chl a to Pheo, when Alain 
-# showed that to me, I ran the script again to calculate the Chla:Pheo and 
-# then I saved for each station, to have them in separate files, 
+# I was not sure how to calculate the raio between Chl a to Pheo, when Alain
+# showed that to me, I ran the script again to calculate the Chla:Pheo and
+# then I saved for each station, to have them in separate files,
 # for incoporating in the master analisis file.
 
 # AP 2016-04-19: OK, so the code below could be deleted vvvvvvvvvvvvvvvvvvvvvv
@@ -447,9 +480,9 @@ allpigssub3=subset(allpigs, Station=="Tabusintac_AVAL",select=(Fuco2:Pheo2))
 dim(allpigssub3)
 cor(allpigssub3, use="pairwise.complete.obs",method="pearson")
 
-# PART II PCA with prcomp 2015-12-01 ####
+# PART II PCA with prcomp 2015-12-01 #######
 
-# _1) PCA all stations ====
+# _1) PCA all stations ======================
 # Only select those pigments for which values are non zeroes
 # Fuco2 and chla_Pheo have missing values: omit these cases
 # with "!is.na()", which means "is not is not available"
@@ -475,7 +508,7 @@ biplot(prcomppigs)
 mtext("PCA all sations")
 
 
-# PCA Dec 2nd 2015-12-02
+# PCA 2015-12-02
 # _2) PCA Pokemouche downstream: Inkerman
 
 summary(subset(allpigs,Station=="Pokemouche_aval_Lac_Inkerman",
@@ -540,6 +573,51 @@ summary(allpigs$Station)
 
 # save.image() # following
 # http://www.statmethods.net/interface/workspace.html
+
+# _9) PCA 3 sites 2017-09-20 ===================
+# See email to Moumita 2017-09-14 and her reply
+# I want to remove Inkerman from analyses of our "up-down" ms
+# I want to remove fuco and chla (unstable) and their ratio
+# Moumita has performed the PCA with Canoca (plot sent in her
+# pptx file 2017-09-20). Will I get similar results here, before doing
+# a redundancy analysis (which she does not want to to)?
+
+sub3sites=subset(allpigs,
+                 (Station=="Petite_Tracadie_amont" | Station=="Pokemouche_amont_Maltampec" | Station=="Pokemouche_amont_Waugh")
+                  & (!is.na(Fuco2) & !is.na(chla_Pheo)),
+                   select=c(Myxo2, Allox2, Diatox2, LutZea2,
+                            Canth2, Chlb2,Echi2, Chla2,
+                            Beta_caro2,  Pheo2))
+dim(sub3sites) 
+# 69 x 12, once Station, Depth and alpha_carot (all 0) are removed from Select
+
+
+sub3sitesID=subset(allpigs,
+                 (Station=="Petite_Tracadie_amont" | Station=="Pokemouche_amont_Maltampec" | Station=="Pokemouche_amont_Waugh")
+                 & (!is.na(Fuco2) & !is.na(chla_Pheo)),
+                 select=c(Station, MedianDepth_cm,ID2))
+
+dim(sub3sitesID)
+names(sub3sitesID)
+rownames(sub3sites)=sub3sitesID$ID2
+
+prcomp3sites=prcomp(sub3sites, scale.=TRUE)
+prcomp3sites
+summary(prcomp3sites)
+# png("prcomp3sites.png")
+biplot(prcomp3sites, xlab="47%", ylab="22%")
+# dev.off()
+
+
+plot(prcomp3sites$x[,1],prcomp3sites$x[,2])
+text(prcomp3sites$x[,1],prcomp3sites$x[,2], labels=sub3sitesID$ID2,
+     cex=0.7, pos = 3)
+
+# install.packages("ggfortify")
+library("ggfortify")
+autoplot(prcomp3sites, data=sub3sitesID, colour="Station")
+
+# Plots look a lot alike the one sent 2017-09-20 by Moumita.
 
 ############ PART III: define periods for the meteo data ###############
 # Dec_2015_Moumita 2015-12
@@ -1650,7 +1728,7 @@ points(landtMKPtAm$Year.x~landtMKPtAm$Avoine_oats_pct, type="b", col="purple", p
 points(landtMKPtAm$Year.x~landtMKPtAm$Cumul_Peat_extract_Pok_ha, type="b",pch="p", col="black")
 
 # _4) DEFINE LAND PERIODS FOR Shippagan West defined periods =========
-# MK: corrected on 2016-04-15 
+# MK: corrected on 2016-04-15
 landtMK$PeriodShiwes[landtMK$Year>=1916 & landtMK$Year<=1954]=("P1")
 landtMK$PeriodShiwes[landtMK$Year>=1955 & landtMK$Year<=1984]=("P2")
 landtMK$PeriodShiwes[landtMK$Year>=1985 & landtMK$Year<=2000]=("P3")
@@ -1675,7 +1753,7 @@ sum(PeriodCases) # 10
 
 GPeriodMeanShiwes=aggregate(Gloucester, by=list(Gloucester$PeriodShiwes), FUN="mean", na.rm=TRUE)
 GPeriodMeanShiwes
-# MK done on 2016-04-14 
+# MK done on 2016-04-14
 
 # __St-Simon subset ------------------------------------------------
 
@@ -1728,8 +1806,8 @@ sum(PeriodCases)
 GPeriodMeanShieas=aggregate(Gloucester, by=list(Gloucester$PeriodShieas), FUN="mean", na.rm=TRUE)
 GPeriodMeanShieas
 
-# Replace "Bassin_Pokemouche" by St-Simon 
-# MK done on 2016-04-14 
+# Replace "Bassin_Pokemouche" by St-Simon
+# MK done on 2016-04-14
 
 # __St-Simon subset ------------------------------------------------
 
@@ -1791,15 +1869,16 @@ sapply(Gloucester, function(x)(sum(complete.cases(x))))
 # Get number of Foin cases by Period
 PeriodCases=tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodCar,sum,na.rm=T)/tapply(Gloucester$Foin_hay_pct,Gloucester$PeriodCar,mean,na.rm=T)
 PeriodCases
-P10 P11 P12 P13 P14 P15  P2  P3  P4  P5  P6  P7  P8  P9
-  1   1   1   1   1   1   3   3   1   2   2   1   1   1
-sum(PeriodCases)
-# 20
+# P10 P11 P12 P13 P14 P15  P2  P3  P4  P5  P6  P7  P8  P9
+#   1   1   1   1   1   1   3   3   1   2   2   1   1   1
+
+sum(PeriodCases) # 20
+
 GPeriodMeanCar=aggregate(Gloucester, by=list(Gloucester$PeriodCar), FUN="mean", na.rm=TRUE)
 GPeriodMeanCar
 
 #MK done on 2016-04-14
-# Caraquet subset 
+# Caraquet subset
 
 Cart=subset(landtMK, Territorial_delim=="Caraquet",select=c(Year,PeriodCar,Territorial_delim,Cumul_Peat_extract_Pok_pct))
 Cart
@@ -1822,19 +1901,7 @@ points(landtMKCar$Year.x~landtMKCar$Orge_barley_pct, type="b", col="red", pch="b
 points(landtMKCar$Year.x~landtMKCar$Avoine_oats_pct, type="b", col="purple", pch="o")
 points(landtMKCar$Year.x~landtMKCar$Cumul_Peat_extract_Pok_pct, type="b",pch="p", col="black")
 
-# PART V : RDAs ====
-# _Lake Inkerman pigment concentration MK: 2016-04-12 ====
-
-allpigs=read.delim("C:/Users/Moumita/Post Doc at Shippagan/All pigments/Pigments_analyses_to_Moumita.txt",header=T)
-summary(allpigs)
-dim(allpigs)
-# 212 rows x 27 columns
-names(allpigs)
-
-# Get the levels of factor "Station"
-levels(allpigs$Station)
-
-# Create a subset for Pokemouche_aval_Lac_Inkerman
+# PART V : Redundancy analyses, RDAs ====
 
 PokAvLacInk=subset(allpigs,Station=="Pokemouche_aval_Lac_Inkerman")
 dim(PokAvLacInk)
@@ -1844,20 +1911,20 @@ summary(allpigs$chla_Pheo)
 allpigs$Chla2
 allpigs$Pheo2
 edit(allpigs$chla_Pheo)
-# Creating subset for Chla_Pheo 
+# Creating subset for Chla_Pheo
 LakeInkAvChla_Pheo=subset(allpigs, Station=="Pokemouche_aval_Lac_Inkerman", select=c(Station,chla_Pheo))
 # write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv") # cannot write a variable to csv!
 write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
 
-# ____Import the pigment-environment file, AP 2016-06-09 ####
+# _Import the pigment-environment file, AP 2016-06-09 ####################
 
 # Save "For analysis_updated_April 18th.xlsx" (attached in Moumitas' 2016-04-24 email) as "Pigs_env_160506.csv"
 
 file.info("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
 
 foran=read.csv("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
-# Notice "read.csv" rather than "read.csv2", 
-# indicating the file comes from Moumita's anglo system
+# Notice "read.csv" rather than "read.csv2", indicating the file comes 
+# from Moumita's anglo system
 
 # commit 5ec2e8f11cbf79287b88ff2e1a593c860f49c3b0
 
@@ -1867,21 +1934,26 @@ library(Hmisc) # to use function "contents"
 contents(foran)
 summary(foran)
 # edit(foran)
-# Petite Tracadie subset with function "grepl"
-foran$Tmoy_C_4
 
-PT=subset(foran,grepl("Petite_Tracadie",SampleName) & !is.na(CRS_Binford))
+# _Petite Tracadie amont subset with function "grepl" #################
 
 PT=subset(foran,grepl("Petite_Tracadie",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
-PT[,1:5]
+
 dim(PT)
 # Y matrix
 PTpigs=subset(PT,select=c(Fuco2:Pheo2))
 PTpigs=subset(PT,select=c(Fuco2,Allox2:Chla2,Beta_caro2:Pheo2))
-dim(PTpigs) # 11 x 10 if 2 with zeroes are removed
+# Remove myxo because not detected in PTamont
+PT11pigs=subset(PT,select=c(Beta_caro2,Chla2,Fuco2,Diatox2,LutZea2,
+                          Canth2,Echi2,Apha2,Allox2,Chlb2,Pheo2))
+
+# 2017-09-20 TODO next: remove unstable chl-a and fuco (and pheo since
+# we do not present profile); will Tmoy6 still be selected? Hope so!
+
+PTpigs=PT11pigs
+dim(PTpigs) # 11 x 10 if 2 with zeroes are removed; 10 x 11 on 2017-09-20
 names(PTpigs)
 summary(PTpigs)
-
 
 # X matrix
 PTenv=subset(PT,select=c(Precip_mm_4_April:Tmoy_C_8, Foin_hay_pct:Hay_weat_barley_oats_pct))
@@ -1894,6 +1966,7 @@ summary(PTenv)
 # help(ordistep)
 
 # First create "intercept-only model"
+# install.packages("vegan") # 2017-09-20 on UMCS Win8 RStudio
 library("vegan")
 rda0=rda(PTpigs~1,data=PTenv)
 rda0
@@ -1906,24 +1979,16 @@ summary(rda1)
 plot(rda1)
 
 # Selection procedure with function "ordistep"
-ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
-# T_moy_6 is the env. var. most strongly associated.
-
-# Build RDA based on selection
-rda2=rda(PTpigs~PT$Tmoy_C_6,scale=T)
-rda2
-summary(rda2)
-
-# Test significance of model
-anova(rda2)
-
-# Test by alternative method
-permutest(rda2,permutation=9999)
-
+ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, 
+         pstep=1000, steps=3)
+# Default steps=50; try 1 since I only want one X var. to be selected.
+# T_moy_6 is the env. var. most strongly associated (with steps=50)
+# With steps=1 (only 1 iteration step of dropping, adding), T_moy_7 is selected.
 
 # Alternative, more stable selection procedure with function "forward.sel"
 # From https://r-forge.r-project.org/R/?group_id=195
 # install.packages("packfor", repos="http://R-Forge.R-project.org")
+# Done again on UMCS Win8 RStudio 1.0.136 (R version 3.3.2 Sincere Pumpkin Patch)
 # If that does not work, download packfor_0.0-8.tar.gz and compile from source
 
 # Compile package "packfor" from source based on
@@ -1934,46 +1999,7 @@ library(packfor)
 # help(forward.sel)
 
 forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
-
-# ____Import the pigment-environment file, MK 2016-06-20 ####
-# Save "For analysis.xlsx" as "Pigs_env.csv"
-foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
-
-foran=read.csv("Pigs_env.csv")
-dim(foran) 174 x 63 on 2017-02-07
-
-library(Hmisc) # to use function "contents"
-contents(foran)
-summary(foran)
-
-# _Petite Tracadie amont ---------------
-
-foran$Tmoy_C_4
-PT=subset(foran,grepl("Petite_Tracadie_amont",SampleName) & !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
-PT[,1:5]
-dim(PT)
-# Y matrix
-PTpigs=subset(PT,select=c(Fuco2:Pheo2))
-dim(PTpigs)
-
-# X matrix
-PTenv=subset(PT,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
-dim(PTenv)
-
-# ____Selection of variables ------------------------------------
-
-# First create "intercept-only model"
-rda0=rda(PTpigs~1,data=PTenv)
-rda0
-(summary(rda0))
-
-# Then create full rda model
-rda1=rda(PTpigs~.,data=PTenv)
-rda1
-summary(rda1)
-
-# ____Selection procedure with function "ordistep"------------------------------
-ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
+# Tmoy_C_4 and 8 are selected 2017-09-20
 
 # ____Build RDA based on selection ----
 rda2=rda(PTpigs~PT$Tmoy_C_6,scale=T)
@@ -1981,6 +2007,12 @@ rda2
 summary(rda2)
 # Figure 5a of upstream-downstream manuscript sent to L&O
 plot(rda2)
+
+# Test significance of model
+anova(rda2)
+
+# Test by alternative method
+permutest(rda2,permutation=9999)
 
 # ____Build RDA based on selection, adding two most significant env variables MK, July 5th 2016: ================
 rda2=rda(PTpigs~PT$Tmoy_C_6+PT$Tmoy_C_7,scale=T)
@@ -1998,17 +2030,6 @@ anova(rda2)
 
 # Test by alternative method
 permutest(rda2,permutation=9999)
-
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# MK: Tried to load packfor from local zipped file, but did not work, giving
-# error message, packfor was built under R version 3.3.0
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Alternative, more stable selection procedure with function "forward.sel"
-# install.packages("packfor", repos=NULL, type="C:/Users/Moumita/Downloads/packfor_0.0-8.tar.gz")
-# library(packfor)
-# library(vegan)
-# help(forward.sel)
-# forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
 
 #### _Maltempec subset with function "grepl"---------------
 foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
