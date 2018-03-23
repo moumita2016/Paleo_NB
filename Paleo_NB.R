@@ -588,7 +588,7 @@ sub3sites=subset(allpigs,
                    select=c(Myxo2, Allox2, Diatox2, LutZea2,
                             Canth2, Chlb2,Echi2, Chla2,
                             Beta_caro2,  Pheo2))
-dim(sub3sites) 
+dim(sub3sites)
 # 69 x 12, once Station, Depth and alpha_carot (all 0) are removed from Select
 
 
@@ -1916,14 +1916,15 @@ LakeInkAvChla_Pheo=subset(allpigs, Station=="Pokemouche_aval_Lac_Inkerman", sele
 # write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv") # cannot write a variable to csv!
 write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
 
-# _Import the pigment-environment file, AP 2016-06-09 ####################
+# Import the pigment-environment file, AP 2016-06-09 ####################
 
 # Save "For analysis_updated_April 18th.xlsx" (attached in Moumitas' 2016-04-24 email) as "Pigs_env_160506.csv"
 
 file.info("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
 
 foran=read.csv("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
-# Notice "read.csv" rather than "read.csv2", indicating the file comes 
+
+# Notice "read.csv" rather than "read.csv2", indicating the file comes
 # from Moumita's anglo system
 
 # commit 5ec2e8f11cbf79287b88ff2e1a593c860f49c3b0
@@ -1939,7 +1940,16 @@ summary(foran)
 
 PT=subset(foran,grepl("Petite_Tracadie",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
 
-dim(PT)
+dim(PT) # 10 x 63, 2018-02-28
+
+subset(PT,select=c(Group.1.1, Year, MedianDepth_cm, CRS_Binford))
+
+# Why is P1, 1859 not included in PT subset? Probably because selection criteria include Tmoy_C_4...
+
+PTall=subset(foran,grepl("Petite_Tracadie",SampleName)& !is.na(CRS_Binford))
+
+subset(PTall,select=c(Group.1.1, Year, MedianDepth_cm, CRS_Binford, Tmoy_C_4))
+
 # Y matrix
 PTpigs=subset(PT,select=c(Fuco2:Pheo2))
 PTpigs=subset(PT,select=c(Fuco2,Allox2:Chla2,Beta_caro2:Pheo2))
@@ -1979,8 +1989,7 @@ summary(rda1)
 plot(rda1)
 
 # Selection procedure with function "ordistep"
-ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, 
-         pstep=1000, steps=3)
+ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000, steps=1)
 # Default steps=50; try 1 since I only want one X var. to be selected.
 # T_moy_6 is the env. var. most strongly associated (with steps=50)
 # With steps=1 (only 1 iteration step of dropping, adding), T_moy_7 is selected.
