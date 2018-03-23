@@ -1946,16 +1946,19 @@ subset(PT,select=c(Group.1.1, Year, MedianDepth_cm, CRS_Binford))
 
 # Why is P1, 1859 not included in PT subset? Probably because selection criteria include Tmoy_C_4...
 
-PTall=subset(foran,grepl("Petite_Tracadie",SampleName)& !is.na(CRS_Binford))
+# 2018-03-23; remove Tmoy_C_4 criteria to get P1 in analyses
 
+PTall=subset(foran,grepl("Petite_Tracadie",SampleName)& !is.na(CRS_Binford))
 subset(PTall,select=c(Group.1.1, Year, MedianDepth_cm, CRS_Binford, Tmoy_C_4))
 
 # Y matrix
 PTpigs=subset(PT,select=c(Fuco2:Pheo2))
 PTpigs=subset(PT,select=c(Fuco2,Allox2:Chla2,Beta_caro2:Pheo2))
 # Remove myxo because not detected in PTamont
-PT11pigs=subset(PT,select=c(Beta_caro2,Chla2,Fuco2,Diatox2,LutZea2,
+# 2018-03-23; do RDA with PTall (includes Period 1)
+PT11pigs=subset(PTall,select=c(Beta_caro2,Chla2,Fuco2,Diatox2,LutZea2,
                           Canth2,Echi2,Apha2,Allox2,Chlb2,Pheo2))
+dim(PT11pigs) # 11 x 11 on 2018-03-23
 
 # 2017-09-20 TODO next: remove unstable chl-a and fuco (and pheo since
 # we do not present profile); will Tmoy6 still be selected? Hope so!
@@ -1966,10 +1969,9 @@ names(PTpigs)
 summary(PTpigs)
 
 # X matrix
-PTenv=subset(PT,select=c(Precip_mm_4_April:Tmoy_C_8, Foin_hay_pct:Hay_weat_barley_oats_pct))
+PTenv=subset(PTall,select=c(Precip_mm_4_April:Tmoy_C_8, Foin_hay_pct:Hay_weat_barley_oats_pct))
 # PTenv=subset(PT,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct, Cumul_Peat_extract_Pok_pct))
-PTenv
-dim(PTenv)
+dim(PTenv) # 11 x 15 on 2018-03-23
 summary(PTenv)
 
 # Selection of variable
@@ -1982,7 +1984,8 @@ rda0=rda(PTpigs~1,data=PTenv)
 rda0
 (summary(rda0))
 
-# Then create full rda model
+# Then create full rda model; will not work unless there are no missing values
+# (thus the original analysis with Period 1 removed)
 rda1=rda(PTpigs~.,data=PTenv)
 rda1
 summary(rda1)
@@ -2016,6 +2019,12 @@ rda2
 summary(rda2)
 # Figure 5a of upstream-downstream manuscript sent to L&O
 plot(rda2)
+
+# ____ditto, with Period 1
+rda3=rda(PTpigs~PTenv$Tmoy_C_6,scale=T)
+rda3
+summary(rda3)
+plot(rda3)
 
 # Test significance of model
 anova(rda2)
