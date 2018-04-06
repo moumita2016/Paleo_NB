@@ -801,8 +801,7 @@ meteoMonctonMalt=c(ty4PMaltbis,ty5PMaltbis,ty6PMaltbis,ty7PMaltbis,ty8PMaltbis)
 save("meteoMonctonMalt",file="meteoMonctonMalt.RData")
 write.csv(meteoMonctonMalt,"meteoMonctonMalt.csv")
 
-# _Periods for Waugh =================
-# ========== corrected by MK 2016-04-15
+# _Periods for Waugh =========================== corrected by MK 2016-04-15
 
 # ---- Waugh April
 class(ty4$year_all) # numeric, so we should be able to do maths on it
@@ -1477,7 +1476,7 @@ meteoMonctonCar=c(ty4PCarbis,ty5PCarbis,ty6PCarbis,ty7PCarbis,ty8PCarbis)
 save("meteoMonctonCar",file="meteoMonctonCar.RData")
 write.csv(meteoMonctonCar,"meteoMonctonCar.csv")
 
-# PART IV: define periods for the landuse data ####
+# PART IV: define periods for the landuse data #### # # # # # # # # # # # # # # # # # # # # # # # # # # # PART IV
 # Dec_2015_Moumita
 # Dec17th _2015-12-17_Moumita
 
@@ -1901,7 +1900,7 @@ points(landtMKCar$Year.x~landtMKCar$Orge_barley_pct, type="b", col="red", pch="b
 points(landtMKCar$Year.x~landtMKCar$Avoine_oats_pct, type="b", col="purple", pch="o")
 points(landtMKCar$Year.x~landtMKCar$Cumul_Peat_extract_Pok_pct, type="b",pch="p", col="black")
 
-# PART V : Redundancy analyses, RDAs ====
+# PART V : Redundancy analyses, RDAs #### # # # # # # # # # # # # # # # PART V # # # #
 
 PokAvLacInk=subset(allpigs,Station=="Pokemouche_aval_Lac_Inkerman")
 dim(PokAvLacInk)
@@ -1913,7 +1912,6 @@ allpigs$Pheo2
 edit(allpigs$chla_Pheo)
 # Creating subset for Chla_Pheo
 LakeInkAvChla_Pheo=subset(allpigs, Station=="Pokemouche_aval_Lac_Inkerman", select=c(Station,chla_Pheo))
-# write.csv(allpigs$chla_Pheo,"allpigs$chla_Pheo.csv") # cannot write a variable to csv!
 write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
 
 # Import the pigment-environment file, AP 2016-06-09 ####################
@@ -1922,6 +1920,9 @@ write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
 
 file.info("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
 
+
+# Analyses with file "foran" ("for analyses") ###################################################
+
 foran=read.csv("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
 
 # Notice "read.csv" rather than "read.csv2", indicating the file comes
@@ -1929,18 +1930,54 @@ foran=read.csv("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redactio
 
 # commit 5ec2e8f11cbf79287b88ff2e1a593c860f49c3b0
 
-dim(foran) # 174 x 63
+foran$River[grep("Petite_Tracadie_amont",foran$SampleName)]="PTup"
+foran$River[grep("Maltempec",foran$SampleName)]="Malt"
+foran$River[grep("Waugh",foran$SampleName)]="Waugh"
+foran$River[grep("Inkerman",foran$SampleName)]="Inkerman"
+foran$River[grep("Shippagan East",foran$SampleName)]="ShipEast"
+foran$River[grep("Shippagan Est",foran$SampleName)]="ShipEast"
+# Notice Shippagan East depths 1-42 has SampleName Est, while depths 42-56 has East, but all from same core
+foran$River[grep("Shippagan Ouest",foran$SampleName)]="ShipWest"
+foran$River[grep("Shippagan Ouest",foran$SampleName)]="ShipWest"
+subset(foran,is.na(River),select=c(1:3))
+
+table(foran$River,foran$Year)
+
+foran$River
+summary(foran$SampleName)
+head(names(foran))
+dim(foran) # 141 x 64 on 2018-04-06
 names(foran)
 library(Hmisc) # to use function "contents"
 contents(foran)
 summary(foran)
 # edit(foran)
 
+
+# foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
+foran=read.csv("c:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
+dim(foran) # 141 x 63 on 2018-04-06
+
+library(Hmisc) # to use function "contents"
+contents(foran)
+summary(foran)
+edit(foran)
+
+PT=subset(foran,grepl("Petite_Tracadie",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+Malt=subset(foran,grepl("Pokemouche_amont_Maltempec",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+Wau=subset(foran,grepl("Pokemouche_amont_Waugh",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+Ink=subset(foran,grepl("Pokemouche_aval_Lac_Inkerman",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
+
+summary(foran$CRS_Binford)
+summary(foran$Ble_weat_pct)
+plot(PT$Ble_weat_pct~PT$CRS_Binford,type="b",lty=1,col=1,pch="p", ylim=c(0,0.006),xlim=c(1855,2010),main="2018-04-06")
+points(Malt$Ble_weat_pct~Malt$CRS_Binford, type="b",lty=2,col=2,pch="M")
+points(Wau$Ble_weat_pct~Wau$CRS_Binford, type="b",lty=3,col=3,pch="W")
+points(Ink$Ble_weat_pct~Ink$CRS_Binford, type="b",lty=4,col=4,pch="I")
+
 # _Petite Tracadie amont subset with function "grepl" #################
 
 PT=subset(foran,grepl("Petite_Tracadie",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
-
-dim(PT) # 10 x 63, 2018-02-28
 
 subset(PT,select=c(Group.1.1, Year, MedianDepth_cm, CRS_Binford))
 
@@ -2130,25 +2167,20 @@ anova(rda2)
 permutest(rda2,permutation=9999)
 
 #### _Waugh subset with function "grepl"---------------
-
-foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
-dim(foran)
-library(Hmisc) # to use function "contents"
-contents(foran)
-summary(foran)
-edit(foran)
-
 foran$Tmoy_C_4
+subset(foran, (!is.na(CRS_Binford)& River=="Waugh"),select=c(River, Year, MedianDepth_cm,Tmoy_C_4, CRS_Binford,Ble_weat_pct))
+
+foran[1:5,c(1:3, "Tmoy_C_4")]
 Wau=subset(foran,grepl("Pokemouche_amont_Waugh",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
 Wau[,1:5]
-dim(Wau)
+dim(Wau) # 4 x 64
 # Y matrix
 Waupigs=subset(Wau,select=c(Fuco2:Pheo2))
-dim(Waupigs)
+dim(Waupigs) #  4 x 12
 
 # X matrix
 Wauenv=subset(Wau,select=c(Precip_mm_4_April:Hay_weat_barley_oats_pct))
-dim(Wauenv)
+dim(Wauenv) # 4 x 17
 
 # ____Selection of variable------------------------------------
 help(ordistep)
@@ -2165,16 +2197,19 @@ summary(rda1)
 
 # ____Selection procedure with function "ordistep"------------------------------------
 ordistep(rda0,scope=formula(rda1),direction="both",Pin=0.1, Pout=0.2, pstep=1000)
+
 # ____MK: this is the only one env variable for Waugh ------------------------
 #                           Df  AIC       F N.Perm Pr(>F)
-+ Ble_weat_pct              1   43 10.1831    999  0.086 .
+# + Ble_weat_pct              1   43 10.1831    999  0.086 .
+
+
+# AP 2018-04-06
+#                Df    AIC      F  Pr(>F)
+# - Ble_weat_pct  1 48.351 10.183 0.08333 .
+
 
 # Build RDA based on selection
 rda2=rda(Waupigs~Wau$Ble_weat_pct,scale=T)
-
-#                Df    AIC      F N.Perm Pr(>F)
-- Ble_weat_pct  1 48.351 10.183    999  0.103
-===========================================================================
 rda2
 summary(rda2)
 plot(rda2)
@@ -2189,6 +2224,23 @@ rda2=rda(Waupigs~Wau$Ble_weat_pct,scale=F)
 rda2
 summary(rda2)
 plot(rda2)
+
+# AP 2018-04-06 OK, so what a weat-Beta looks like?
+names(Wau)
+plot(Wau$Ble_weat_pct~Wau$Beta_caro2)
+
+# AP 2018-04-06 following <https://www.r-bloggers.com/r-single-plot-with-two-different-y-axes/>
+oldpar=par()
+par("mar")
+par(mar=c(5,5,2,5))
+plot(Wau$Ble_weat_pct~Wau$CRS_Binford, pch="w",type="b", col="red",main="2018-04-06, file Paleo_NB.R")
+par(new=T)
+plot(Wau$Beta_caro2~Wau$CRS_Binford,axes=F, xlab=NA,ylab=NA, pch="B", type="b", lty=2, col="blue")
+axis(side=4)
+mtext(side=4, line=3, "Beta-carotene concentration (nmol/g OM)")
+legend("bottomleft",legend=c("Weat","Beta-carotene"),lty=c(1,2), pch=c("w","B"),col=c("red","blue"))
+
+
 
 # MK July 6th 2016: running RDA for Lake Inkerman subset for discussion of the "upstream vs downstream paper"
 
