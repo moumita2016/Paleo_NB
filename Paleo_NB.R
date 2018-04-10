@@ -1920,39 +1920,36 @@ write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
 
 file.info("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
 
-
 # Analyses with file "foran" ("for analyses") ###################################################
 
 foran=read.csv("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
-
+dim(foran) # 141 x 63
 # Notice "read.csv" rather than "read.csv2", indicating the file comes
 # from Moumita's anglo system
 
 # commit 5ec2e8f11cbf79287b88ff2e1a593c860f49c3b0
 
-foran$River[grep("Petite_Tracadie_amont",foran$SampleName)]="PTup"
-foran$River[grep("Maltempec",foran$SampleName)]="Malt"
-foran$River[grep("Waugh",foran$SampleName)]="Waugh"
-foran$River[grep("Inkerman",foran$SampleName)]="Inkerman"
-foran$River[grep("Shippagan East",foran$SampleName)]="ShipEast"
-foran$River[grep("Shippagan Est",foran$SampleName)]="ShipEast"
+summary(foran$SampleName)
+foran$River[grepl("Petite_Tracadie_amont",foran$SampleName)]="PTup"
+foran$River[grepl("Maltempec",foran$SampleName)]="Malt"
+foran$River[grepl("Waugh",foran$SampleName)]="Waugh"
+foran$River[grepl("Inkerman",foran$SampleName)]="Inkerman"
+foran$River[grepl("Shippagan East",foran$SampleName)]="ShipEast"
+foran$River[grepl("Shippagan Est",foran$SampleName)]="ShipEast"
 # Notice Shippagan East depths 1-42 has SampleName Est, while depths 42-56 has East, but all from same core
-foran$River[grep("Shippagan Ouest",foran$SampleName)]="ShipWest"
-foran$River[grep("Shippagan Ouest",foran$SampleName)]="ShipWest"
+foran$River[grepl("Shippagan Ouest",foran$SampleName)]="ShipWest"
 subset(foran,is.na(River),select=c(1:3))
-
-table(foran$River,foran$Year)
-
 foran$River
 summary(foran$SampleName)
+table(foran$River,foran$Year)
+save(foran,file="foran.RData")
+
 head(names(foran))
 dim(foran) # 141 x 64 on 2018-04-06
-names(foran)
 library(Hmisc) # to use function "contents"
 contents(foran)
 summary(foran)
 # edit(foran)
-
 
 # foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
 foran=read.csv("c:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
@@ -1996,6 +1993,10 @@ PTpigs=subset(PT,select=c(Fuco2,Allox2:Chla2,Beta_caro2:Pheo2))
 PT11pigs=subset(PTall,select=c(Beta_caro2,Chla2,Fuco2,Diatox2,LutZea2,
                           Canth2,Echi2,Apha2,Allox2,Chlb2,Pheo2))
 dim(PT11pigs) # 11 x 11 on 2018-03-23
+
+# A.P. 2018-04-10 to be consistent with subset of 8 pigs used in Ady and Patoine 2016 + Apha not detected in Inkerman
+PT8pigs=subset(PTall,select=c(Beta_caro2, Diatox2, LutZea2, Canth2, Echi2, Apha2, Allox2, Chlb2, Pheo2))
+# ... to be completed?
 
 # 2017-09-20 TODO next: remove unstable chl-a and fuco (and pheo since
 # we do not present profile); will Tmoy6 still be selected? Hope so!
@@ -2068,6 +2069,16 @@ anova(rda2)
 
 # Test by alternative method
 permutest(rda2,permutation=9999)
+
+## A.P. 2018-04-10 Plot of pigments vs. air temp for PT
+oldpar=par()
+par(mar=c(5,5,2,5))
+plot(PT$Tmoy_C_6~PT$CRS_Binford, type="b", lty=1, col=1, pch=1)
+par(new=T)
+plot(PT$Allox2~PT$CRS_Binford, type="b", axes=F, xlab=NA, ylab=NA, lty=2, col=2, pch=2)
+axis(side=4)
+mtext(side=4, line=3, "Alloxanthin(nmol/g OM)")
+legend("topleft",legend=c("June air temp. (°C)", "Alloxanthin"),lty=c(1,2),col=c(1,2), pch=c(1,2))
 
 # ____Build RDA based on selection, adding two most significant env variables MK, July 5th 2016: ================
 rda2=rda(PTpigs~PT$Tmoy_C_6+PT$Tmoy_C_7,scale=T)
@@ -2165,6 +2176,16 @@ anova(rda2)
 
 # Test by alternative method
 permutest(rda2,permutation=9999)
+
+# A.P. 2018-04-10 Maltempec air temperature vs. pigments
+oldpar=par()
+par(mar=c(5,5,2,5))
+plot(Malt$Tmoy_C_7~Malt$CRS_Binford, type="b", lty=1, col=1, pch=1)
+par(new=T)
+plot(Malt$Allox2~Malt$CRS_Binford, type="b", axes=F, xlab=NA, ylab=NA, lty=2, col=2, pch=2)
+axis(side=4)
+mtext(side=4, line=3, "Alloxanthin(nmol/g OM)")
+legend("topleft",legend=c("July air temp. (°C)", "Alloxanthin"),lty=c(1,2),col=c(1,2), pch=c(1,2))
 
 #### _Waugh subset with function "grepl"---------------
 foran$Tmoy_C_4
@@ -2478,3 +2499,62 @@ anova(rda2)
 # Test by alternative method
 permutest(rda2,permutation=9999)
 
+# RDA from Ady and Patoine 2016 pasted 2018-04-10 from file Pigments_land__meteo...150616.Rnw, line 825 and prior ########
+
+load("c:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Papier_Frantz_131126_MANUSCRIT/Analyses/Meteo et territoire/core150422.RData")
+ls()
+library(Hmisc) # to use function "contents"
+contents(core150422)
+
+core150422=subset(core150422, Depthcm != 3) # because of missing data at 3 cm
+dim(core150422) # 6 x 39
+subset(core150422, select=c(Period, Depthcm, Beta_caro, Avoine_oats_pct))
+# Species Y matrix (pigments):
+pigmentstable=subset(core150422,  select=c("Beta_caro",  "Diatox","Allox", "Canth", "Echi", "LutZea", "Chlb", "Pheo"))
+dim(pigmentstable) # 6 x 8
+pigmentstable
+summary(pigmentstable)
+# Land data
+land=subset(core150422, select=c(Foin_hay_pct, Ble_weat_pct, Orge_barley_pct, Avoine_oats_pct, Cumul_Peat_extract_Pok_pct))
+dim(land) # 6 x 5
+
+# Missing P1 value:
+land$Avoine_oats_pct
+subset(land,is.na(Avoine_oats_pct))
+# Set oats as 43% of hay for P1
+0.011450000*0.43 # 0.0049235
+land$Avoine_oats_pct[is.na(land$Avoine_oats_pct)]=0.0049235
+land$Avoine_oats_pct
+land
+# Meteo data
+meteo=subset(core150422,select=c(Tmoy_C_April:Precip_mm_Aug))
+dim(meteo) # 6 x 10
+
+# Environmental X matrix:
+envmat=cbind(land,meteo)
+dim(envmat) # 6 x 15
+
+# RDA for fig. 7c of Patoine, Karmakar, Kurek 2018
+library(vegan) # to use rda functions, including plot.cca
+rda2pigstableOatscaled=rda(pigmentstable~envmat$Avoine_oats_pct,scale=TRUE)
+# rda2pigstableOatscaled=rda(pigmentstable~envmat$Avoine_oats_pct,scale=F)
+rda2pigstableOatscaled
+summary(rda2pigstableOatscaled)
+anova(rda2pigstableOatscaled) # 0.0097
+permutest(rda2pigstableOatscaled, permutations=9999) # 0.0097
+plot(rda2pigstableOatscaled, cex.axis=1.2)
+# The TRUE scaling generates a plot with a scaling similar to those of Maltempec, Petite Tracadie
+# and identical to that one produced in 2016 C:\Users\alain\Documents\RECHERCHE_Labos_GIZC\_Analyses_redaction\Papier_Frantz_131126_MANUSCRIT\Analyses\Meteo et territoire\Figures\fig-rda2pigstable.pdf
+
+# Plots of Oats vs. Beta-carotene
+core150422$Avoine_oats_pct[is.na(core150422$Avoine_oats_pct)]=0.0049235
+plot(core150422$Avoine_oats_pct~core150422$Beta_caro)
+
+oldpar=par()
+par(mar=c(5,5,2,5))
+plot(core150422$Avoine_oats_pct~core150422$Year.x, type="b", lty=1, col=1, main="2018-04-10, file Paleo_NB.R")
+par(new=T)
+plot(core150422$Beta_car~core150422$Year.x, axes=F, xlab=NA, ylab=NA, type="b", lty=2, col=2)
+axis(side=4)
+mtext(side=4, line=3, "Beta-carotene (nmol/g OM)")
+legend("bottomleft",legend=c("Oats","Beta-carotene"),lty=c(1,2),col=c(1,2))
