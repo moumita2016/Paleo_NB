@@ -1916,7 +1916,7 @@ write.csv(LakeInkAvChla_Pheo,"LakeInkAvChla_Pheocsv.csv")
 
 # Import the pigment-environment file, AP 2016-06-09 ####################
 
-# Save "For analysis_updated_April 18th.xlsx" (attached in Moumitas' 2016-04-24 email) as "Pigs_env_160506.csv"
+# Save "For analysis_updated_April 18th.xlsx" (attached in Moumitas' 2016-04-26 email) as "Pigs_env_160506.csv"
 
 file.info("C:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
 
@@ -1929,7 +1929,9 @@ dim(foran) # 141 x 63
 
 # commit 5ec2e8f11cbf79287b88ff2e1a593c860f49c3b0
 
-summary(foran$SampleName)
+library(Hmisc) # to use function "contents"
+contents(foran)
+
 foran$River[grepl("Petite_Tracadie_amont",foran$SampleName)]="PTup"
 foran$River[grepl("Maltempec",foran$SampleName)]="Malt"
 foran$River[grepl("Waugh",foran$SampleName)]="Waugh"
@@ -1943,22 +1945,6 @@ foran$River
 summary(foran$SampleName)
 table(foran$River,foran$Year)
 save(foran,file="foran.RData")
-
-head(names(foran))
-dim(foran) # 141 x 64 on 2018-04-06
-library(Hmisc) # to use function "contents"
-contents(foran)
-summary(foran)
-# edit(foran)
-
-# foran=read.csv("C:/Users/Moumita/Post Doc at Shippagan/Data analysis_by sites/Pigs_env.csv")
-foran=read.csv("c:/Users/alain/Documents/RECHERCHE_Labos_GIZC/_Analyses_redaction/Moumita/Paleo_NB/Pigs_env.csv")
-dim(foran) # 141 x 63 on 2018-04-06
-
-library(Hmisc) # to use function "contents"
-contents(foran)
-summary(foran)
-edit(foran)
 
 PT=subset(foran,grepl("Petite_Tracadie",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
 Malt=subset(foran,grepl("Pokemouche_amont_Maltempec",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
@@ -1984,6 +1970,14 @@ subset(PT,select=c(Group.1.1, Year, MedianDepth_cm, CRS_Binford))
 
 PTall=subset(foran,grepl("Petite_Tracadie",SampleName)& !is.na(CRS_Binford))
 subset(PTall,select=c(Group.1.1, Year, MedianDepth_cm, CRS_Binford, Tmoy_C_4))
+
+
+# d13C vs. d15N for PTup
+subset(PTall,select=c(River,MedianDepth_cm,CRS_Binford,d13C_new,d15N))
+
+plot(d15N~d13C_new,data=PTall,type="b",pch=c(1:11),main="2018-05-15 for PTup")
+legend("bottomright",legend=PTall$CRS_Binford,pch=c(1:11))
+
 
 # Y matrix
 PTpigs=subset(PT,select=c(Fuco2:Pheo2))
@@ -2055,6 +2049,7 @@ forward.sel(PTpigs,PTenv,nperm=999,alpha=0.05,Yscale=T)
 rda2=rda(PTpigs~PT$Tmoy_C_6,scale=T)
 rda2
 summary(rda2)
+
 # Figure 5a of upstream-downstream manuscript sent to L&O
 plot(rda2)
 
@@ -2104,6 +2099,16 @@ library(Hmisc) # to use function "contents"
 contents(foran)
 summary(foran)
 edit(foran)
+
+#### _d15N vs d13C Matlempec
+Maltall=subset(foran,grepl("Pokemouche_amont_Maltempec",SampleName)& !is.na(CRS_Binford))
+
+subset(Maltall,select=c(River,MedianDepth_cm,CRS_Binford,d13C_new,d15N))
+plot(d15N~d13C_new,data=Maltall,type="b",pch=c(1:5),main="2018-05-15 for Maltempec")
+legend("bottomright",legend=Maltall$CRS_Binford,pch=c(1:5))
+
+
+
 
 foran$Tmoy_C_4
 Malt=subset(foran,grepl("Pokemouche_amont_Maltempec",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
@@ -2195,6 +2200,7 @@ foran[1:5,c(1:3, "Tmoy_C_4")]
 Wau=subset(foran,grepl("Pokemouche_amont_Waugh",SampleName)& !is.na(CRS_Binford) & !is.na(Tmoy_C_4))
 Wau[,1:5]
 dim(Wau) # 4 x 64
+
 # Y matrix
 Waupigs=subset(Wau,select=c(Fuco2:Pheo2))
 dim(Waupigs) #  4 x 12
